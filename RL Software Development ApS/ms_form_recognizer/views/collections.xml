@@ -130,7 +130,7 @@
           <field name="search_for" optional="show"/>
           <field name="allow_partial" optional="show"/>
           <field name="regex" optional="show"/>
-          <field name="Language_id" optional="show"/>
+          <!-- <field name="Language_id" optional="show"/> -->
           <field name="company_id" optional="hide"/>
           <field name="active" optional="hide"/>    
           
