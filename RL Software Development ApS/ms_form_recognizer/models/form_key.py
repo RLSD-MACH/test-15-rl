@@ -27,7 +27,7 @@ class FormKey(models.Model):
     sequence = fields.Integer(string='Sequence')
     collection_id = fields.Many2one('form.collection', string='Collection', required=True)
     convertion_model_id = fields.Many2one('ir.model', related="collection_id.convertion_model_id") 
-    convertion_field_id = fields.Many2one('ir.model.fields', string='Converts to Field', required=True, ondelete="set null", domain="[('model_id', '=', convertion_model_id)]")
+    convertion_field_id = fields.Many2one('ir.model.fields', string='Converts to Field', required=True, ondelete="cascade", domain="[('model_id', '=', convertion_model_id)]")
     
     type = fields.Selection(selection=[
         ('date', 'Date'),
