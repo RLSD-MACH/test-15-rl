@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_stock_picking_ext" model="ir.ui.view">
+    
+        <field name="name">MTO IC</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='move_ids_without_package']" position="before">
+
+              <group>
+                  <button name="%(act_open_select_products_stock_picking_view)d" type="action" string="Select Products"
+                      context="{'default_picking_id': id}" 
+                      attrs="{'invisible': ['|', ('picking_type_code', 'not in', ['outgoing','internal']), ('state','!=', 'draft')]}"
+                      class="oe_highlight" />
+              </group>
+
+            </xpath>
+
+            <xpath expr="//field[@name='owner_id']" position="attributes">
+              <attribute name="attrs">{"readonly": [["state","in",["done","cancel"]]]}</attribute>
+            </xpath>
+
+            <xpath expr="//field[@name='move_ids_without_package']/tree[1]" position="inside">
+
+              <field name="owner_id" optional="show"/>
+              <field name="container_id" optional="show"/>
+              <field name="shipping_order_id" optional="hide"/>              
+
+            </xpath>
+            
+        </field>
+
+    </record>
+
+    <record id="view_stock_move_line_detailed_operation_tree_ext" model="ir.ui.view">
+    
+        <field name="name">MTO IC</field>
+        <field name="model">stock.move.line</field>
+        <field name="inherit_id" ref="stock.view_stock_move_line_detailed_operation_tree" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//tree" position="inside">
+
+              <field name="container_id" optional="show"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+  </data>
+</odoo>

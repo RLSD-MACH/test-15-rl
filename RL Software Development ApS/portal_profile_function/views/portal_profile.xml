@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="website_profile_ext" inherit_id="portal.portal_my_details" name="Profiles">
+		<xpath expr="//input[@name='redirect']" position="before">
+						
+			<div t-if="partner.company_type == 'person'" name="function" t-attf-class="form-group #{error.get('function') and 'o_has_error' or ''} col-xl-6">
+
+				<label class="col-form-label" for="function">Job Position</label>
+				<input type="text" name="function" t-attf-class="form-control #{error.get('function') and 'is-invalid' or ''}" t-att-value="function or partner.function"/>
+			
+			</div>
+
+		</xpath>
+	</template>
+    
+</odoo>

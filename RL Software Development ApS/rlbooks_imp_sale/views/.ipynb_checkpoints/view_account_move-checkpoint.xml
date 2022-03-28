@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <record id="rlbooks_account_move_ext_form" model="ir.ui.view">
+
+    <field name="name">rlbooks_imp_sale.account_move_ext.form</field>
+    <field name="model">account.move</field>
+    <field name="inherit_id" ref="account.view_move_form"/>      
+    <field name="arch" type="xml">
+
+      <xpath expr="//field[@name='partner_shipping_id']" position="after">
+
+        <field name="contact_id" context="{'default_type':'contact'}" options="{'no_create': True, 'no_open': False}" attrs='{"invisible": ["&amp;",["move_type","!=","out_invoice"],["move_type","!=","out_refund"]], "required": ["&amp;","|",["move_type","=","out_invoice"],["move_type","=","out_refund"],["state","=","posted"]]}' domain="['|', ('company_id', '=', False), ('company_id', '=', company_id), ('parent_id', '=', partner_id), ('type', '=','contact')]"/>
+      
+      </xpath>
+
+    </field>
+
+  </record>  
+
+</odoo>

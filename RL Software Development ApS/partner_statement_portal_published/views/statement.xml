@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="view_statement_form">
+
+      <field name="name">partner_statement_portal_published.statement_ext.form</field>
+      <field name="model">rlbooks_statement.report.print</field>
+      <field name="inherit_id" ref="rlbooks_statement.report_print_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//header" position="inside">
+        
+          <button 
+            name="action_publish" 
+            type="object"
+            string="Publish" 
+            class="oe_highlight"
+            attrs="{'invisible': [('is_published', '=', True)]}"
+          />
+
+          <button 
+            name="action_unpublish" 
+            type="object"
+            string="Unpublish" 
+            class="oe_highlight"
+            attrs="{'invisible': [('is_published', '=', False)]}"
+          />
+
+        </xpath>
+
+        <xpath expr="//field[@name='partner_id']" position="after">
+        
+          <field name="is_published" invisible="1"/>
+
+        </xpath>
+
+        <xpath expr="//button[@name='preview_online']" position="attributes">
+
+          <attribute name="invisible">[('is_published', '=', False)]</attribute>
+          
+        </xpath>
+
+      </field>
+
+    </record>
+
+  </data>
+</odoo>

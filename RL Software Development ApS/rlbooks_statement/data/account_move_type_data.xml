@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="rlbooks_statement_account_move_type_1" model="account_move_type">            
+        <field name="name">Misc entries</field>
+        <field name="type">entry</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_2" model="account_move_type">            
+        <field name="name">Sales Invoice</field>
+        <field name="type">out_invoice</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_3" model="account_move_type">            
+        <field name="name">Sales Creditnote</field>
+        <field name="type">out_refund</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_4" model="account_move_type">            
+        <field name="name">Purchase invoice</field>
+        <field name="type">in_invoice</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_5" model="account_move_type">            
+        <field name="name">Purhase Creditnote</field>
+        <field name="type">in_refund</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_6" model="account_move_type">            
+        <field name="name">Sales Delivery</field>
+        <field name="type">out_receipt</field>
+    </record>
+
+    <record id="rlbooks_statement_account_move_type_7" model="account_move_type">            
+        <field name="name">Purchase Reciept</field>
+        <field name="type">in_receipt</field>
+    </record>
+    
+</odoo>

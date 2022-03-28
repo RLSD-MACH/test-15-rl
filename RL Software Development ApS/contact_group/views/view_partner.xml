@@ -1,0 +1,52 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="contact_group_partner_ext_form">
+      <field name="name">contact_group.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='function']" position="before">
+          <field name="group_id" options="{'no_create': True, 'no_open': False}" widget="many2one"/>
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="contact_group_view_res_partner_filter_ext_form">
+      <field name="name">contact_group.view_res_partner_filter_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//filter[@name='group_company']" position="after">
+          <filter name="group_id" context="{'group_by': 'group_id'}"/>
+        </xpath>
+
+      </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="contact_group_view_account_move_filter_ext_form">
+      <field name="name">contact_group.view_account_move_filter_ext.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_account_move_filter"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//filter[@name='partner']" position="after">
+          <filter name="partner_group_id" context="{'group_by': 'partner_id.group_id'}"/>
+        </xpath>
+
+      </field>
+    </record> -->
+
+  </data>
+
+</odoo>

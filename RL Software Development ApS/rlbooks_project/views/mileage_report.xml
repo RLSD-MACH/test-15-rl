@@ -1,0 +1,233 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="rlbooks_mileage_report_tree">
+      <field name="name">rlbooks.mileage.report.tree</field>
+      <field name="model">rlbooks.mileage.report</field>
+      <field name="arch" type="xml">
+
+        <tree string="Mileage" sample="1">
+
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="name" optional="show" />
+          <field name="user_id" optional="show" widget="many2one_avatar_user"/>  
+          <field name="approver_id"  optional="show" widget="many2one_avatar_user" />
+          <field name="stage" optional="show" />
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        
+        </tree>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_mileage_report_form">
+      <field name="name">rlbooks.mileage.report.form</field>
+      <field name="model">rlbooks.mileage.report</field>
+      <field name="arch" type="xml">
+
+        <form string="Mileage" edit="1" create="1">
+
+          <header name="Mileage_header">
+                  
+            <!-- <button name="action_confirm" string="Confirm order"
+                          type="object" class="oe_highlight"
+                          attrs="{'invisible': [('confirmed','!=',False)]}"/> -->
+            
+            <!-- <button name="action_next_stage" string="Next stage"
+                          type="object" class="oe_highlight"
+                          attrs="{'invisible': [('active','=',False)]}"/> -->
+            <widget name="attach_document" string="Attach Document" action="message_post" />
+
+            <field name="stage" widget="statusbar"/>
+          
+          </header>
+                          
+          <sheet string="Mileage">
+          
+            <div class="oe_button_box" name="button_box" groups="base.group_user">
+                                
+                
+                
+            </div>
+
+            <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+            <div class="oe_title">
+              <h1>
+                  <field name="name"/>
+              </h1>
+              <div name="options_active">
+                <div>
+                    <!-- <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                    <field name="label_tasks" class="oe_inline oe_input_align"/> -->
+                </div>
+              </div>
+            </div>
+
+            <notebook>
+
+              <page name="report_page" string="Report" attrs="{'invisible': [('name', '=', 'New')]}">
+
+                <group name="Details" string="" modifiers="{}">
+
+                  <field name="total_mileage" />
+                  <field name="total_value" />
+
+                </group>
+
+                <group name="Entries" string="" modifiers="{}">
+              
+                  <field name="entry_ids" context="{'default_report_id': id, 'default_type':'mileage'}" nolabel="1">
+                    
+                    <form>
+
+                      <header>
+                        <button name="action_calc_distances_gms" string="GMS" class="oe_highlight" type="object" attrs="{'invisible': ['|',('distances_gms', '!=', False), '|', ('start_address','=',''),('end_address','=','')]}"/>
+                      </header>
+
+                      <group>
+                          <group>
+
+                              <field name="date"/>
+                              <field name="project_id" widget="many2one" domain="[('mileage_allowed','=',True)]"/>
+                              <field name="partner_id" widget="res_partner_many2one"/>
+                              <field name="contact_id" widget="res_partner_many2one"/>
+                              
+                          </group>
+                          
+                      </group>
+
+                      <group>
+                          <group>
+
+                              <field name="from_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': False}" options="{&quot;always_reload&quot;: True}"/>
+                              <field name="start_address" required="1"/>
+
+                          </group>       
+
+                          <group>
+
+                            <field name="to_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'customer', 'show_address': 1, 'show_vat': False}" options="{&quot;always_reload&quot;: True}"/>
+                            <field name="end_address" required="1"/>
+
+                          </group>  
+
+                      </group>
+
+                      <group>
+
+                        <field name="description" required="1"/>   
+                                                  
+                      </group>
+                     
+
+                      <group>
+                          <group>
+
+                            <field name="qty_spent" string="Distance" sum="Total distance" required="1"/>                  
+                            <field name="r_costprice" string="Reimbursement per km" readonly="1"/>
+                            <field name="r_costprice_t" string="Total Reimbursement" sum="Total value"/>
+
+                          </group>                          
+                      </group>
+
+                      <group>
+                        
+
+                        <field name="distances_gms" attrs="{'invisible': [('distances_gms', '=', False)], 'readonly': [('distances_gms', '!=', False)]}"  widget="html"/>  
+                        <field name="distances_gms_no_route" attrs="{'invisible': [('distances_gms_no_route', '=', False)]}" invisible="1"/>
+
+                        
+                      </group>
+
+                      <field name="company_id" invisible="1"/>
+                      <field name="type" invisible="1"/>
+
+                    </form>
+
+                    <tree string="Entry" default_order="id" >
+
+                      <control>
+                        <create name="" string="New" context="{'default_report_id': id, 'default_type':'mileage'}"/>
+                      </control>
+
+                      <field name="report_id" invisible="1"/>
+                      <field name="date" optional="show"/>
+                      <field name="project_id" optional="show" widget="many2one"/>
+                      <field name="partner_id" optional="hide" widget="res_partner_many2one"/>
+                      <field name="contact_id" optional="hide" widget="res_partner_many2one"/>
+                      <field name="start_address" optional="show"/>
+                      <field name="from_id" optional="hide"/>
+                      <field name="end_address" optional="show"/>
+                      <field name="to_id" optional="hide"/>
+                      <field name="description" optional="show"/>
+                      <field name="qty_spent" string="Distance" optional="show" sum="Total distance"/>                  
+                      <field name="r_costprice" optional="show" string="Per km"/>
+                      <field name="r_costprice_t" optional="show" string="Reimbursement" sum="Total value"/>
+                      <field name="distances_gms" optional="hide"/>  
+                      <field name="distances_gms_no_route" optional="hide"/>       
+                      <field name="company_id" optional="hide"/>  
+                      <button name="action_dublicate" type="object" string="Copy" class="oe_highlight"/>             
+                      <button name="action_calc_distances_gms" string="GMS" class="oe_highlight" type="object" attrs="{'invisible': ['|',('distances_gms', '!=', False), '|', ('start_address','=',''),('end_address','=','')]}"/>
+                      <button name="action_show_distances_gms" string="Show GMS" class="oe_highlight" type="object" attrs="{'invisible': ['|',('distances_gms', '=', False), ('distances_gms_no_route','=',True)]}"/>
+                      <button name="action_show_distances_gms" string="No Route" class="btn-danger" type="object" attrs="{'invisible': ['|',('distances_gms', '=', False), ('distances_gms_no_route','=',False)]}"/>
+      
+      
+                    </tree>
+
+                  </field>  
+              
+              </group>
+
+              </page>
+
+              <page name="settings" string="Settings">
+                  
+                <group>
+
+                  <group>
+
+                    <field name="user_id" widget="many2one_avatar_user"/>  
+                    <field name="approver_id" widget="many2one_avatar_user"/>
+                    <field name="vehicle_id" />
+                    <field name="active" invisible="1"/>  
+                    <field name="company_id" invisible="1" modifiers="{'required':true}"/>             
+                    
+                  </group>          
+
+                </group>
+                  
+              </page>
+
+            </notebook>
+
+          </sheet>
+
+          <div class="o_attachment_preview"/>
+          <div class="oe_chatter">
+
+                <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this order to automatically track the events associated to tasks and issues of this document." groups="base.group_user"/>
+          
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+
+          </div>
+
+        </form>
+
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="rlbooks_mileage_report_action_window">
+      <field name="name">Mileage report</field>
+      <field name="res_model">rlbooks.mileage.report</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+        
+    <menuitem name="Mileage" id="rlbooks_mileage_report_menu" parent="rlbooks_project_project_menu_root" sequence="30" action="rlbooks_mileage_report_action_window"/>
+    
+  </data>
+</odoo>

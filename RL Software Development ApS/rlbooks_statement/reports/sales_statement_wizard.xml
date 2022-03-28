@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="rlbooks_statement.sales_report_print" model="ir.actions.report">
+
+		<field name="name">Sales statement</field>
+		<field name="model">rlbooks_statement.sales_report.wizard</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">rlbooks_statement.sales_report_statement</field>
+		<field name="report_file">rlbooks_statement.sales_report_statement</field>
+		<field name="print_report_name">'Sales Statement from %s to %s.pdf' % (object.date_start.strftime('%d-%m-%Y'), object.date_end.strftime('%d-%m-%Y'))</field>		
+		<field name="binding_model_id" ref="model_rlbooks_statement_sales_report_wizard"/>
+		<field name="binding_type">report</field>
+		<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard_landscape"/>
+			
+	</record>
+			
+	<data>
+		
+		<record id="rlbooks_statement.sales_report_wizard_view" model="ir.ui.view">
+			<field name="name">Sales Statement</field>
+			<field name="model">rlbooks_statement.sales_report.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Create sales statement">
+
+					<group>
+						<group>
+
+							<field name="date_start"/>
+
+						</group>
+						<group>
+
+							<field name="date_end"/>
+
+						</group>
+					</group>
+					
+					<group>
+
+						
+						<field name="exclude_partner_ids" widget="many2many_tags" options="{'no_create':True, 'no_open': True}" attrs="{'invisible': [('include_only_partner_ids','!=',())]}"/>						
+						<field name="include_only_partner_ids" widget="many2many_tags" options="{'no_create':True, 'no_open': True}"/>
+						<field name="open_order_state_ids" widget="many2many_tags" options="{'no_create':True, 'no_open': True}"/>
+						<field name="languages_id" options="{'no_create':True, 'no_open': True}"/>
+						<field name="currency_id" options="{'no_create':True, 'no_open': True}"/>	
+						<field name="company_id" invisible="1"/>
+						<field name="type"  widget="radio"/>					
+
+					</group>
+
+					<footer>
+						<button string="Print" type="object" name="action_print_pdf"/>												
+						<button string="Cancel" special="cancel"/>
+					</footer>
+
+				</form>
+			</field>
+		</record>
+
+		<record id="rlbooks_statement.sales_report_wizard_action" model="ir.actions.act_window">
+			<field name="name">Sales Statement</field>
+			<field name="res_model">rlbooks_statement.sales_report.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="rlbooks_statement.sales_report_wizard_view"/>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem name="Sales Statement" id="rlbooks_sales_statement_menu" parent="account.account_reports_management_menu" action="rlbooks_statement.sales_report_wizard_action" sequence="100" groups="account.group_account_manager"/>
+	
+	</data>
+</odoo>
+

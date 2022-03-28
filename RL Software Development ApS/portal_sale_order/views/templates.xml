@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+ <template id="product_specification" name="Product specifications">
+		
+          <t t-foreach="IndividualProduct" t-as="product">
+
+            <div class="dont_split" >
+
+              <div class="row standard_body_text" style="padding-top:20px">
+
+                <t t-if="'display_images' in current_doc.fields_get()">
+                  <t t-set="display_images" t-value="current_doc.display_images"/>
+                </t>
+                <t t-else="">
+                  <t t-set="display_images" t-value="true"/>
+                </t>
+
+                <div t-if="display_images" class="card-body p-1 oe_product_image col-4">
+                  
+                  <a t-att-href="product_href" class="d-block h-100" itemprop="url">
+                    
+                    <t t-set="image_holder" t-value="product.product_tmpl_id._get_image_holder()"/>
+                    <span t-field="image_holder.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256', 'itemprop': 'image'}" class="d-flex h-100 justify-content-center align-items-center"/>
+                  
+                  </a>
+                  
+                </div>
+
+                <div class="col-8 standard_body_text">
+                  
+                  <t t-if="product.is_published">
+                    
+                    <a t-att-href="product.website_url">
+                      
+                      <t t-if="product.product_tmpl_id.customer_art_no">
+    
+                        <span style="font-weight:bold;" t-field="product.product_tmpl_id.customer_art_no"/>
+    
+                        <span> - </span>
+    
+                      </t>
+                      
+                      <t t-if="product.product_tmpl_id.customer_art_no != product.default_code and product.default_code">
+                        
+                        <t t-if="product.product_tmpl_id.customer_art_no">
+                          
+                          <span style="font-weight:bold;" t-field="product.display_name"/>
+    
+                        </t>
+                        <t t-else="">
+                          
+                          <span style="font-weight:bold;" t-field="product.default_code"/>
+    
+                          <span> - </span>
+    
+                          <span style="font-weight:bold;" t-field="product.name"/>
+                          
+                        </t>
+                      
+                      </t>
+                      <t t-else="">
+    
+                        <span style="font-weight:bold;" t-field="product.name"/>
+    
+                      </t>
+                    </a>
+                        
+                  </t>
+                  <t t-else="">
+                    
+                    <t t-if="product.product_tmpl_id.customer_art_no">
+  
+                      <span style="font-weight:bold;" t-field="product.product_tmpl_id.customer_art_no"/>
+  
+                      <span> - </span>
+  
+                    </t>
+                    
+                    <t t-if="product.product_tmpl_id.customer_art_no != product.default_code and product.default_code">
+                      
+                      <t t-if="product.product_tmpl_id.customer_art_no">
+                        
+                        <span style="font-weight:bold;" t-field="product.display_name"/>
+  
+                      </t>
+                      <t t-else="">
+                        
+                        <span style="font-weight:bold;" t-field="product.default_code"/>
+  
+                        <span> - </span>
+  
+                        <span style="font-weight:bold;" t-field="product.name"/>
+                        
+                      </t>
+                    
+                    </t>
+                    <t t-else="">
+  
+                      <span style="font-weight:bold;" t-field="product.name"/>
+  
+                    </t>
+                        
+                  </t>
+                  
+                  <br/>
+
+                  <span name="description_sale" t-field="product.description_sale"/>
+
+                  <t t-if="'display_bomspecifications_ps' in current_doc.fields_get()">
+                    <t t-set="display_bomspecifications_ps" t-value="current_doc.display_bomspecifications_ps" />
+                  </t>
+                  <t t-else="">
+                    <t t-set="display_bomspecifications_ps" t-value="true" />
+                  </t>
+
+                  <t t-if="'bom_ids' in product.fields_get()">
+                      
+                      <t t-if="display_bomspecifications_ps and product.bom_ids">
+
+                          <t t-foreach="product.bom_ids" t-as="bom">
+
+                              <t t-if="bom.type == 'phantom' and bom.bom_line_ids">
+
+                                  <br/><br/><span>Product contains:</span><br/><br/>
+
+                                  <ul>
+
+                                      <t t-foreach="bom.bom_line_ids" t-as="bom_line">
+
+                                          <li>
+
+                                              <span t-field="bom_line.product_qty" t-options="{'widget':'float', 'precision':0}"/> 
+                                              <span t-if="bom_line.product_uom_id.name" t-esc="bom_line.product_uom_id.name.lower()"/> 																	
+                                              <span t-if="bom_line.product_id.product_tmpl_id.customer_art_no" t-esc="'[' + bom_line.product_id.product_tmpl_id.customer_art_no + ']'"/> 
+                                              <span t-if="bom_line.product_id.product_tmpl_id.default_code" t-esc="'[' + bom_line.product_id.product_tmpl_id.default_code + ']'"/> 
+                                              <span t-field="bom_line.product_id.name"/> 
+
+                                              <ul>
+
+                                                  <t t-if="bom_line.product_id.product_tmpl_id.weight and bom_line.product_id.product_tmpl_id.weight != 0">
+                                                      <li><span class="text_productspecifikation_quality">Weight: </span><span t-esc="bom_line.product_id.product_tmpl_id.weight" t-options="{'widget':'float', 'precision':3}"/> <span t-esc="product.product_tmpl_id.weight_uom_name"/></li>
+                                                  </t>
+
+                                                  <t t-if="bom_line.product_id.product_tmpl_id.volume and bom_line.product_id.product_tmpl_id.volume != 0">
+                                                      <li><span class="text_productspecifikation_quality">Volume: </span><span t-esc="bom_line.product_id.product_tmpl_id.volume" t-options="{'widget':'float', 'precision':3}"/> <span t-esc="product.product_tmpl_id.volume_uom_name"/></li>
+                                                  </t>
+
+                                                  <t t-if="bom_line.product_id.product_tmpl_id.hs_code and bom_line.product_id.product_tmpl_id.hs_code != ''">
+                                                      <li><span class="text_productspecifikation_quality">HS Code: </span><span t-esc="bom_line.product_id.product_tmpl_id.hs_code"/></li>
+                                                  </t>
+
+
+                                              </ul>
+
+
+                                          </li>
+
+                                      </t>
+
+                                  </ul>
+
+                              </t>
+
+                          </t>
+
+                      </t>
+                      
+                  </t>
+                      
+                  <t t-if="'bom_ids' in product.fields_get()">
+                      
+                      <t t-set="bom_ids" t-value="product.bom_ids"/>
+                      
+                  </t>
+                  <t t-else="">
+                      
+                      <t t-set="bom_ids" t-value="false"/>
+                      
+                  </t>  
+                  
+                  <t t-if="not display_bomspecifications_ps or not bom_ids">
+
+                      <ul>
+
+                          <t t-if="product.product_tmpl_id.weight and product.product_tmpl_id.weight != 0">
+                              <li>
+                                  <span class="text_productspecifikation_quality">Weight: </span><span t-esc="product.product_tmpl_id.weight" t-options="{'widget':'float', 'precision':3}"/> <span t-esc="product.product_tmpl_id.weight_uom_name"/>
+                              </li>
+                          </t>
+
+                          <t t-if="product.product_tmpl_id.volume and product.product_tmpl_id.volume != 0">
+                              <li><span class="text_productspecifikation_quality">Volume: </span><span t-esc="product.product_tmpl_id.volume" t-options="{'widget':'float', 'precision':3}"/> <span t-esc="product.product_tmpl_id.volume_uom_name"/></li>
+                          </t>
+
+                          <t t-if="product.product_tmpl_id.hs_code and product.product_tmpl_id.hs_code != ''">
+                              <li><span class="text_productspecifikation_quality">HS Code: </span><span t-esc="product.product_tmpl_id.hs_code"/></li>
+                          </t>
+
+
+                      </ul>
+
+                  </t>
+                                        
+                </div>
+                
+              </div>
+
+            </div>
+          </t>
+
+	</template>
+	
+</odoo>
+
+

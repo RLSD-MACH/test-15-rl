@@ -1,0 +1,117 @@
+<odoo>
+
+  <data>
+
+    <record id="top_self" model="ir.ui.view">
+      <field name="name">Top Shelf</field>
+      <field name="model">sale.order.line</field>
+      <!-- <field name="inherit_id" ref=""/> -->
+      <!-- <field name="mode">extension</field> -->
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        
+        <!-- <div> -->
+              
+          <aggregate name="price_subtotal_all_orders" string="Open DKK Total" field="open_salesvalue_DKK" widget="float"/>
+          <formula name="total" string="Average Order" value="record.price_subtotal_all_orders / record.order_id_confirmed_orders" widget="float"/>
+          
+          <aggregate name="order_id_confirmed_orders" field="order_id" string="# Orders" clickable="False" widget="float"/>
+          <aggregate name="customers" string="# Customers" field="order_partner_id" clickable="False" widget="float"/>
+          <aggregate name="products" string="# Products" field="product_id" clickable="False" widget="float"/>
+
+          <widget name="pie_chart" title="Open orders" attrs="{'groupby': 'currency_id', 'measure': 'open_salesvalue_DKK'}"/>
+        <!-- </div> -->
+
+      </field>
+    </record>
+
+    <record id="top_self_action" model="ir.actions.act_window">
+      <field name="name">Dashboard Top Shelf</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">form</field>
+      <!-- <field name="view_type">form</field> -->
+      <field name="view_id" ref="rlbooks_imp_sale_dashboards_community.top_self"/>
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          <!-- Add Text Here -->
+        </p><p>
+          <!-- More details about what a user can do with this object will be OK --> 
+        </p>
+      </field>
+    </record>
+
+    <record id="top_graph_action" model="ir.actions.act_window">
+      <field name="name">Dashboard Top Graph></field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">graph</field>
+      <field name="view_id" ref="rlbooks_imp_sale.rlbooks_imp_sale_sale_order_line_view_graph"/>
+      
+    </record>
+
+    <record id="top_pivot_action" model="ir.actions.act_window">
+      <field name="name">Dashboard Top Pivot></field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">pivot</field>
+      <field name="view_id" ref="rlbooks_imp_sale.rlbooks_imp_sale_sale_order_line_view_pivot"/>
+      
+    </record>
+
+    
+    <!-- rlbooks_imp_sale dashboard view -->
+    <record id="sales_dashboard_form_view" model="ir.ui.view">
+      <field name="name">Dashboard</field>
+      <field name="model">board.board</field>
+      <field name="arch" type="xml">
+
+        <form string="Dashboard">
+
+          <board style="1-2">
+            <column>
+              <action
+                string="Top Shelf"
+                name="%(rlbooks_imp_sale_dashboards_community.top_self_action)d"
+              />
+
+               <action
+                string="Top Shelf"
+                name="%(rlbooks_imp_sale_dashboards_community.top_graph_action)d"
+              />
+
+            </column>
+              <action
+                string="Top Shelf"
+                name="%(rlbooks_imp_sale_dashboards_community.top_pivot_action)d"
+              />
+            <column>
+            </column>
+          </board>
+          
+        </form>
+
+      </field>
+    </record>
+
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="sales_dashboard" model="ir.actions.act_window">
+      <field name="name">Dashboard</field>
+      <field name="res_model">board.board</field>
+      <field name="view_id" ref="sales_dashboard_form_view"/>
+      <field name="usage">menu</field>
+      <field name="view_mode">form</field>
+            
+    </record>
+       
+    <!-- This Menu Item will appear in the Upper bar, that's why It needs NO parent or action -->
+    <menuitem id="Menu_sale_order_line_view_dashboard" name="Dashboard" sequence="1" parent="sale.menu_sale_report" action="sales_dashboard">
+
+    </menuitem>
+
+
+    
+
+  </data>
+
+</odoo>

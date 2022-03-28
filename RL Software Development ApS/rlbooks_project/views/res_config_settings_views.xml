@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="res_config_settings_view_form">
+      <field name="name">res.config.settings.view.form.inherit.rlbooks.project</field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[hasclass('settings')]" position="inside">
+
+          <div class="app_settings_block" data-string="RL-books" string="RL-books" data-key="rlbooks_project">
+            
+            <h2>Projects</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+
+                <label string="Default project-group" for="project_group_default_id"/>
+                <field name="project_group_default_id"/>
+
+              </div>
+
+              <div class="col-12 col-lg-6 o_setting_box"
+                id="rlbooks_project_entry_dashboard"
+                title="">
+
+                <div class="o_setting_left_pane">
+                    <field name="module_rlbooks_project_entry_dashboard" widget="upgrade_boolean"/>
+                </div>
+
+                <div class="o_setting_right_pane">
+                    <label for="module_rlbooks_project_entry_dashboard" string="Dashboard Project Entry"/>
+                    <div class="text-muted">
+                        Add Dashboard to project entry section
+                    </div>
+                </div>
+
+              </div>
+
+
+            </div>
+
+            <h2>Mileage</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+
+                <group>
+                  <group>
+
+                    <field name="google_maps_api_key"/>
+
+                  </group>
+                </group>
+
+              </div>
+
+            </div>
+
+            
+
+          </div>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="rlbooks_project_res_config_settings_action_window">
+      <field name="name">Settings</field>
+      <field name="res_model">res.config.settings</field>
+      <field name="view_id" ref="res_config_settings_view_form"/>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+      <field name="context">{'module':'rlbooks_project'}</field>
+    </record>
+
+    <menuitem name="Settings" 
+      id="rlbooks_project_res_config_settings_menu" 
+      parent="rlbooks_project_settings_menu" 
+      action="rlbooks_project_res_config_settings_action_window"
+      groups="base.group_system"/>
+
+</odoo>

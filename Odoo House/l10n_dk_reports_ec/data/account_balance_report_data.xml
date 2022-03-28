@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_balance_report_l10n_dk_balance" model="account.financial.html.report">
+        <field name="name">Balance PV</field>
+        <field name="date_range" eval="0"/>
+        <field name="cash_basis" eval="True"/>
+        <field name="unfold_all_filter" eval="True"/>
+        <field name="show_journal_filter" eval="True"/>
+        <field name="analytic" eval="True"/>
+        <field name="parent_id" ref="account.account_reports_legal_statements_menu"/>
+    </record>
+
+    <!-- ID: 124 -->
+    <record id="account_balance_report_l10n_dk_aktiver" model="account.financial.html.report.line">
+        <field name="name">AKTIVER</field>
+        <field name="financial_report_id" ref="account_balance_report_l10n_dk_balance"/>
+        <field name="code">AKT</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="1"/>
+        <field name="formulas">balance = ANAK.balance + OMAK.balance</field>
+    </record>
+    
+
+    <record id="account_balance_report_l10n_anlægsaktiver" model="account.financial.html.report.line">
+        <field name="name">Anlægsaktiver</field>
+        <field name="parent_id" ref="account_balance_report_l10n_dk_aktiver"/>
+        <field name="code">ANAK</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="formulas">balance = GBYG.balance + AADI.balance + EDB.balance+ DEPO.balance</field>
+    </record>
+    <record id="account_balance_report_l10n_dk_grunde_og_bygninger" model="account.financial.html.report.line">
+        <field name="name">Indretning af lejede lokale</field>
+        <field name="parent_id" ref="account_balance_report_l10n_anlægsaktiver"/>
+        <field name="code">GBYG</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="3"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_buildings'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+    
+    <!-- parent-129 -->
+    <!-- ID: 133 -->
+    <record id="account_balance_report_l10n_dk_andre_anlæg" model="account.financial.html.report.line">
+        <field name="name">Driftsmidler og inventar</field>
+        <field name="parent_id" ref="account_balance_report_l10n_anlægsaktiver"/>
+        <field name="code">AADI</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="4"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_equipment_tools_fixtures'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+    
+    <!-- parent-130 -->
+    <!-- ID: 134 -->
+    <record id="account_balance_report_l10n_dk_edb" model="account.financial.html.report.line">
+        <field name="name">Edb-anlæg</field>
+        <field name="parent_id" ref="account_balance_report_l10n_anlægsaktiver"/>
+        <field name="code">EDB</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="5"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_it'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+    
+    <!-- parent-130 -->
+    <!-- ID: 135 -->
+    <record id="account_balance_report_l10n_dk_deposit" model="account.financial.html.report.line">
+        <field name="name">Depositum</field>
+        <field name="parent_id" ref="account_balance_report_l10n_anlægsaktiver"/>
+        <field name="code">DEPO</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="6"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_deposit'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+        <record id="account_balance_report_l10n_dk_omsætningsaktiver" model="account.financial.html.report.line">
+        <field name="name">Omsætningsaktiver</field>
+        <field name="parent_id" ref="account_balance_report_l10n_dk_aktiver"/>
+        <field name="code">OMAK</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="7"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_current_assets'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+    <!-- parent-130 -->
+    <!-- ID: 137 -->
+        
+    <record id="account_balance_report_l10n_dk_passiver" model="account.financial.html.report.line">
+        <field name="name">PASSIVER</field>
+        <field name="financial_report_id" ref="account_balance_report_l10n_dk_balance"/>
+        <field name="code">PAS</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="8"/>
+        <field name="formulas">balance = EGEN.balance + HENS.balance + GALD.balance</field>
+    </record>
+
+    <record id="account_balance_report_l10n_egenkapital" model="account.financial.html.report.line">
+        <field name="name">EGENKAPITAL</field>
+        <field name="parent_id" ref="account_balance_report_l10n_dk_passiver"/>
+        <field name="code">EGEN</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="9"/>
+        <field name="formulas">balance = EGEN2.balance + AARES.balance</field>
+    </record>
+        <record id="account_financial_current_year_earnings_line_1" model="account.financial.html.report.line">
+            <field name="name">Årets foreløbige resultat</field>
+            <field name="code">AARES</field>
+            <field name="domain" eval="[('account_id.user_type_id', 'in', [
+                ref('account.data_account_type_revenue'),
+                ref('account.data_account_type_other_income'),
+                ref('account.data_account_type_direct_costs'),
+                ref('account.data_account_type_expenses'),
+                ref('account.data_account_type_depreciation')
+            ])]" />
+            <field name="formulas">balance = sum.balance</field>
+            <field name="sequence" eval="10"/>
+            <field name="parent_id" ref='account_balance_report_l10n_egenkapital'/>
+            <field name="special_date_changer">from_fiscalyear</field>
+            <field name="level" eval="3" />
+        </record>
+    <record id="account_balance_report_l10n_egenkapital2" model="account.financial.html.report.line">
+        <field name="name">Anden egenkapital</field>
+        <field name="parent_id" ref="account_balance_report_l10n_egenkapital"/>
+        <field name="code">EGEN2</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="12"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_equity'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+
+ 
+    <record id="account_balance_report_l10n_reserves" model="account.financial.html.report.line">
+        <field name="name">HENSÆTTELSER</field>
+        <field name="parent_id" ref="account_balance_report_l10n_dk_passiver"/>
+        <field name="code">HENS</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="15"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_reserves'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+        <record id="account_balance_report_l10n_gæld" model="account.financial.html.report.line">
+        <field name="name">GÆLD</field>
+        <field name="parent_id" ref="account_balance_report_l10n_dk_passiver"/>
+        <field name="code">GALD</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="16"/>
+        <field name="formulas">balance = KOFG.balance + MOMS.balance + ANDG.balance</field>
+    </record>
+    <record id="account_balance_report_l10n_current_liabilities" model="account.financial.html.report.line">
+        <field name="name">Kortfristet gæld</field>
+        <field name="parent_id" ref="account_balance_report_l10n_gæld"/>
+        <field name="code">KOFG</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="17"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_credit_current_liabilities'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+
+   <record id="account_balance_report_l10n_vat_taxes" model="account.financial.html.report.line">
+        <field name="name">Moms og afgifter</field>
+        <field name="parent_id" ref="account_balance_report_l10n_gæld"/>
+        <field name="code">MOMS</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="18"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_vat_taxes'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+   <record id="account_balance_report_l10n_other_current_liabilities" model="account.financial.html.report.line">
+        <field name="name">Anden gæld</field>
+        <field name="parent_id" ref="account_balance_report_l10n_gæld"/>
+        <field name="code">ANDG</field>
+        <field name="level" eval="3"/>
+        <field name="sequence" eval="19"/>
+        <field name="domain" eval="[('account_id.group_id', '=', ref('l10n_dk_ec.account_group_other_current_liabilities'))]"/>
+        <field name="show_domain">foldable</field>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="groupby">account_id</field>
+    </record>
+
+    <record id="account_balance_report_l10n_nulkontrol" model="account.financial.html.report.line">
+        <field name="name">Nulkontrol</field>
+        <field name="financial_report_id" ref="account_balance_report_l10n_dk_balance"/>
+        <field name="code">NUL</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="20"/>
+        <field name="formulas">balance = PAS.balance + AKT.balance</field>
+    </record>
+</odoo>

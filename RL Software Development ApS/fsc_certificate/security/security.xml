@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <data noupdate="0">
+
+        <!-- Multi - Company Rules -->
+
+        <record model="ir.rule" id="fsc_claim_comp_rule">
+            <field name="name">fsc claim multi-company</field>
+            <field name="model_id" ref="model_fsc_claim"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record model="ir.rule" id="fsc_certificate_comp_rule">
+            <field name="name">fsc certificate multi-company</field>
+            <field name="model_id" ref="model_fsc_certificate"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+        <record model="ir.rule" id="fsc_certificate_validation_comp_rule">
+            <field name="name">fsc certificate validation multi-company</field>
+            <field name="model_id" ref="model_fsc_certificate_validation"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
+
+    </data>
+
+</odoo>

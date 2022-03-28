@@ -1,0 +1,93 @@
+.standard_body_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 0.75rem !important;
+  
+}
+
+body{
+
+    font-family: 'Segoe UI' !important;
+    font-size: 0.75rem !important;
+    font-weight: normal !important;
+    /* color: black; */
+
+}
+
+.body{
+
+    font-family: 'Segoe UI' !important;
+    font-size: 0.75rem !important;
+    font-weight: normal !important;
+    /* color: black; */
+
+}
+
+.table > tr > th {
+
+    font-weight: bold;
+
+}
+
+.table > tr > td {
+
+    font-weight: normal;
+    /* color: black; */
+
+}
+
+.footer{
+
+    font-family: 'Segoe UI' !important;
+    font-size: 0.6875rem !important;
+    font-weight: normal !important;
+    vertical-align: bottom !important;
+    float:right !important;
+    
+}
+
+.standard_document_header_left_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 1.125rem;    
+    /* padding-top: 200px; */
+    text-align: left;
+    font-weight: bold;
+
+}
+
+.standard_document_header_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 1.375rem;
+    /* padding-top: 200px; */
+    text-align: right;
+
+}
+
+.pagefooter{
+
+    font-family: 'Segoe UI'!important;
+    font-size: 0.5625rem!important;
+    font-weight: normal !important;
+    vertical-align: bottom !important;
+    align-content: right!important;
+
+}
+
+.dont_split{
+
+    page-break-inside: avoid;
+    
+}
+
+.text_productspecifikation_quality{
+
+    font-weight: normal;
+    font-family: 'Segoe UI';
+    font-size: 0.75rem;
+
+}
+
+
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <data noupdate="1">
+
+        <record id="fsc_claim_1" model="fsc.claim">            
+            <field name="name">FSC 100 %</field>
+            <field name="allowed_with_other_claims">False</field>   
+            <field name="is_claim">True</field>  
+            <field name="company_id"></field>
+        </record>
+
+        <record id="fsc_claim_2" model="fsc.claim">
+            <field name="name">FSC Mix Credit</field>
+            <field name="allowed_with_other_claims">False</field>   
+            <field name="is_claim">True</field>  
+            <field name="company_id"></field>
+        </record>
+
+        <record id="fsc_claim_3" model="fsc.claim">
+            <field name="name">FSC Recycled Credit</field>
+            <field name="allowed_with_other_claims">False</field>   
+            <field name="is_claim">True</field>  
+            <field name="company_id"></field>
+        </record>
+
+        <record id="fsc_claim_4" model="fsc.claim">
+            <field name="name">Not FSC</field>
+            <field name="allowed_with_other_claims">True</field>  
+            <field name="is_claim">False</field>          
+            <field name="company_id"></field>
+        </record>
+
+    </data>
+
+</odoo>

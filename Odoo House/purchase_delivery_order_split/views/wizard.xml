@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='purchase_delivery_order_split_wizard_form' model='ir.ui.view'>
+        <field name='name'>purchase_delivery.order.split.wizard.form</field>
+        <field name='model'>purchase.delivery.order.split.wizard</field>
+        <field name='arch' type='xml'>
+            <form string="Transfer details" version="7">
+                <field name="transfer_item_detail_ids" options="{'no_create_edit':True}">
+                    <tree string="Inventory Details" editable="bottom" create="false">
+                        <field name="product_id" readonly="1"/>
+                        <field name="quantity"/>
+                        <field name="source_loc_id" readonly="1"/>
+                        <field name="destination_loc_id" readonly="1"/>
+                    </tree>
+                </field>
+                <footer>
+                    <button name="split_purchase_transfer" string="_Split" type="object" class="oe_highlight"/>
+                    <button string="_Cancel" class="oe_link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

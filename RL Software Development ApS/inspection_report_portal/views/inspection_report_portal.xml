@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="portal_my_home_menu_inspections" name="Portal layout : inspections menu" inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            
+            <li t-if="page_name == 'inspection' or inspection_report" t-attf-class="breadcrumb-item #{'active ' if not inspection_report else ''}">
+                
+                <a t-if="inspection_report" t-attf-href="/my/inspections?{{ keep_query() }}">Inspections</a>
+                <t t-else="">Inspections</t>
+                
+            </li>
+            <li t-if="inspection_report" class="breadcrumb-item active">
+                <span t-field="inspection_report.state"/>
+                <t t-esc="inspection_report.name"/>
+            </li>
+            
+        </xpath>
+    </template>
+    
+    <template id="portal_my_home_inspections" name="Show Inspections" customize_show="True" inherit_id="portal.portal_my_home" priority="100">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Inspections</t>
+                <t t-set="url" t-value="'/my/inspections'"/>
+                <t t-set="placeholder_count" t-value="'inspection_report_count'"/>
+            </t>
+            
+        </xpath>
+    </template>
+    
+    <template id="portal_my_inspections" name="My Inspections">
+        
+        <t t-call="portal.portal_layout">
+            
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                
+                <t t-set="title">Inspections</t>
+                
+            </t>            
+            <t t-if="not inspections">
+                
+                <p>There are currently no inspections for your account.</p>
+                
+            </t>
+            
+            <t t-if="inspections" t-call="portal.portal_table">
+                
+                <thead>
+                    
+                    <tr class="active">
+                        
+                        <th>Report #</th>
+                        <th>Created</th>
+                        <th>Responsible</th> 
+                        <th>Status</th>
+                        
+                    </tr>
+                    
+                </thead>
+                
+                <t t-foreach="inspections" t-as="inspection">
+                    
+                    <tr>
+                        
+                        <td>                        
+                            <a t-att-href="inspection.get_portal_url()"><t t-esc="inspection.display_name"/></a>                        
+                        </td>
+                        
+                         <td class="text-right">
+                            <span t-field="inspection.create_date" t-options="{'widget': 'date'}"/>
+                        </td>
+                                                
+                        <td class="text-left">
+                            <span t-field="inspection.user_id"/>
+                        </td> 
+                        
+                        <td class="text-center">
+
+                            <span t-field="inspection.state"/>
+
+                        </td>
+                        
+                    </tr>
+                    
+                </t>
+            </t>
+        </t>
+        
+    </template>
+    
+    <record id="action_inspections_with_onboarding" model="ir.actions.act_window">
+        <field name="name">Inspections</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">inspection.report</field>
+        <!-- <field name="view_id" ref="view_quotation_tree_with_onboarding"/> -->
+        <!-- <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field> -->
+        <!-- <field name="search_view_id" ref="sale_order_view_search_inherit_quotation"/> -->
+        <field name="context">{'search_default_my_inspection': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+            Create a new inspection, the step forward in a good production!
+            </p>
+        </field>
+    </record>
+
+    <template id="portal_inspection_page" name="Inspection Portal Template" inherit_id="portal.portal_sidebar" primary="True">
+
+        <xpath expr="//div[hasclass('o_portal_sidebar')]" position="inside">
+
+            <t t-set="o_portal_fullwidth_alert" groups="sales_team.group_sale_salesman,account.group_account_invoice,account.group_account_readonly">
+                
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % (inspection_report._name, inspection_report.id, inspection_report.env.ref('inspection_report_portal.action_inspections_with_onboarding').id)"/>
+                </t>
+
+            </t>
+
+            <div class="row mt16 ">
+
+                <!-- Sidebar -->
+
+                <t t-call="portal.portal_record_sidebar">
+
+                    <t t-set="classes" t-value="'col-lg-auto d-print-none'"/>
+                    <t t-set="title">
+
+                       <h2 class="mb-0">
+
+                           <b t-if="inspection_report.purchase_order" t-field="inspection_report.purchase_order"/>                         
+
+                       </h2>
+
+                       <!-- <div class="small" t-if="invoice.payment_state not in ('paid', 'in_payment') and invoice.move_type == 'out_invoice'"><i class="fa fa-clock-o"/><span class="o_portal_sidebar_timeago ml4" t-att-datetime="invoice.invoice_date_due"/></div> -->
+                    
+                    </t>
+
+                    <t t-set="entries">
+                       <ul class="list-group list-group-flush flex-wrap flex-row flex-lg-column">
+                            <li class="list-group-item flex-grow-1">
+                               <div class="flex-sm-nowrap">
+                                   <div class="btn-group  flex-grow-1 mr-1 mb-1">
+                                       <span>State: </span><span t-if="inspection_report.state" t-field="inspection_report.state"/>
+                                   </div>
+                               </div>
+                           </li>
+                           <li class="list-group-item flex-grow-1">
+                               <div class="flex-sm-nowrap">
+                                   <div class="btn-group  flex-grow-1 mr-1 mb-1">
+                                       <span>Date: </span><span t-if="inspection_report.date" t-field="inspection_report.date"/>
+                                   </div>
+                               </div>
+                           </li>
+                           <li class="list-group-item flex-grow-1">
+                               <div class="o_download_pdf btn-toolbar flex-sm-nowrap">
+                                   <div class="btn-group  flex-grow-1 mr-1 mb-1">
+                                       <a class="btn btn-secondary btn-block o_download_btn" t-att-href="inspection_report.get_portal_url_main_attachment_download(report_type='main_attachment', download=True)" title="Download"><i class="fa fa-download"/> Download</a>
+                                   </div>
+                                   <!-- <div class="btn-group flex-grow-1 mb-1">
+                                       <a class="btn btn-secondary btn-block o_print_btn o_portal_invoice_print" t-att-href="inspection_report.get_portal_url(report_type='main_attachment')" id="print_invoice_report" title="Print" target="_blank"><i class="fa fa-print"/> Print</a>
+                                   </div> -->
+                               </div>
+                           </li>
+                           <li t-if="inspection_report.user_id" class="list-group-item flex-grow-1">
+                               <div class="small mb-1">
+                                <strong class="text-muted">
+                                        Resposible
+                                </strong>
+                               </div>
+                               <div class="row">
+                                   <div class="col flex-grow-0 pr-2">
+                                       <img t-if="inspection_report.user_id.image_1024" class="rounded-circle mt-1 o_portal_contact_img" t-att-src="image_data_uri(inspection_report.user_id.image_1024)" alt="Contact"/>
+                                       <img t-else="" class="rounded-circle mt-1 o_portal_contact_img" src="/web/static/src/img/user_menu_avatar.png" alt="Contact"/>
+                                   </div>
+                                   <div class="col pl-0">
+                                        <span t-field="inspection_report.user_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;phone&quot;], &quot;no_marker&quot;: True}"/>
+                                       <a href="#discussion" class="small"><i class="fa fa-fw fa-comments"/><b>Send message</b></a>
+                                   </div>
+                               </div>
+                            </li>
+                        </ul>
+                    </t>
+                </t>
+
+                <!-- Page Content -->
+                <div id="inspection_content" class="col-12 col-lg">
+                    <t t-if="error or warning" t-call="inspection_report.portal_inspection_error"/>
+                    <t t-if="success and (not error and not warning)" t-call="inspection_report.portal_inspection_success"/>
+
+                    <!--<div>-->
+                    <div class="o_portal_html_view shadow p-3">
+                      
+                        <div class="o_portal_html_loader text-center">
+                            <i class="fa fa-circle-o-notch fa-spin fa-2x fa-fw text-black-50"/>
+                        </div>
+                         
+                        <div class="o_attachment_preview ui-resizable">
+                          
+                          <div class="o_attachment_preview_container" style="height:750px">
+                            
+                            <iframe id="inspection_PDF" class="mb48" data-hide-buttons="true" width="100%" scrolling="no" height="100%" frameborder="0" t-att-src="inspection_report.get_portal_url_main_attachment_download(report_type='main_attachment_pdf', download=False)"/>
+                        
+                          </div>
+                          
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- chatter -->
+                    
+                    <div id="inspection_communication" class="mt-4">
+                      
+                        <h2>History</h2>
+                        
+                        <t t-call="portal.message_thread">
+                            <t t-set="object" t-value="inspection_report"/>
+                        </t>
+                        
+                    </div>
+                    
+                </div>
+            </div>
+            
+
+        </xpath>
+
+    </template>
+
+    <template id="portal_inspection_error" name="Inspection error/warning display">
+        <div class="row mr16">
+            <div t-attf-class="'col-lg-12 mr16 ml16 alert alert-dismissable' #{'alert-danger' if error else 'alert-warning'}" role="alert">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+                <t t-if="error == 'generic'" name="generic">
+                    There was an error processing this page.
+                </t>
+            </div>
+        </div>
+    </template>
+
+    <template id="portal_inspection_success" name="Inspection success display">
+        <div class="row mr16">
+            <div class="col-lg-12 mr16 ml16 alert alert-dismissable alert-success" role="status">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a>
+            </div>
+        </div>
+    </template>
+
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+
+    <template id="search_template_ext" inherit_id="account_reports.search_template" >
+
+        <xpath expr="//div[hasclass('o_account_reports_filter_currency')]" position="after">
+             <div class="btn-group o_dropdown o_account_reports_filter_contact_groups_exclude" t-if="options.get('contact_groups_exclude')"> 
+             
+                <t t-call="account_report_filter_contact_group_exclude.search_template_contact_groups"/>
+
+            </div>
+        </xpath>
+
+    </template>
+
+    <template id="search_template_contact_groups">
+
+        <button type="button" class="o_dropdown_toggler_btn btn btn-secondary dropdown-toggle" data-toggle="dropdown">
+            
+            <span class="fa fa-filter"/>
+            Contact Group (exclude):
+
+            <t t-set="selected_contact_groups_exclude" t-value="options['selected_contact_groups_names_exclude']"/>
+            
+            <t t-if="selected_contact_groups_exclude">
+                <t t-esc="selected_contact_groups_exclude"/>
+            </t>
+
+            <t t-else="">
+                All
+            </t>
+
+        </button>
+
+        <div class="o_dropdown_menu dropdown-menu o_filter_menu" role="menu">
+
+            <t t-foreach="options['contact_groups_exclude']" t-as="a">
+               
+                <a role="menuitem" class="dropdown-item js_account_report_choice_filter" t-att-title="a.get('name')" t-att-data-id="a.get('id')" data-filter="contact_groups_exclude"><t t-esc="a.get('name')"/></a>
+
+            </t>
+            
+        </div>
+
+    </template>
+
+</odoo>

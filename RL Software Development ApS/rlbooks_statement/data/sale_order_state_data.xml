@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="rlbooks_statement_sale_order_state_1" model="sale_order_state">            
+        <field name="name">Quotation</field>
+        <field name="state">draft</field>
+    </record>
+
+    <record id="rlbooks_statement_sale_order_state_2" model="sale_order_state">            
+        <field name="name">Quotation sent</field>
+        <field name="state">sent</field>
+    </record>
+
+    <record id="rlbooks_statement_sale_order_state_3" model="sale_order_state">            
+        <field name="name">Sale order</field>
+        <field name="state">sale</field>
+    </record>
+
+    <record id="rlbooks_statement_sale_order_state_4" model="sale_order_state">            
+        <field name="name">Locked</field>
+        <field name="state">done</field>
+    </record>
+
+    <record id="rlbooks_statement_sale_order_state_5" model="sale_order_state">            
+        <field name="name">Cancelled</field>
+        <field name="state">cancel</field>
+    </record>
+    
+</odoo>

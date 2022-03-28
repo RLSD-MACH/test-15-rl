@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<odoo>
+
+  <data>
+   
+    <template id="mail_notification_paynow_ext_form" name="mail_notification_paynow_ext.form" inherit_id="mail.mail_notification_paynow">
+      <xpath expr="//t[@t-name='mail.mail_notification_paynow']" position="replace">
+        
+        <t name="Mail: Pay Now mail notification template" t-name="mail.mail_notification_paynow">
+            
+            <table border="0" cellpadding="0" cellspacing="0" style="padding-top: 16px; background-color: #F1F1F1; color: #454748; width: 100%; border-collapse:separate;font-family: 'Segoe UI' !important">
+                <tr>
+                <td align="center">
+                    
+                    <table border="0" cellpadding="0" cellspacing="0" width="590" style="padding: 24px; background-color: white; color: #454748; border-collapse:separate;">
+                    <tbody>
+                        <!-- HEADER -->
+                        <tr>
+                            <td align="center" style="min-width: 590px;">
+                                <t t-set="access_action" t-value="record.with_context(force_website=True).get_access_action()"/>
+                                <t t-set="is_online" t-value="access_action and access_action['type'] == 'ir.actions.act_url'"/>
+                                <t t-set="base_url" t-value="record.get_base_url()"/>
+                                <t t-set="share_url" t-value="record._get_share_url(redirect=True, signup_partner=True)"/>
+                                <t t-set="access_url" t-value="is_online and share_url and base_url + share_url or ''"/>
+                                <t t-set="access_name">
+                                    View <t t-esc="model_description or 'document'"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <!-- CONTENT -->
+                        <tr>
+                            <td style="padding: 0">
+                                <t t-raw="message.body"/>
+                                <div t-if="is_online and not record._context.get('proforma')" style="margin: 32px 0px 32px 0px; text-align: center;">
+                                    <a t-att-href="access_url" style="background-color: #875A7B; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;">
+                                        <t t-esc="access_name"/>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- FOOTER -->
+                                                
+                        <tr>
+                            
+                            <td>
+                            
+                            <t t-name="footer">
+                
+                                <p style="padding-bottom: 0px;">
+                                
+                                    <span style="font-size:1rem;color:#212529">
+                                        Best Regards
+                                    </span>
+                                
+                                </p>
+                                
+                                <table 
+                                class="MsoNormalTable" 
+                                border="0" 
+                                cellspacing="0" 
+                                cellpadding="0" 
+                                style="background-image: initial; background-position: initial; background-size: initial; background-repeat: initial; background-attachment: initial; background-origin: initial; background-clip: initial;"
+                                >
+                                <tbody>
+                                    <tr>
+                                    
+                                    <td width="3" valign="top" style="width:2.25pt;background:#0D3A62;padding:0cm 0cm 0cm 0cm"/>
+
+                                    <td style="padding:0cm 0cm 0cm 15.0pt">
+                                        
+                                        <p class="MsoNormal">
+                                        <span style="font-size:12.0pt;color:#212529">
+                                            <img width="295" height="44" src="/web/image/1484-2a2fd9bb/image003.png?access_token=583a8c48-b6b8-4121-97c7-aa72caff7f74" style="height:.458in;width:3.072in" border="0"/>
+                                        </span>
+                                        </p>
+                                        <p></p>
+                                        <p></p>
+                                        
+                                        <p style="font-weight:bold;">
+                                            <span 
+                                                lang="EN-US" 
+                                                style="font-size:12.0pt;color:#212529;mso-ansi-language:EN-US"
+                                                t-field="message.author_id.name"
+                                                >
+                                            
+                                            </span>
+                                        </p>
+                                                                    
+                                        <p >
+                                            <span style="font-size:0.8rem;color:#212529">
+
+                                                <t t-if="message.author_id.street">
+                                                    <span t-field="message.author_id.street"/> <br/>
+                                                </t>
+
+                                                <t t-if="message.author_id.zip or message.author_id.city">
+                                                    <span  t-esc="message.author_id.zip + ' ' + message.author_id.city"/> <br/>
+                                                </t>
+
+                                                <t t-if="message.author_id.country_id">
+                                                    <span t-field="message.author_id.country_id"/> <br/>
+                                                </t>
+
+                                                <t t-if="message.author_id.parent_id.phone">
+                                                    T:<![CDATA[&nbsp;]]><a t-att-href="'tel:%s' % (message.author_id.parent_id.phone)" style="text-decoration: none;"><span style="color:#007BFF" t-field="message.author_id.parent_id.phone"></span></a><![CDATA[&nbsp;]]>
+                                                </t>
+                                                    
+                                                <t t-if="message.author_id.parent_id.phone and message.author_id.mobile">
+                                                    <span>•</span>
+                                                </t>
+
+                                                <t t-if="message.author_id.mobile">
+                                                    M:<![CDATA[&nbsp;]]><a t-att-href="'tel:%s' % (message.author_id.mobile)" style="text-decoration: none;"><span style="color:#007BFF" t-field="message.author_id.mobile"></span></a>
+                                                </t>
+
+                                            </span>
+                                        </p>
+                            
+                                        <p>
+                                                                                
+                                        <span style="color:black">
+                                            <a href="https://www.instagram.com/sourzing/" style="text-decoration: none;">
+                                            <span style="font-size: 10pt; color: rgb(0, 123, 255);">
+                                                <img 
+                                                border="0" 
+                                                width="27" 
+                                                height="49" 
+                                                src="/web/image/1486-a90e0446/image005.png?access_token=917ba081-f083-4986-a214-1a4a89a9e0a3" style="height:.51in;width:.281in"
+                                                />
+                                            </span>
+                                            </a>
+                                        </span>
+                                        
+                                        <span style="font-size:10.0pt;color:#212529">
+                                            <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        </span>
+                                        <span style="color:black">
+                                            <a href="https://www.linkedin.com/company/sourzing-com/" style="text-decoration: none;">
+                                            <span style="font-size: 10pt; color: rgb(0, 123, 255);">
+                                                <img 
+                                                border="0" 
+                                                width="27" 
+                                                height="49" 
+                                                src="/web/image/1488-e88a2238/image007.png?access_token=97004563-61df-4b9e-a0c5-a2a1e6c680e9" 
+                                                style="height:.51in;width:.281in"
+                                                />
+                                            </span>
+                                            </a>
+                                        </span>
+                                        
+                                        <span style="font-size:10.0pt;color:#212529">
+                                            <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        </span>
+                                        
+                                        <span style="color:black">
+                                            <a href="https://sourzing.com/" style="text-decoration: none;">
+                                            <span style="font-size: 10pt; color: rgb(0, 123, 255);">
+                                                <img 
+                                                border="0" 
+                                                width="27" 
+                                                height="49" 
+                                                src="/web/image/1489-184023b0/image009.png?access_token=2c0e36d5-0d7d-4a20-8b23-a548c2e19724" 
+                                                style="height:.51in;width:.281in"
+                                                />
+                                            </span>
+                                            </a>
+                                        </span>
+                                        
+                                        <span style="font-size:10.0pt;color:#212529">
+                                            <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><br/>
+                                            <img 
+                                            border="0" 
+                                            width="396" 
+                                            height="60" 
+                                            src="/web/image/1491-b915c0c6/image011.png?access_token=0504fedc-79c4-4b96-95d1-6d728144a7ab" 
+                                            style="height:.625in;width:4.125in"
+                                            />
+                                            <![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]><![CDATA[&nbsp;]]>
+                                        </span>
+                                        </p>
+                                        <p></p>
+                                        <p></p>
+                            
+                                    </td>
+                                    </tr>
+                                </tbody>
+                                </table>
+                                
+                                <div style="font-size:0.5rem;color:#212529;">
+                                    <p>
+                                        <span>
+                                            <span t-esc="'This is an e-mail from %s, %s' % (message.author_id.name, message.author_id.parent_id.name)"></span>
+                                        </span>
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+                                    
+                                    <p>
+                                        <span>
+                                            This e-mail and any attachments may contain privileged and confidential information intended for the addressee(s) only.<br/>
+                                            If you have received this e-mail in error, please notify the sender and delete this e-mail immediately without producing, distributing or retaining copies hereof.
+                                        </span>
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+                                    <p></p>
+                                    
+                                    <p>
+                                        <span>
+                                            Thank you.
+                                        </span>
+                                    </p>
+                                    <p></p>
+                                    <p></p>
+
+                                </div>
+                                
+                            </t>
+                            
+                            </td>
+                            
+                        </tr>
+                        
+                    </tbody>
+                    
+                    </table>
+                
+                </td>
+            
+                </tr>
+            
+            </table>
+            
+        </t>                   
+        
+      </xpath>
+
+    </template>
+          
+
+  </data>
+
+</odoo>

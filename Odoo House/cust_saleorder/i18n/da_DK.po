@@ -1,0 +1,177 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cust_saleorder
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-22 13:14+0000\n"
+"PO-Revision-Date: 2021-02-22 13:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Amount</span>\n"
+"                            <span groups=\"account.group_show_line_subtotals_tax_included\">Total Price</span>"
+msgstr ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Beløb</span>\n"
+"                                    <span groups=\"account.group_show_line_subtotals_tax_included\">Total pris</span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<span><b>Customer art no.</b></span>"
+msgstr "<span><b>Kunde art nr.</b></span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<span>Disc.%</span>"
+msgstr "<span>Rabat%</span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<span>Number</span>"
+msgstr "<span>Nummer</span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<span>Pro-Forma Invoice </span>"
+msgstr "<span>Proforma faktura </span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<span>UOM</span>"
+msgstr "<span>Enhed</span>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid ""
+"<strong class=\"title-avenirfont title-avenirfont-bold\">Customer "
+"ref.</strong>"
+msgstr "<strong class=\"title-avenirfont title-avenirfont-bold\">Kundereference</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid  "<strong class=\"title-avenirfont title-avenirfont-bold\">Delivery date</strong>"
+msgstr "<strong class=\"title-avenirfont title-avenirfont-bold\">Leveringsdato</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid  "<strong class=\"title-avenirfont title-avenirfont-bold\">Document date</strong>"
+msgstr "<strong class=\"title-avenirfont title-avenirfont-bold\">Dokumentdato</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<strong class=\"title-avenirfont title-avenirfont-bold\">Salesperson</strong>"
+msgstr "<strong class=\"title-avenirfont title-avenirfont-bold\">Sælger</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid  "<strong class=\"title-avenirfont-bold\">Customer no.</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Kundenr.</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Shipping Address:</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Leveringsadresse:</strong>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<strong>Subtotal</strong>"
+msgstr "Subtotal"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "<strong>Total</strong>"
+msgstr "Total"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Delivery terms"
+msgstr "Lev. betingelser"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Description"
+msgstr "Beskrivelse"
+
+#. module: cust_saleorder
+#: model:ir.model.fields,field_description:cust_saleorder.field_sale_order_line__display_name
+msgid "Display Name"
+msgstr "Vis navn"
+
+#. module: cust_saleorder
+#: model:ir.model.fields,field_description:cust_saleorder.field_sale_order_line__id
+msgid "ID"
+msgstr ""
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Invoicing Address:"
+msgstr "Faktureringsadresse:"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Invoicing and Shipping Address:"
+msgstr "Fakturerings- og leveringsadresse:"
+
+#. module: cust_saleorder
+#: model:ir.model.fields,field_description:cust_saleorder.field_sale_order_line____last_update
+msgid "Last Modified on"
+msgstr "Sidst ændret den"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Order confirmation"
+msgstr "Ordrebekræftelse"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Order no."
+msgstr "Ordrenr."
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_footer_document_inherit_oh
+msgid "Page: <span class=\"page\"/> / <span class=\"topage\"/>"
+msgstr "Side: <span class=\"page\"/> / <span class=\"topage\"/>"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Payment terms"
+msgstr "Betalingsbetingelser"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Quantity"
+msgstr "Antal"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Quotation"
+msgstr "Tilbud"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Quotation no."
+msgstr "Tilbudsnr."
+
+#. module: cust_saleorder
+#: model:ir.model,name:cust_saleorder.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "Salgsordrelinje"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "Unit Price"
+msgstr "Enhedspris"
+
+#. module: cust_saleorder
+#: model_terms:ir.ui.view,arch_db:cust_saleorder.report_saleorder_document_inherit_oh
+msgid "VAT"
+msgstr "SE/CVR-nr."

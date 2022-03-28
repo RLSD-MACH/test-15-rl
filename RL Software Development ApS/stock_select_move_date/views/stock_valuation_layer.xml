@@ -1,0 +1,23 @@
+<odoo>
+  <data>
+
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="stock_valuation_layer_ext_form">
+      <field name="name">stock_valuation_layer_ext.form</field>
+      <field name="model">stock.valuation.layer</field>
+      <field name="inherit_id" ref="stock_account.stock_valuation_layer_tree"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='create_date']" position="after">
+          <field name="account_move_date" />
+        </xpath>
+
+      </field>
+    </record>
+
+   
+  </data>
+</odoo>

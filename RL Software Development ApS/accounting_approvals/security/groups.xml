@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <record model="res.groups" id="bill_approver">
+            <field name="name">Bill approver</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record model="res.groups" id="payment_approver">
+            <field name="name">Approve bills for payment</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+
+        <record model="res.groups" id="bill_user">
+            <field name="name">Bill User</field>
+            <field name="users" eval="[(4,ref('base.group_user'))]"/>
+        </record>
+
+        
+        
+    </data>
+</odoo>

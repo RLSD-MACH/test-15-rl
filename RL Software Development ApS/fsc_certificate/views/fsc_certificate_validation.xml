@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_fsc_certificate_validation_tree" model="ir.ui.view">
+      <field name="name">fsc.certificate.validation.view.tree</field>
+      <field name="model">fsc.certificate.validation</field>
+      <field name="arch" type="xml">
+
+        <tree create="0" edit="0" string="Messages" sample="1" decoration-success="valid==True" decoration-danger="valid==False">
+
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="create_date" optional="show" />
+          <field name="certificate_id" optional="show" />
+          <field name="fsc_certificate" optional="show" />      
+          <field name="request_identifier" optional="show" />
+          <field name="valid" optional="hide" widget="badge"/>
+
+        </tree>
+
+      </field>
+
+    </record>
+
+    <record id="view_fsc_certificate_validation_form" model="ir.ui.view">
+      <field name="name">fsc.certificate.validation.view.form</field>
+      <field name="model">fsc.certificate.validation</field>
+      <field name="arch" type="xml">
+        <form string="" edit="0" create="0">
+
+          <sheet>
+            <notebook>
+
+              <page string="Data">
+                
+                  <group>
+
+                    <group>
+
+                      <widget name="web_ribbon" title="Not valid!" bg_color="bg-danger" attrs="{'invisible': [('valid', '=', True)]}"/>
+                      <widget name="web_ribbon" title="Valid!" bg_color="bg-success" attrs="{'invisible': [('valid', '=', False)]}"/>
+
+                      <field name="create_date" />
+
+                      <field name="certificate_id" />
+                      <field name="fsc_certificate" />          
+                      <field name="request_identifier" invisible="1"/>
+                      
+                      <field name="company_id" groups="base.group_multi_company"/>
+                      <field name="active" invisible="1"/>
+                      <field name="valid" invisible="1"/>
+                    
+                    </group>
+                    
+                  </group>                 
+
+              </page>
+
+              <page string="Recieved">
+              
+                  <group>
+
+                      <field name="full_response"/>
+                                    
+                  </group>
+                
+              </page>
+
+
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_fsc_certificate_validation_search" model="ir.ui.view">
+      <field name="name">fsc.certificate.validation.view.search</field>
+      <field name="model">fsc.certificate.validation</field>
+      <field name="arch" type="xml">
+        <search string="Search">
+
+          <field name="certificate_id" filter_domain="[('certificate_id', 'ilike', self)]"/>
+          <field name="fsc_certificate" filter_domain="[('fsc_certificate', 'ilike', self)]"/>
+                   
+          <separator/>
+
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+              <filter name="certificate_id" string="FSC Certificate" context="{'group_by': 'certificate_id'}"/>
+              <filter name="fsc_certificate" string="Certificate" context="{'group_by': 'fsc_certificate'}"/>
+          </group>
+
+        </search>
+      </field>
+    </record>
+
+    <record id="view_fsc_certificate_validation_pivot" model="ir.ui.view">
+      <field name="name">fsc.certificate.validation.view.pivot</field>
+      <field name="model">fsc.certificate.validation</field>
+      <field name="arch" type="xml">
+        <pivot string="Pivot Description">
+
+          <field name="create_date" optional="show" />
+          <field name="fsc_certificate" optional="show" />
+          <field name="certificate_id" optional="show" />
+          <field name="valid" optional="show"/>
+          
+        </pivot>
+      </field>
+    </record>
+        
+    <record id="action_fsc_certificate_validation_window" model="ir.actions.act_window">
+      <field name="name">FSC Certificate Validation</field>
+      <field name="res_model">fsc.certificate.validation</field>
+      <field name="view_mode">tree,form,pivot</field>
+    </record>
+        
+    <menuitem name="FSC Certificates Validation" id="fsc_certificate_validation_menu" parent="sale.menu_sales_config" action="action_fsc_certificate_validation_window" groups="sales_team.group_sale_manager"/>
+    
+
+  </data>
+</odoo>

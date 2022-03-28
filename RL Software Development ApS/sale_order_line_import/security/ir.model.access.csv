@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sale_order_line_import_readonly,FSC Claims,model_sale_order_line_import,sales_team.group_sale_salesman,1,1,1,0
+access_sale_order_line_import_readonly_accm,FSC Claims,model_sale_order_line_import,account.group_account_manager,1,1,1,0
+access_sale_order_line_import_readonly_accr,FSC Claims,model_sale_order_line_import,account.group_account_readonly,1,1,1,0
+access_sale_order_line_import_readonly_acci,FSC Claims,model_sale_order_line_import,account.group_account_invoice,1,1,1,0
+access_sale_order_line_import_manager,FSC Claims,model_sale_order_line_import,sales_team.group_sale_manager,1,1,1,1

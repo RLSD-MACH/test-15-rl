@@ -1,0 +1,20 @@
+<odoo>
+
+  <template id="layout_inherit" inherit_id="website.layout">
+      <xpath expr="//div[@id='wrapwrap']" position="after">
+          <script id="CookieConsent" src="https://policy.app.cookieinformation.com/uc.js" data-culture="EN" type="text/javascript"></script>
+      </xpath>
+  </template>
+
+  <template id="web_layout" name="Cookie information" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <!-- Cookieinformation Code-->
+
+            <script  t-if="website" id="CookieConsent" src="https://policy.app.cookieinformation.com/uc.js" data-culture="EN" type="text/javascript">
+            </script>
+            
+            <!-- End Cookieinformation Code -->
+        </xpath>
+    </template>
+  
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_account_move_line_filter_with_root_selection_ext_search" model="ir.ui.view">
+
+        <field name="name">view_account_move_line_filter_with_root_selection_ext.search</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_account_move_line_filter_with_root_selection"/>      
+        <field name="arch" type="xml">
+
+            <xpath expr="//filter[@name='groupby_date']" position="after">
+                <filter name="groupby_origin_reference" string="Origin reference" context="{'group_by': 'origin_reference'}"/>
+            </xpath>
+
+        </field>
+
+    </record>  
+</odoo>

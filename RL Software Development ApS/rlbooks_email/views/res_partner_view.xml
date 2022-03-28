@@ -1,0 +1,50 @@
+<odoo>
+
+  <data>
+   
+   <!-- res_partner.vies.messages action window -->
+    <!-- <record id="res_partner_vies_messages_action" model="ir.actions.act_window">
+
+      <field name="name">VIES Messages</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">vies.message</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('partner_id', '=', active_id)]</field>
+      <field name="context">{'search_default_partner_id': active_id,'default_partner_id': active_id}</field>
+
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+         
+        </p>
+        <p>
+         
+        </p>
+      </field>
+
+    </record>  -->
+
+    <record model="ir.ui.view" id="rlbooks_email_res_partner_ext_form">
+      <field name="name">rlbooks_email.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='website']" position="before">
+    
+          <field name="email_cc" widget="email"/>
+          <field name="contact_cc_ids" widget="many2many_tags_email" options="{'no_create':True, 'no_open': True}" placeholder="Add contacts to notify CC..." context="{'force_email':True, 'show_email':True}"/>
+          <field name="email_bcc" widget="email"/>
+           <field name="contact_bcc_ids" widget="many2many_tags_email" options="{'no_create':True, 'no_open': True}" placeholder="Add contacts to notify BCC..." context="{'force_email':True, 'show_email':True}"/>
+                        
+        </xpath>
+        
+
+      </field>
+    </record>
+    
+
+  </data>
+
+</odoo>

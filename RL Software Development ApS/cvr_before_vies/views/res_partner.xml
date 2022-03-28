@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+      
+    <record model="ir.ui.view" id="view_cvr_vies_res_partner_ext_form">
+      <field name="name">cvr.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+        
+        <xpath expr="//label[@name='cvr_lable']" position="replace"></xpath>
+        <xpath expr="//button[@name='control_vat_on_cvr']" position="replace"></xpath>
+        <xpath expr="//button[@name='control_vat_on_vies']" position="replace">
+        
+          <button 
+                
+            name="control_vat_on_cvr_then_vies" 
+            type="object" icon="fa-eye" 
+            class="oe_read_only" 
+            help="Check if the VAT-number is valid on CVR or VIES" 
+            attrs="{'invisible': ['|', ('vat','=', False), ('parent_id','!=',False)]}" 
+            groups="account.group_account_readonly"
+              
+          />
+
+        </xpath>
+
+        <xpath expr="//field[@name='vat']" position="replace">
+        
+          <field 
+
+            name = "vat" 
+            placeholder="e.g. BE0477472701" 
+            attrs="{'readonly': [('parent_id','!=',False)]}"
+
+            decoration-warning ="last_vies_message_id == False and last_cvr_message_id == False" 
+            decoration-danger = "(last_vies_message_valid==False and last_vies_message_id != False) or (last_cvr_message_valid==False and last_cvr_message_id != False)"
+            decoration-success = "last_vies_message_valid==True or last_cvr_message_valid==True"
+            
+          />
+
+        </xpath>
+        
+      </field>
+
+    </record>
+       
+  </data>
+
+</odoo>

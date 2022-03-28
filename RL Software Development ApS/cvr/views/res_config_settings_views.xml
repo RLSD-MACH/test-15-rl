@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="view_res_config_settings_view_form">
+      <field name="name">res.config.settings.view.form.inherit.cvr</field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[hasclass('settings')]" position="inside">
+
+          <div class="app_settings_block" data-string="CVR" string="CVR" data-key="cvr" groups="account.group_account_manager">
+            
+            <h2>CVR</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+
+                <label string="CVR User ID" for="cvr_user_id"/>
+                <field name="cvr_user_id"/>
+
+                <label string="CVR Password" for="cvr_password"/>
+                <field name="cvr_password" type="password"/>
+
+                <label for="cvr_days_between_validations"/>
+                <field name="cvr_days_between_validations"/>
+
+                <group>
+                
+                  <group>
+                    <field name="cvr_run_auto_contacts"/>
+                  </group>
+
+                </group>
+                <group>
+                
+                  <group>
+                    <field name="cvr_run_auto_sales_invoice"/>
+                  </group>
+
+                </group>
+
+                <group>
+                
+                  <group>
+                    <field name="cvr_run_auto_sale_order"/>
+                  </group>
+
+                </group>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_cvr_res_config_settings_window">
+      <field name="name">Settings</field>
+      <field name="res_model">res.config.settings</field>
+      <field name="view_id" ref="view_res_config_settings_view_form"/>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+      <field name="context">{'module':'cvr'}</field>
+    </record>
+
+</odoo>

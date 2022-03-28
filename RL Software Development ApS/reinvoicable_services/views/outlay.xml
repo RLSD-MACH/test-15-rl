@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+<!-- outlay tree view -->
+<record id="view_outlay_tree" model="ir.ui.view">
+  <field name="name">outlay.view.tree</field>
+  <field name="model">outlay</field>
+  <field name="arch" type="xml">
+    <tree create="0" edit="0" string="Outlays" sample="1" decoration-muted="open_balance==0" decoration-success="open_balance!=0">
+
+      <!-- Add your fields here -->
+      <field name="id" optional="hide" readonly="1"/>
+       
+      <field name="name" optional="show" />
+      <field name="date" optional="show" />
+      <field name="expected_date" optional="show" />
+      <field name="account_move_partner_id" optional="show" />
+      <field name="partner_ids" optional="show" widget="many2many_tags"/>
+      <field name="new_description" optional="show" />    
+      <field name="cost_price_total" optional="show" sum="Total cost"/>  
+      <field name="open_balance" optional="show" sum="Total open"/>
+      <field name="user_id" optional="show" />
+
+    </tree>
+  </field>
+</record>
+
+<record id="action_invoice_outlays" model="ir.actions.act_window">
+
+  <field name="name">Outlays</field>
+  <field name="type">ir.actions.act_window</field>
+  <field name="res_model">outlay</field>
+  <field name="view_mode">tree,form</field>
+  <field name="domain">[('account_move_id', '=', active_id)]</field>
+  <!-- <field name="context">{'search_default_partner_id': active_id,'default_partner_id': active_id}</field> -->
+
+  <field name="help" type="html">
+    <p class="oe_view_nocontent_create">
+      
+    </p>
+    <p>
+      
+    </p>
+  </field>
+
+</record> 
+
+<!-- outlay form view -->
+<record id="view_outlay_form" model="ir.ui.view">
+
+  <field name="name">outlay.view.form</field>
+
+  <field name="model">outlay</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="0">
+
+      <sheet>
+
+        <div name="button_box" class="oe_button_box">
+
+          <button name="%(act_open_outlay_select_account_move_view)d" type="action"
+                  context="{'default_outlay_id': active_id}" attrs="{'invisible': [('open_balance', '=', 0)]}"
+                  class="oe_stat_button" groups="account.group_account_readonly"
+                  icon="fa-cube"
+                  >
+              
+            <span class="o_stat_text">Combine with invoice</span>
+              
+          </button>
+
+          <button name="%(act_open_outlay_expense_view)d" type="action"
+                  context="{'default_outlay_id': active_id}" attrs="{'invisible': [('open_balance', '=', 0)]}"
+                  class="oe_stat_button" groups="account.group_account_readonly"
+                  icon="fa-cube"
+                  >
+              
+            <span class="o_stat_text">Expence/Lost</span>
+              
+          </button>
+
+        </div> 
+
+        <notebook>
+
+          <page string="Details">
+            
+            <widget name="web_ribbon" title="Done!" bg_color="bg-success" attrs="{'invisible': [('open_balance', '!=', 0)]}"/>
+
+              <group>
+
+                <group>
+
+                  <!-- Add your fields here -->
+                  <field name="account_move_id"/>
+
+                  <field name="date"/>
+                  <field name="expected_date"/>
+                  
+                  <field name="account_move_partner_id"/>            
+                  <field name="partner_ids" widget="many2many_tags" options="{'no_create':true}"/>
+                  <field name="new_description"/>
+                  
+                  <field name="user_id" options="{'no_create':true, 'no_edit':true}"/>
+                  <field name="company_id" groups="base.group_multi_company"/>
+                  <field name="active" invisible="1"/>
+
+                  
+                
+                </group>
+                
+                <group>
+                  
+                  <field name="product_uom_id"/>
+                  <field name="quantity"/>
+                  <field name="cost_price_unit"/>
+                  <field name="cost_price_total"/>
+                  <field name="open_balance"/>
+                  
+                </group>
+                
+                <span>Comment</span>
+                <field name="comment"/>
+              </group>
+              
+              
+          </page>
+
+          <page string="Manual cost specification">
+
+            <field name="specification_ids" context="{'default_outlay_id': id}" nolabel="1">
+
+              <tree editable="bottom" string="Cost specification" default_order="sequence">
+
+                <field name="sequence" widget="handle"/>
+
+                <field name="outlay_id" invisible="1"/>
+                <field name="date" optional="show"/>
+                <field name="product_id" optional="show"/>
+                <field name="name" optional="show"/>  
+                <field name="quantity" optional="show"/>
+                <field name="product_uom_id" optional="show"/>
+                <field name="cost_price_unit" optional="show"/>
+                <field name="cost_price_total" optional="show" sum="Total cost"/>   
+                <field name="sales_price_unit" optional="hide"/>
+                <field name="sales_price_total" optional="hide" sum="Total sales"/>                             
+                <field name="note" optional="show"/>
+                <field name="partner_id" optional="show"/>
+                <field name="account_move_line_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}" domain="[('move_id.move_type','in',['out_refund','out_invoice']),('company_id','=',company_id),('exclude_from_invoice_tab','=',False),('parent_state','=','posted')]"/>
+                <field name="account_move_id" optional="hide"/>
+
+                <field name="company_id" invisible="1"/>
+                <field name="active" invisible="1"/>
+                
+              </tree>
+
+            </field>
+
+          </page>
+
+          <page string="All Bookkeeping entries">
+
+            <field name="account_move_line_ids"/>
+
+          </page>
+
+          <page string="Balance">
+
+            <field name="balance_account_move_line_ids"/>
+
+          </page>
+
+          <page string="Entries">
+
+            <field name="outlay_entry_ids"/>
+
+          </page>
+
+          
+        </notebook>
+
+      </sheet>
+
+      <!-- Attachment preview -->
+      <div class="o_attachment_preview" />
+      
+      <div class="oe_chatter">
+
+        <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this order to automatically track the events associated to tasks and issues of this order." groups="base.group_user"/>
+        <field name="activity_ids"/>
+        <field name="message_ids"/>
+
+      </div>
+
+    </form>
+
+  </field>
+
+</record>
+
+<!-- outlay search view -->
+<record id="view_outlay_search" model="ir.ui.view">
+  <field name="name">outlay.view.search</field>
+  <field name="model">outlay</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="partner_ids" filter_domain="[('partner_ids', 'ilike', self)]"/>
+      <field name="product_id" filter_domain="[('product_id', 'ilike', self)]"/>
+      <field name="account_move_id" filter_domain="[('account_move_id', 'ilike', self)]"/>
+      
+      <separator/>
+        <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+      <separator/>
+        <filter string="With a balance" name="open_balances" domain="[('open_balance', '!=', '0')]"/>
+        <filter string="No balance" name="no_open_balances" domain="[('open_balance', '=', '0')]"/>
+      <separator/>
+        <filter string="My outlays" name="mine_person" domain="[('user_id', '=', uid)]"/>
+        <filter string="Others" name="other_person" domain="[('user_id', '!=', uid)]"/>
+        <filter string="Missing responsible" name="missing_person" domain="[('user_id', '=', False)]"/>
+      <separator/>
+
+        <filter string="Credit Notes" name="creditnotes" domain="[('cost_price_total', '&lt;', '0')]"/>
+        <filter string="Invoices" name="invoices" domain="[('cost_price_total', '&gt;=', '0')]"/>
+
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          <filter name="partner_ids" string="Partner" context="{'group_by': 'partner_ids'}"/>
+          <filter name="product_id" string="Product" context="{'group_by': 'product_id'}"/>
+          <filter name="account_move_id" string="Move" context="{'group_by': 'account_move_id'}"/>
+          <filter name="user_id" string="User" context="{'group_by': 'user_id'}"/>
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- outlay pivot view -->
+<record id="view_outlay_pivot" model="ir.ui.view">
+  <field name="name">outlay.view.pivot</field>
+  <field name="model">outlay</field>
+  <field name="arch" type="xml">
+    <pivot string="Pivot Description">
+      <!-- Add your fields here -->
+      <field name="create_date" optional="show" />
+      <field name="partner_ids" optional="show" />
+      
+    </pivot>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="action_outlay_window">
+    <field name="name">Outlay</field>
+    <field name="res_model">outlay</field>
+    <field name="view_mode">tree,form,pivot</field>
+  </record>
+
+</data>
+</odoo>

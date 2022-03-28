@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="portal_my_home_menu_shipments" name="Portal layout : shipments menu" inherit_id="portal.portal_breadcrumbs" priority="50">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            
+            <li t-if="page_name == 'shipment' or shipping_order" t-attf-class="breadcrumb-item #{'active ' if not shipping_order else ''}">
+                
+                <a t-if="shipping_order" t-attf-href="/my/shipments?{{ keep_query() }}">Shipments</a>
+                <t t-else="">Shipments</t>
+                
+            </li>
+            <li t-if="shipping_order" class="breadcrumb-item active">
+                <span t-field="shipping_order.state"/>
+                <t t-esc="shipping_order.name"/>
+            </li>
+            
+        </xpath>
+    </template>
+    
+    <template id="portal_my_home_shipments" name="Show Shipments" customize_show="True" inherit_id="portal.portal_my_home" priority="100">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Shipments</t>
+                <t t-set="url" t-value="'/my/shipments'"/>
+                <t t-set="placeholder_count" t-value="'shipment_count'"/>
+            </t>
+            
+        </xpath>
+    </template>
+    
+    <template id="portal_my_shipments" name="My Shipments">
+        
+        <t t-call="portal.portal_layout">
+            
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                
+                <t t-set="title">Shipments</t>
+                
+            </t>            
+            <t t-if="not shipments">
+                
+                <p>There are currently no shipments for your account.</p>
+                
+            </t>
+            
+            <t t-if="shipments" t-call="portal.portal_table">
+                
+                <thead>
+                    
+                    <tr class="active">
+                        
+                        <th>Shipment #</th>
+                        <th>Shipped</th>
+                        <th>Received</th>
+                        <th title="Estimated departure time">ETD</th>
+                        <th title="Estimated time of arrival">ETA</th>                        
+                        <th title="Estimated Travel Time">ETT</th>
+                        <th>Trackingnumber</th>
+                        <th>Container</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        
+                    </tr>
+                    
+                </thead>
+                
+                <t t-foreach="shipments" t-as="shipment">
+                    
+                    <tr>
+                        
+                        <td><a t-att-href="shipment.get_portal_url()"><t t-esc="shipment.name"/></a></td>
+                        
+                        <td class="text-right">
+                            <span t-field="shipment.shipped" t-options="{'widget': 'date'}"/>
+                        </td>
+                        
+                        <td class="text-right">
+                            <span t-field="shipment.received" t-options="{'widget': 'date'}"/>
+                        </td>
+                        
+                        <td class="text-right">
+                            <span t-field="shipment.etd" t-options="{'widget': 'date'}"/>
+                        </td>
+                        
+                        <td class="text-right">
+                            <span t-field="shipment.eta" t-options="{'widget': 'date'}" attrs="{'invisible':[('state', 'in', ('received', 'cancel'))]}"/>
+                        </td>                                               
+                        
+                        <td class="text-right">
+                            <span t-field="shipment.ett" attrs="{'invisible':[('state', 'in', ('received', 'cancel'))]}"/>
+                        </td>
+                        
+                        <td class="text-left">
+                            <span t-field="shipment.trackingnumber"/>
+                        </td>
+                        
+                        <td class="text-left">
+                            <span t-field="shipment.container"/>
+                        </td>
+                        
+                        <td class="text-center">
+                            <span t-if="shipment.state == 'received'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/> Done
+                            </span>
+                            
+                            <span t-if="shipment.state == 'underway'"  class="badge badge-pill badge-info">
+                                <i class="fa fa-random" role="img" aria-label="En route" title="En route"/> En route
+                            </span>
+                            
+                            <span t-if="shipment.state == 'cancel'"  class="badge badge-pill badge-danger">
+                                <i class="fa fa-fw fa-ban" role="img" aria-label="Cancelled" title="Cancelled"/> Cancelled
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            
+                            <span t-if="shipment.shipping_type == 'plain'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-plane" role="img" aria-label="Air" title="Air"/> Air
+                            </span>
+                            
+                            <span t-if="shipment.shipping_type == 'ship'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-ship" role="img" aria-label="Sea" title="Sea"/> Sea
+                            </span>
+                            
+                            <span t-if="shipment.shipping_type == 'truck'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-truck" role="img" aria-label="Land" title="Land"/> Land
+                            </span>
+                            
+                            <span t-if="shipment.shipping_type == 'internal'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-exchange" role="img" aria-label="Internal" title="Internal"/> Internal
+                            </span>
+                            
+                            <span t-if="shipment.shipping_type == 'other'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-refresh" role="img" aria-label="Other" title="Other"/> Other
+                            </span>
+                        </td>
+                        
+                    </tr>
+                    
+                </t>
+            </t>
+        </t>
+        
+    </template>
+    
+</odoo>

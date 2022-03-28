@@ -1,0 +1,80 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="login_tree">
+      <field name="name">mysql.login.tree</field>
+      <field name="model">mysql.login</field>
+      <field name="arch" type="xml">
+        <tree string="Login" sample="1">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>
+          <field name="name"/>
+          <field name="user"/>
+          <field name="active" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="login_select">
+      <field name="name">mysql.login.select</field>
+      <field name="model">mysql.login</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+          <field name="user" filter_domain="[('name', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="login_form">
+      <field name="name">mysql.login.form</field>
+      <field name="model">mysql.login</field>
+      <field name="arch" type="xml">
+        <form string="Login">
+          <header>
+
+            <button name="action_get_tables" type="object" string="Get tables" class="oe_highlight" />
+            
+          </header>
+          <sheet>
+
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              
+              <field name="name"/>
+
+              <group>
+                  <group>
+                      
+                      <field name="user" invisible="0"/>
+                      <field name="password" invisible="0" password="True"/>
+                      <field name="host" invisible="0"/>
+                      <field name="database" invisible="0"/>
+                      <field name="active" invisible="1"/>
+                      <field name="company_id" invisible="1"/>                        
+                  </group>
+              </group>                  
+              
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="action_mysql_login_window">
+      <field name="name">Login</field>
+      <field name="res_model">mysql.login</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

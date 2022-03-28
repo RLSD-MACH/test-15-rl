@@ -1,0 +1,24 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="res_partner_ext_form">
+      <field name="name">res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <group name="misc" position="inside">
+          
+            <field name="portal_access_to_stock_from_ids" options="{'no_create': True, 'no_open': False}"  widget="many2many_tags"/>
+            
+        </group>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

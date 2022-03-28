@@ -1,0 +1,97 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* cust_delivery_slip
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-02-25 12:28+0000\n"
+"PO-Revision-Date: 2021-02-25 12:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Customer no.</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Kundenr.</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Customer reference</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Kunde reference</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Delivery date</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Leveringsdato</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Delivery no.</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Leverancenr</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Delivery terms</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Lev. betingelser</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Document date</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Bilagsdato</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Order no.</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Ordrenr.</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">Salesperson</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Sælger</strong>"
+
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong class=\"title-avenirfont-bold\">VAT</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">SE/CVR-nr.</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong>Customer art no.</strong>"
+msgstr "<strong>Kunde art nr.</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong>Description</strong>"
+msgstr "<strong>Beskrivelse</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong>Number</strong>"
+msgstr "<strong>Nummer</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Antal</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "<strong>Units</strong>"
+msgstr "<strong>Enheder</strong>"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "Delivery note"
+msgstr "Følgeseddel"
+
+#. module: cust_delivery_slip
+#: model_terms:ir.ui.view,arch_db:cust_delivery_slip.report_delivery_document_inherit_oh
+msgid "Lot/Serial Number"
+msgstr "Lot/serie nummer"

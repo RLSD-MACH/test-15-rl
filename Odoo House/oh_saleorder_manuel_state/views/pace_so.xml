@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    	<record model="ir.ui.view" id="pace_sale_manualform">
+			<field name="name">pace_sale_manualform</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form"/>
+			<field name="arch" type="xml">
+				<button name="action_draft" position="after">
+					<button name="action_manual_inv_status" string="Set to Invoiced" type="object" attrs="{'invisible': ['|',('state','not in','sale'),('invoice_status', 'not in', ['to invoice','no'])]}" />
+				</button>
+			</field>
+		</record>	
+    </data>
+</odoo>

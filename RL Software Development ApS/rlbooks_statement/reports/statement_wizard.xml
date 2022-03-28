@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="rlbooks_statement.report_print" model="ir.actions.report">
+
+		<field name="name">Partner statement</field>
+		<field name="model">rlbooks_statement.report.print</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">rlbooks_statement.report_partner_statement</field>
+		<field name="report_file">rlbooks_statement.report_partner_statement</field>
+		<field name="print_report_name">'Statement from %s to %s.pdf' % (object.date_start.strftime('%d-%m-%Y'), object.date_end.strftime('%d-%m-%Y'))</field>
+		
+		<field name="binding_model_id" ref="model_rlbooks_statement_report_print"/>
+		<field name="binding_type">report</field>
+		<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard"/>
+			
+	</record>
+			
+	<data>			
+
+		<record id="rlbooks_statement.report_wizard_view" model="ir.ui.view">
+
+			<field name="name">Statement</field>
+			<field name="model">rlbooks_statement.report.wizard</field>
+
+			<field name="arch" type="xml">
+
+				<form string="Create statement">
+
+					<group>
+						<group>
+
+							<field name="date_start"/>
+
+						</group>
+						<group>
+
+							<field name="date_end"/>
+
+						</group>
+					</group>
+
+					<group>
+
+						<field name="type"  widget="radio"/>
+						<field name="partner_ids" widget="many2many_tags" options="{'no_create':true}"/>
+						<field name="company_id" invisible="1"/>
+
+					</group>
+
+					<footer>
+						<button string="Save and print" type="object" name="action_print_save_pdf"/>		
+						<button string="Send by mail" type="object" name="action_send_statement"/>											
+						<button string="Cancel" special="cancel"/>
+					</footer>
+
+				</form>
+
+			</field>
+			
+		</record>
+
+		<record id="rlbooks_statement.report_wizard_action" model="ir.actions.act_window">
+			<field name="name">Statement</field>
+			<field name="res_model">rlbooks_statement.report.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="rlbooks_statement.report_wizard_view"/>
+			<field name="target">new</field>
+		</record>
+
+		<record model="ir.ui.view" id="rlbooks_statement.partner_ext_form">
+
+			<field name="name">rlbooks.statement.partner_ext.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form"/>
+			<field name="mode">extension</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+
+				<xpath expr="//sheet" position="before">
+					<header>
+						
+						<button name="%(rlbooks_statement.report_wizard_action)d" type="action" string="Statement" class="oe_highlight oe_read_only" context="{'default_partner_ids': [id]}" groups="account.group_account_readonly"/>
+						<button name="%(rlbooks_statement.bonus_report_wizard_action)d" type="action" string="Bonus Statement" class="oe_highlight oe_read_only" context="{'default_partner_id': id}" attrs="{'invisible': [('property_bonus_schema','=', False)]}" groups="account.group_account_readonly"/>
+
+					</header>
+				</xpath>	
+					
+				<group name="sale" position="inside">
+          
+					<field name="property_bonus_schema" widget="boolean_toggle" groups="account.group_account_manager"/>
+					
+				</group>
+
+				<xpath expr="//page[@name='sales_purchases']" position="after">
+          
+					<page name="bonus" string="Bonus" attrs="{'invisible': [('property_bonus_schema','=', False)]}" groups="account.group_account_readonly">
+						<group name="container_row_2">
+						
+							<group name="misc" string="Settings">
+
+								<field name="property_bonus_goods" widget="percentage"/>
+								<field name="property_bonus_consus" widget="percentage"/>
+								<field name="property_bonus_services" widget="percentage" />
+
+							</group>
+							
+							
+						</group>
+					</page>
+					
+				</xpath>
+
+        	</field>
+
+    	</record>
+	
+	</data>
+</odoo>
+

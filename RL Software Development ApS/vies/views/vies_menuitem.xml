@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    
+    <menuitem 
+        name="VIES" 
+        id="menu_vies" 
+        sequence="120"
+        web_icon="vies,static/description/icon.png"
+    >
+
+      <menuitem name="Messages" id="menu_message" action="action_vies_message_window" groups="account.group_account_readonly" sequence="10"/>
+      
+      <menuitem name="Configuration" id="menu_settings" sequence="100" groups="account.group_account_manager">
+      
+        <menuitem name="Settings" id="menu_res_config_settings" action="action_vies_res_config_settings_window" groups="base.group_system" sequence="1"/>
+
+        <menuitem name="Re-validate all periodically" id="menu_action_refresh_all_vies" action="action_refresh_all_vies" groups="base.group_system" sequence="2"/>
+
+        <menuitem name="Force Re-validate all" id="menu_action_refresh_all_vies_force" action="action_refresh_all_vies_force" groups="base.group_system" sequence="3"/>
+      
+      </menuitem>
+
+    </menuitem>
+
+  </data>
+</odoo>

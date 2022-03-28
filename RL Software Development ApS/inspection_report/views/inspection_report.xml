@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_inspection_report_tree" model="ir.ui.view">
+      <field name="name">inspection.report.view.tree</field>
+      <field name="model">inspection.report</field>
+      <field name="arch" type="xml">
+        <tree create="1" edit="1" string="Inspection reports" sample="1" decoration-success="state in ['coditional_approved','approved']" decoration-danger="state=='rejected'">
+
+          <!-- Add your fields here -->
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="create_date" optional="hide"/>
+          <field name="date" optional="show"/>
+          <field name="partner_id" optional="show" />
+          <field name="purchase_order_id" optional="show" />
+          <field name="purchase_order_ids" optional="show" widget="many2many_tags"/>
+          <field name="product_ids" optional="show" />      
+          <field name="user_id" optional="show" />      
+          <field name="state" optional="hide" widget="badge"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_inspection_report_form" model="ir.ui.view">
+      <field name="name">inspection.report.view.form</field>
+      <field name="model">inspection.report</field>
+      <field name="arch" type="xml">
+        <form string="" edit="1" create="1">
+
+          <header>
+
+            <field name="state" widget="statusbar" statusbar_visible="draft,approved,coditional_accepted,rejected" clickable="1"/>
+            
+          </header>
+
+          <sheet>
+                            
+            <group>
+
+              <group>
+
+                <widget name="web_ribbon" title="Rejected!" bg_color="bg-danger" attrs="{'invisible': ['|', ('state', '!=', 'rejected'),('create_date', '=', False)]}"/>
+                <widget name="web_ribbon" title="Approved!" bg_color="bg-success" attrs="{'invisible': ['|',('state', 'not in', ['coditional_accepted','approved']), ('create_date', '=', False)]}"/>
+
+                <!-- Add your fields here -->
+                <field name="create_date" attrs="{'invisible': [('create_date', '=', False)]}"/>
+                <field name="date" required="1"/>
+                <field name="purchase_order_id" options="{'no_create': True, 'no_open': False}" required="1"/>  
+                <field name="purchase_order_ids" options="{'no_create': True, 'no_open': False}" optional="show" widget="many2many_tags" required="1"/>              
+                <field name="partner_id" widget="many2one_avatar" options="{'no_create': True, 'no_open': False}"/>  
+                
+              </group>
+              <group>
+                
+                <field name="user_id" widget="many2one_avatar_user" options="{'no_create': True, 'no_open': False}" required="1"/>          
+                <field string="Report" name="message_main_attachment_id"/>  
+                
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" invisible="1" attrs="{'invisible': [('create_date', '=', False)]}"/>
+              
+              </group>
+              
+            </group>
+                       
+            <group name="product_section">
+              
+              <field name="product_ids" widget="many2many" options="{'no_create': True, 'no_open': False}" required="1">
+                  
+                <tree create="0">
+                  
+                  <field name="default_code" />
+                  <field name="name" />
+                  
+                </tree>
+                
+              </field>
+                
+            </group>
+
+
+
+            <!-- Attachment preview -->
+            <div class="o_attachment_preview"/>
+            
+            <!-- Chatter -->
+            <div class="oe_chatter">
+                <field name="message_follower_ids" groups="base.group_user"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+                  
+          </sheet>
+
+        </form>
+      </field>
+    </record>
+
+    <record id="view_inspection_report_search" model="ir.ui.view">
+      <field name="name">inspection.report.view.search</field>
+      <field name="model">inspection.report</field>
+      <field name="arch" type="xml">
+        <search string="Search">
+
+          <field name="purchase_order_id" filter_domain="[('purchase_order_id', 'ilike', self)]"/>
+          <field name="product_ids" filter_domain="[('product_ids', 'ilike', self)]"/>
+          
+          <separator/>
+
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+              <filter name="purchase_order_id" string="Purchase Order" context="{'group_by': 'purchase_order_id'}"/>
+          </group>
+
+        </search>
+      </field>
+    </record>
+
+    <record id="view_inspection_report_pivot" model="ir.ui.view">
+      <field name="name">inspection.report.view.pivot</field>
+      <field name="model">inspection.report</field>
+      <field name="arch" type="xml">
+        <pivot string="Pivot Description">
+          <!-- Add your fields here -->
+          <field name="create_date" optional="show" />
+          <field name="partner_id" optional="show" />
+          <field name="purchase_order_id" optional="show" />
+          <field name="state" optional="show"/>
+          
+        </pivot>
+      </field>
+    </record>
+
+  <!-- actions opening views on models -->
+      
+    <record model="ir.actions.act_window" id="action_inspection_reports_window">
+      <field name="name">Inspection report</field>
+      <field name="res_model">inspection.report</field>
+      <field name="view_mode">tree,form,pivot</field>
+    </record>
+
+  </data>
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    
+    <record id="action_product_template_inspection_reports_count" model="ir.actions.act_window">
+
+        <field name="name">Inspection reports FSC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">inspection.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('product_ids', 'in', [active_id])]</field>
+        <field name="context">{'order': 'purchase_order_id'}</field>
+
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            
+            </p>
+            <p>
+            
+            </p>
+        </field>
+        
+    </record> 
+
+    <record id="view_product_template_only_form_view_inherit" model="ir.ui.view">
+
+        <field name="name">product_template_ext.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+                      
+            <xpath expr="//div[@name='button_box']" position="inside">
+           
+                <button type="action" name="%(action_product_template_inspection_reports_count)d" icon="fa-eye" class="oe_stat_button" attrs="{'invisible': [('inspection_reports_count', '=', 0)]}" groups="purchase.group_purchase_user">
+                    <field string="IR" name="inspection_reports_count" widget="statinfo"/>
+                </button>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>

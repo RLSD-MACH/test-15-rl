@@ -1,0 +1,24 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_imp_purchase_res_partner_ext_form">
+      <field name="name">rlbooks_imp_purchase.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <group name="purchase" position="inside">
+          
+            <field name="property_supplier_incoterm_id" string="Incoterm" options="{'no_create': True, 'no_open': False}"  widget="selection"/>
+
+        </group>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

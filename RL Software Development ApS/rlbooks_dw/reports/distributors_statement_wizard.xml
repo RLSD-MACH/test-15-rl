@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record id="rlbooks_dw.distributors_statement_print" model="ir.actions.report">
+
+		<field name="name">Distributors Statement</field>
+		<field name="model">rlbooks_dw.distributors_statement.print</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">rlbooks_dw.distributors_statement</field>
+		<field name="report_file">rlbooks_dw.distributors_statement</field>
+		<field name="print_report_name">'Distributors Statement from %s to %s' % (object.date_start.strftime('%d-%m-%Y'), object.date_end.strftime('%d-%m-%Y'))</field>
+		
+		<field name="binding_model_id" ref="model_rlbooks_dw_distributors_statement_print"/>
+		<field name="binding_type">report</field>
+		<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard"/>
+			
+	</record>
+			
+	<data>
+		
+		<record id="rlbooks_dw.distributors_statement_wizard_view" model="ir.ui.view">
+			<field name="name">Distributors Statement</field>
+			<field name="model">rlbooks_dw.distributors_statement.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Create Distributors Statement">
+
+					<group>
+						<group>
+							
+							<field name="date_start" widget="daterange" options="{'related_end_date': 'date_end'}"/>
+						
+						</group>
+						<group>
+
+							<field name="date_end" widget="daterange" options="{'related_start_date': 'date_start'}"/>
+
+						</group>
+					</group>
+
+					<group>
+
+						<field name="type"/>
+						<field name="user_id" options="{'no_create':True, 'no_open': True}"/>
+						<field name="languages_id" options="{'no_create':True, 'no_open': True}"/>
+						<field name="currency_id" options="{'no_create':True, 'no_open': True}"/>	
+						<field name="company_id" invisible="1"/>
+
+					</group>
+
+					<footer>
+						<button string="Save and print" type="object" name="action_print_save_pdf"/>		
+						<!-- <button string="Send by mail" type="object" name="action_send_statement"/>	 -->
+						<button string="Cancel" special="cancel"/>
+					</footer>
+
+				</form>
+			</field>
+		</record>
+
+		<record id="rlbooks_dw.distributors_statement_wizard_action" model="ir.actions.act_window">
+			<field name="name">Distributors Statement</field>
+			<field name="res_model">rlbooks_dw.distributors_statement.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="rlbooks_dw.distributors_statement_wizard_view"/>
+			<field name="target">new</field>
+		</record>
+
+		<menuitem name="Distributors Statement" id="rlbooks_dw_distributors_statement_menu" parent="account.account_reports_management_menu" action="rlbooks_dw.distributors_statement_wizard_action" sequence="110"/>
+	
+	
+	</data>
+
+</odoo>
+

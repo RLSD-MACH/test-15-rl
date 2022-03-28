@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="ship_wizard_form" model="ir.ui.view">
+        <field name="name">ship_wizard_form</field>
+        <field name="model">shipping.order.ship.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Shipment departed">
+
+                <group>
+
+                    <field name="date" invisible="0"/>
+
+                </group>
+                
+                <field name="order_id" invisible="1"/>
+                
+                <footer>
+
+                    <button name="action_underway" string="Submit" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="ship_wizard_action" model="ir.actions.act_window">
+        <field name="name">Register shipment as departed</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">shipping.order.ship.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ship_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+</odoo>

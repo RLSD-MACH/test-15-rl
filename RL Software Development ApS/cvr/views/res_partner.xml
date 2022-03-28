@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+   
+   <!-- res_partner.cvr.messages action window -->
+    <record id="action_res_partner_cvr_messages" model="ir.actions.act_window">
+
+      <field name="name">CVR Messages</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">cvr.message</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('partner_id', '=', active_id)]</field>
+      <field name="context">{'search_default_partner_id': active_id,'default_partner_id': active_id}</field>
+
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+         
+        </p>
+        <p>
+         
+        </p>
+      </field>
+
+    </record> 
+
+    <record model="ir.ui.view" id="view_cvr_res_partner_ext_form">
+      <field name="name">cvr.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+    
+          <button class="oe_stat_button" icon="fa-euro" type="action" name="%(action_res_partner_cvr_messages)d" attrs="{'invisible': [('cvr_message_count', '=', 0)]}" groups="account.group_account_readonly">
+              
+            <div class="o_form_field o_stat_info" groups="account.group_account_readonly">
+              
+              <span class="o_stat_value">
+                  <field name="cvr_message_count" widget="integer"/>
+              </span>
+              
+              <span class="o_stat_text">CVR</span>
+              
+            </div>
+              
+          </button>
+          
+        </xpath>
+        
+        <xpath expr="//field[@name='vat']" position="replace">
+          
+            <label name="cvr_lable" for="vat"/>
+            <div class="o_row">
+              
+                <field 
+                  name="vat" 
+                  placeholder="e.g. BE0477472701" 
+                  attrs="{'readonly': [('parent_id','!=',False)]}"
+
+                  decoration-warning ="last_cvr_message_id == False" 
+                  decoration-danger = "last_cvr_message_valid==False and last_cvr_message_id != False"
+                  decoration-success = "last_cvr_message_valid==True"
+                  
+                />
+                
+                <button 
+                
+                  name="control_vat_on_cvr" 
+                  type="object" icon="fa-eye" 
+                  class="oe_read_only" 
+                  help="Check if the VAT-number is valid on CVR" 
+                  attrs="{'invisible': ['|', ('vat','=', False), ('parent_id','!=',False)]}" 
+                  groups="account.group_account_readonly"
+                  
+                />
+            
+            </div>
+          
+        </xpath>
+        
+        <xpath expr="//field[@name='category_id']" position="after">
+
+          <field 
+            name="last_cvr_message_id" 
+            attrs="{'invisible': [('last_cvr_message_id','=',False)]}" 
+            groups="account.group_account_readonly"
+            decoration-warning ="last_cvr_message_id == False" 
+            decoration-danger = "last_cvr_message_valid==False and last_cvr_message_id != False"
+            decoration-success = "last_cvr_message_valid==True"
+            widget="badge"
+          />
+          <field name="last_cvr_message_valid" invisible="1" groups="account.group_account_readonly"/>
+          <field name="last_cvr_message_date" invisible="1" groups="account.group_account_readonly"/>
+          <!-- <field name="status_cvr" attrs="{'invisible': [('last_cvr_message_id','=',False)]}"  groups="account.group_account_readonly"/> -->
+          
+        </xpath>
+
+        <xpath expr="//widget[@name='web_ribbon']" position="after">
+
+          <widget name="web_ribbon" title="Not valid CVR message!" bg_color="bg-danger" attrs="{'invisible': ['|',('last_cvr_message_valid', '=', True),('last_cvr_message_id','=',False)]}" groups="account.group_account_readonly"/>
+
+        </xpath>
+
+        <xpath expr="//notebook" position="inside">
+
+          <page string="Data from CVR" name="cvr_page">
+            
+            <notebook>
+
+              <page name="cvr_data" string="Data">
+
+                <group>
+              
+                  <group>
+                  
+                    <field name="cvr_qty_employees"/>
+                    <field name="cvr_fulltime_employees"/>
+                    <field name="cvr_company_type"/>
+                    <field name="founded"/>
+                    <field name="cvr_id"/>
+                  
+                  </group>            
+                
+                </group>
+                
+              </page>
+
+              <page name="cvr_relations" string="Relations">
+                
+                <field name="cvr_relation_ids">
+
+                  <tree>
+
+                    <field name="cvr_id"/>
+                    <field name="having_partner_id"/>
+                    <field name="type"/>
+                    <field name="name"/>
+                    <button name="action_create_from_cvr" type="object"
+                    string="Create" class="oe_highlight"
+                    attrs="{'invisible': [('having_partner_id','!=', False)]}"/>
+
+                  </tree>
+
+                </field>
+                                  
+              </page>
+
+            </notebook>
+            
+          </page>
+          
+        </xpath>
+
+      </field>
+    </record>
+
+    <record id="action_refresh_all_cvr" model="ir.actions.server">
+
+      <field name="name">Re-validate all CVR</field>
+      <field name="model_id" ref="cvr.model_res_partner"/>
+      <field name="state">code</field>
+      <field name="code">action = model.action_control_all_on_cvr(periodically=True)</field>
+        
+    </record>
+
+    <record id="action_refresh_all_cvr_force" model="ir.actions.server">
+
+      <field name="name">Force Re-validate all CVR</field>
+      <field name="model_id" ref="cvr.model_res_partner"/>
+      <field name="state">code</field>
+      <field name="code">action = model.action_control_all_on_cvr(periodically=False)</field>
+        
+    </record>
+
+    <record id="action_refresh_all_cvr_selected" model="ir.actions.server">
+
+      <field name="name">Re-validate CVR</field>
+      <field name="model_id" ref="cvr.model_res_partner"/>
+      <field name="state">code</field>
+      <field name="code">
+
+        for record in records:
+
+          record.control_vat_on_cvr(silent=True)
+
+      </field>
+        
+      <field name="binding_model_id" ref="cvr.model_res_partner"/>
+
+    </record>       
+
+  </data>
+
+</odoo>

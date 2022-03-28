@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_dk_config_settings" model="res.config.settings">
+        <field name="totals_below_sections" eval="True"/>
+    </record>
+</odoo>

@@ -1,0 +1,141 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="clearhaus_login_tree">
+      <field name="name">clearhaus.login.tree</field>
+      <field name="model">clearhaus.login</field>
+      <field name="arch" type="xml">
+        <tree string="Login" sample="1">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>
+          <field name="name"/>
+          <field name="active" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="clearhaus_login_select">
+      <field name="name">clearhaus.login.select</field>
+      <field name="model">clearhaus.login</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="['|',('name', 'ilike', self), ('default_code', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="clearhaus_login_form">
+      <field name="name">clearhaus.login.form</field>
+      <field name="model">clearhaus.login</field>
+      <field name="arch" type="xml">
+        <form string="Login">
+            <header>
+              <button name="action_get_token" type="object" string="Get token" class="oe_highlight" attrs="{'invisible': ('active', '=', False)}"/>
+              <button name="action_get_transactions" type="object" string="Get transactions" class="oe_highlight" attrs="{'invisible': ('active', '=', False)}"/>
+            </header>
+            <sheet>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                <div class="oe_title">
+                    <label for="name" class="oe_edit_only"/>
+                    <h1><field name="name" class="oe_inline"/></h1>
+                </div>
+                <group>
+                    <group>
+                        <field name="url" invisible="0"/>
+                        <field name="client_id" invisible="0"/>
+                        <field name="client_secret" invisible="0"/>
+                        <field name="active" invisible="1"/>
+                        <field name="next_url" invisible="0"/>
+                        
+                    </group>
+                </group>
+                
+                <field name="token_ids" widget="section_and_note_one2many" mode="tree">
+                    <tree editable="bottom" string="Journal Items" default_order="sequence, date desc, move_name desc, id">
+                        
+                        <control>
+                            <create name="add_line_control" string="Add a line"/>
+                            <!-- <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                            <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/> -->
+                        </control>
+
+                        <!-- Displayed fields -->
+                        <field name="id" optional="hide" readonly="1"/>
+                        <field name="login_id" optional="hide" widget="many2one" domain="[]"/>
+                        <field name="expires" optional="show" />
+                        <field name="token" optional="show" />
+                        
+                    </tree>
+                    
+                </field>
+                
+                <field name="transaction_ids" widget="section_and_note_one2many" mode="tree">
+                    <tree editable="bottom" string="Journal Items" default_order="id desc">
+                        
+                        <control>
+                            <create name="add_line_control" string="Add a line"/>
+                            <!-- <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                            <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/> -->
+                        </control>
+
+                        <!-- Displayed fields -->
+                        <field name="id" optional="hide" readonly="1"/>
+                        <!-- <field name="login_id" optional="hide" widget="many2one" domain="[]"/> -->
+                        <field name="id" optional="show" />
+                        <field name="type" optional="show" />
+                        <field name="status_code" optional="show" />
+                        <field name="processed_at_ISO" optional="show" />
+                        <field name="reference" optional="show" />
+                        <field name="currency" optional="show" />
+                        <field name="amount" optional="show" />
+                        <field name="payment_method" optional="show" />
+                        <field name="fraud_type" optional="show" />
+                        
+                    </tree>
+                    
+                </field>
+                
+            </sheet>
+            </form>
+      </field>
+    </record>
+
+    
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="clearhaus_login_action_window">
+      <field name="name">Login</field>
+      <field name="res_model">clearhaus.login</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="clearhaus_token_action_window">
+      <field name="name">Tokens</field>
+      <field name="res_model">clearhaus.token</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    
+    <menuitem 
+        name="Clearhaus" 
+        id="Clearhaus_menu_root" 
+        sequence="1"
+        web_icon="clearhaus,static/description/icon.png"
+    />
+    
+    <!-- menu categories -->
+    
+    <menuitem name="Login" id="clearhaus_login_menu" parent="Clearhaus_menu_root" action="clearhaus_login_action_window" sequence="10"/>
+    <menuitem name="Tokens" id="clearhaus_token_menu" parent="Clearhaus_menu_root" action="clearhaus_token_action_window" sequence="20"/>
+    
+  </data>
+</odoo>

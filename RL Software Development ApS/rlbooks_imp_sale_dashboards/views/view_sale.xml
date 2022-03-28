@@ -1,0 +1,51 @@
+<odoo>
+
+  <data>
+    
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="rlbooks_imp_sale.rlbooks_imp_sale_open_DKK_action" model="ir.actions.act_window">
+      
+      <field name="view_mode">graph,pivot,dashboard</field>
+            
+    </record>
+       
+    <!-- rlbooks_imp_sale dashboard view -->
+    <record id="sale_order_line_view_dashboard" model="ir.ui.view">
+      <field name="name">rlbooks_imp_sale.view.dashboard</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+
+        <dashboard sample="1">
+
+          <group>
+
+            <group>
+              
+              <aggregate name="price_subtotal_all_orders" string="Open DKK Total" field="open_salesvalue_DKK" widget="float"/>
+              <formula name="total" string="Average Order" value="record.price_subtotal_all_orders / record.order_id_confirmed_orders" widget="float"/>
+              
+              <aggregate name="order_id_confirmed_orders" field="order_id" string="# Orders" clickable="False" widget="float"/>
+              <aggregate name="customers" string="# Customers" field="order_partner_id" clickable="False" widget="float"/>
+              <aggregate name="products" string="# Products" field="product_id" clickable="False" widget="float"/>
+
+            </group>
+
+            <group col="1">
+              <widget name="pie_chart" title="Open orders" attrs="{'groupby': 'currency_id', 'measure': 'open_salesvalue_DKK'}"/>
+            </group>
+
+          </group>
+            
+          <view type="graph" ref="rlbooks_imp_sale.rlbooks_imp_sale_sale_order_line_view_graph"/>
+
+          <view type="pivot" ref="rlbooks_imp_sale.rlbooks_imp_sale_sale_order_line_view_pivot"/>
+          
+          
+        </dashboard>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

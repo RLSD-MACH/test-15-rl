@@ -1,0 +1,30 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_email_mail_mail_ext_form">
+      <field name="name">rlbooks_email.mail_mail_ext.form</field>
+      <field name="model">mail.mail</field>
+      <field name="inherit_id" ref="mail.view_mail_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='recipient_ids']" position="attributes">
+          <attribute name="widget">many2many_tags_email</attribute>
+        </xpath>
+        
+        <xpath expr="//field[@name='email_cc']" position="after">
+          <field name="recipient_cc_ids" widget="many2many_tags_email"/>
+          <field name="email_bcc"/>
+          <field name="recipient_bcc_ids" widget="many2many_tags_email"/>
+        </xpath>
+                
+
+      </field>
+    </record>
+    
+
+  </data>
+
+</odoo>

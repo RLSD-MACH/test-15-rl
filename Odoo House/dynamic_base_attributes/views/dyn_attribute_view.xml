@@ -1,0 +1,120 @@
+<odoo>
+
+    <record id="base_dyn_attr_line_view_tree" model="ir.ui.view">
+        <field name="name">base.dyn.attr.line.view.tree</field>
+        <field name="model">base.dyn.attr.line</field>
+        <field name="arch" type="xml">
+            <tree string="Attributes">
+                <field name="complete_name"/>
+                <field name="field_description"/>
+                <field name="ttype"/>
+                <field name="selection"/>
+                <field name="required"/>
+                <field name="domain"/>
+                <field name="widget_name"/>
+                <field name="groups"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="base_dyn_attr_line_view_form" model="ir.ui.view">
+        <field name="name">base.dyn.attr.line.view.form</field>
+        <field name="model">base.dyn.attr.line</field>
+        <field name="arch" type="xml">
+            <form string="Attributes line">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ttype" required="1"/>
+                            <field name="name" attrs="{'invisible': [('ttype','=','caption')],'required': [('ttype','!=','caption')]}"/>
+                            <field name="field_description" required="1"/>
+                            <field name="complete_name"/>
+                        </group>
+                        <group>
+
+                            <field name="help" attrs="{'invisible': [('ttype','=','caption')]}"/>
+                            <field name="model_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook attrs="{'invisible': [('ttype','=','caption')]}">
+                        <page name="base" string="Properties">
+                            <group string="Base Properties">
+                                <group>
+                                    <field name="required"/>
+                                    <field name="readonly"/>
+                                    <field name="widget_name"/>
+                                    <field name="index" groups="base.group_no_one"/>
+                                    <field name="copy" groups="base.group_no_one"/>
+                                </group>
+                                <group>
+                                    <field name="translate" attrs="{'readonly': [('ttype','not in',['char','text','html'])],
+                                                                'invisible': [('ttype','not in',['char','text','html'])]}"/>
+                                    <field name="size" groups="base.group_no_one" attrs="{'readonly': [('ttype','not in',['char','reference'])],
+                                                                'invisible': [('ttype','not in',['char','reference'])]}"/>
+                                    <field
+                                        name="relation"
+                                        attrs="{'required': [('ttype','in',['many2one','one2many','many2many'])],
+                                                                'readonly': [('ttype','not in',['many2one','one2many','many2many'])],
+                                                                'invisible': [('ttype','not in',['many2one','one2many','many2many'])]}"/>
+                                    <field name="on_delete" groups="base.group_no_one" attrs="{'readonly': [('ttype','!=','many2one')],
+                                                                'invisible': [('ttype','!=','many2one')]}"/>
+                                    <field
+                                        name="relation_field"
+                                        attrs="{'required': [('ttype','=','one2many')],
+                                                                'readonly': [('ttype','!=','one2many')],
+                                                                'invisible': [('ttype','!=','one2many')]}"/>
+                                    <field
+                                        name="relation_table"
+                                        groups="base.group_no_one"
+                                        attrs="{'readonly': ['|', ('ttype','!=','many2many'), ('state','!=','manual')],
+                                                                'invisible': ['|', ('ttype','!=','many2many'), ('state','!=','manual')]}"/>
+
+                                    <field
+                                        name="domain"
+                                        groups="base.group_no_one"
+                                        attrs="{'readonly': [('ttype','not in',['many2one','one2many','many2many'])],
+                                                                'invisible': [('ttype','not in',['many2one','one2many','many2many'])]}"/>
+                                </group>
+                                <separator
+                                    string="Selction Options"
+                                    attrs="{'required': [('ttype','in',['selection','reference'])],
+                                                                'readonly': [('ttype','not in',['selection','reference'])],
+                                                                'invisible': [('ttype','not in',['selection','reference'])]}"/><newline/>
+                                <field
+                                    name="selection"
+                                    nolabel="1"
+                                    attrs="{'required': [('ttype','in',['selection','reference'])],
+                                                                'readonly': [('ttype','not in',['selection','reference'])],
+                                                                'invisible': [('ttype','not in',['selection','reference'])]}">
+                                    <tree string="Selection Options" editable="bottom">
+                                        <field name="sequence" widget="handle"/>
+                                        <field name="int_name"/>
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </group>
+
+                        </page>
+                        <page name="groups" string="Access Rights">
+                            <field name="groups"/>
+                        </page>
+                        <page name="misc" string="Miscellaneous" groups="base.group_no_one">
+                            <group>
+                                <field name="state" required="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="base_dyn_attr_line_view_action" model="ir.actions.act_window">
+        <field name="name">Product Data Fields</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">base.dyn.attr.line</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="base_dyn_attr_line_view_tree"/>
+    </record>
+
+</odoo>

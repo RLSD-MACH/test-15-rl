@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_stock_picking_select_products_wizard,stock_picking,model_stock_picking_select_products_wizard,,1,1,1,1
+access_stock_picking_add_so_line_wizard,stock_picking,model_stock_picking_add_so_line_wizard,,1,1,1,1
+access_stock_picking_add_so_line_line_wizard,stock_picking,model_stock_picking_add_so_line_line_wizard,,1,1,1,1

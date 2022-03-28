@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_rlbooks_project_project,RL-books project,model_rlbooks_project_project,,1,1,1,1
+access_rlbooks_project_stage,RL-books project stage,model_rlbooks_project_stage,,1,1,1,1
+access_rlbooks_project_group,RL-books project group,model_rlbooks_project_group,,1,1,1,1
+access_rlbooks_project_reminder_stage,RL-books project reminder stage,model_rlbooks_project_reminder_stage,,1,1,1,1
+access_rlbooks_project_reminder,RL-books project reminder,model_rlbooks_project_reminder,,1,1,1,1
+access_rlbooks_project_entry,RL-books project entry,model_rlbooks_project_entry,,1,1,1,1
+access_rlbooks_project_reminder_create_wizard,RL-books create reminder,model_rlbooks_project_reminder_create_wizard,,1,1,1,1
+access_rlbooks_project_entry_create_wizard,RL-books create entry,model_rlbooks_project_entry_create_wizard,,1,1,1,1
+access_rlbooks_timesheet_timesheet_manager,RL-books timesheet,model_rlbooks_timesheet_timesheet,group_timesheet_manager,1,1,1,1
+access_rlbooks_timesheet_timesheet_user,RL-books timesheet,model_rlbooks_timesheet_timesheet,group_timesheet_user,1,1,1,0
+access_rlbooks_mileage_report_user,RL-books mileage,model_rlbooks_mileage_report,group_timesheet_user,1,1,1,1
+access_rlbooks_mileage_report_manager,RL-books mileage,model_rlbooks_mileage_report,group_timesheet_manager,1,1,1,1
+access_rlbooks_vehicle,RL-books vehicles,model_vehicle,,1,1,1,1
+access_rlbooks_mileage_cost_manager,RL-books mileage cost,model_mileage_cost,group_timesheet_manager,1,1,1,1
+access_rlbooks_mileage_cost_user,RL-books mileage cost,model_mileage_cost,group_timesheet_user,1,0,0,0

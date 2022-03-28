@@ -1,0 +1,51 @@
+.standard_body_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 12px;
+  
+}
+
+.standard_document_header_left_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 18px;    
+    /* padding-top: 200px; */
+    text-align: left;
+    font-weight: bold;
+
+}
+
+.standard_document_header_text{
+              
+    font-family: 'Segoe UI';
+    font-size: 22px;
+    /* padding-top: 200px; */
+    text-align: right;
+
+}
+
+.pagefooter{
+
+    font-family: 'Segoe UI'!important;
+    font-size: 9px!important;
+    font-weight: normal !important;
+    vertical-align: bottom !important;
+    align-content: right!important;
+
+}
+
+.dont_split{
+
+    page-break-inside: avoid;
+    
+}
+
+.text_productspecifikation_quality{
+
+    font-weight: normal;
+    font-family: 'Segoe UI';
+    font-size: 12px;
+
+}
+
+

@@ -1,0 +1,16 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_fsc_claim_readonly,FSC Claims,model_fsc_claim,sales_team.group_sale_salesman,1,0,0,0
+access_fsc_claim_readonly_accm,FSC Claims,model_fsc_claim,account.group_account_manager,1,0,0,0
+access_fsc_claim_readonly_accr,FSC Claims,model_fsc_claim,account.group_account_readonly,1,0,0,0
+access_fsc_claim_readonly_acci,FSC Claims,model_fsc_claim,account.group_account_invoice,1,0,0,0
+access_fsc_claim_manager,FSC Claims,model_fsc_claim,sales_team.group_sale_manager,1,1,1,0
+access_fsc_certificate_readonly,FSC Certificate,model_fsc_certificate,sales_team.group_sale_salesman,1,0,0,0
+access_fsc_certificate_readonly_accm,FSC Certificate,model_fsc_certificate,account.group_account_manager,1,0,0,0
+access_fsc_certificate_readonly_accr,FSC Certificate,model_fsc_certificate,account.group_account_readonly,1,0,0,0
+access_fsc_certificate_readonly_acci,FSC Certificate,model_fsc_certificate,account.group_account_invoice,1,0,0,0
+access_fsc_certificate_manager,FSC Certificate,model_fsc_certificate,sales_team.group_sale_manager,1,1,1,0
+access_fsc_certificate_validation_readonly,FSC Certificate Validation,model_fsc_certificate_validation,sales_team.group_sale_salesman,1,1,1,0
+access_fsc_certificate_validation_readonly_accm,FSC Certificate Validation,model_fsc_certificate_validation,account.group_account_manager,1,1,1,0
+access_fsc_certificate_validation_readonly_accr,FSC Certificate Validation,model_fsc_certificate_validation,account.group_account_readonly,1,1,1,0
+access_fsc_certificate_validation_readonly_acci,FSC Certificate Validation,model_fsc_certificate_validation,account.group_account_invoice,1,1,1,0
+access_fsc_certificate_validation_manager,FSC Certificate Validation,model_fsc_certificate_validation,sales_team.group_sale_manager,1,1,1,0

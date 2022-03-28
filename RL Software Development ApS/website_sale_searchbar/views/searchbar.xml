@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  
+    <record id="website_sale_searchbar.assets_snippet_s_products_searchbar_js_000" model="ir.asset">
+        <field name="name">Searchbar 000 JS Ext</field>
+        <field name="bundle">web.assets_frontend</field>
+        <field name="path">website_sale_searchbar/static/src/snippets/s_searchbar/000.js</field>
+    </record>
+
+    <template 
+        id="website_sale_products_search_box_ext_description" 
+        inherit_id="website.searchbar_input_snippet_options"
+        active="False" 
+        customize_show="True" 
+        name="Hide description">
+
+        <xpath expr="//div[@data-js='SearchBar']/div[@data-dependencies='limit_opt']" position="inside">
+            
+            <we-checkbox 
+
+                string="Description" 
+                data-dependencies="search_products_opt" 
+                data-select-data-attribute="false" 
+                data-attribute-name="displayDescription"
+                data-apply-to=".search-query"
+            
+            />
+
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_price" 
+        inherit_id="website.searchbar_input_snippet_options"
+        active="False" 
+        customize_show="True" 
+        name="Hide price">
+
+        <xpath expr="//div[@data-js='SearchBar']/div[@data-dependencies='limit_opt']" position="inside">
+            
+            <we-checkbox 
+
+                string="Price" 
+                data-dependencies="search_products_opt" 
+                data-select-data-attribute="false" 
+                data-attribute-name="displayPrice"
+                data-apply-to=".search-query"
+            
+            />
+
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_default_code" 
+        inherit_id="website.searchbar_input_snippet_options"
+        active="False" 
+        customize_show="True" 
+        name="Show Internal Reference">
+
+        <xpath expr="//div[@data-js='SearchBar']/div[@data-dependencies='limit_opt']" position="inside">
+            
+            <we-checkbox 
+
+                string="Our no." 
+                data-dependencies="search_products_opt" 
+                data-select-data-attribute="true" 
+                data-attribute-name="displayDefault_code"
+                data-apply-to=".search-query"
+            
+            />
+
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_barcode"
+        inherit_id="website.searchbar_input_snippet_options"
+        active="False"
+        customize_show="True"
+        name="Show Barcode">
+
+        <xpath expr="//div[@data-js='SearchBar']/div[@data-dependencies='limit_opt']" position="inside">
+            
+            <we-checkbox 
+
+                string="Barcode" 
+                data-dependencies="search_products_opt" 
+                data-select-data-attribute="true" 
+                data-attribute-name="displayBarcode"
+                data-apply-to=".search-query"
+            
+            />
+
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_description" 
+        inherit_id="website.website_search_box" 
+        active="False" 
+        customize_show="True" 
+        name="Hide description">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-display-description">false</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_price" 
+        inherit_id="website.website_search_box" 
+        active="False" 
+        customize_show="True" 
+        name="Hide price">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-display-price">false</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_default_code" 
+        inherit_id="website.website_search_box" 
+        active="False" 
+        customize_show="True" 
+        name="Show Internal Reference">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-display-default_code">true</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_barcode"
+        inherit_id="website.website_search_box"
+        active="False"
+        customize_show="True"
+        name="Show Barcode">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-display-barcode">true</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_limit_10"
+        inherit_id="website.website_search_box"
+        active="False"
+        customize_show="True"
+        name="Limit 10">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-limit">10</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+        id="website_sale_products_search_box_ext_limit_20"
+        inherit_id="website.website_search_box"
+        active="False"
+        customize_show="True"
+        name="Limit 20">
+
+        <xpath expr="//input[@name='search']" position="attributes">            
+            <attribute name="data-limit">20</attribute>
+        </xpath>
+
+    </template>
+
+    <template 
+
+        id="website_sale_products_search_box_ext_customer_art_no"
+        inherit_id="website.searchbar_input_snippet_options"
+        active="False"
+        customize_show="True"
+        name="Show Customer art no."
+    
+    >
+
+        <xpath expr="//div[@data-js='SearchBar']/div[@data-dependencies='limit_opt']" position="inside">
+            
+            <we-checkbox 
+
+                string="Your no." 
+                data-dependencies="search_products_opt" 
+                data-select-data-attribute="true" 
+                data-attribute-name="displayCustomer_art_no"
+                data-apply-to=".search-query"
+            
+            />
+
+        </xpath>
+
+    </template>
+
+    <template
+        id="website_sale_products_item_ext_customer_art_no"
+        name="Show Customer Art No."
+        inherit_id="website_sale.products_item"
+        customize_show="True">
+        
+        <xpath expr="//a[@t-field='product.name']" position="after">
+           
+            <div class="oe_subdescription">
+                <div t-if="product.customer_art_no">
+                    <span>Your art no.: </span>
+                    <span
+                        itemprop="name"
+                        t-att-href="product_href"
+                        t-att-content="product.customer_art_no"
+                        t-field="product.customer_art_no"
+                    />
+                </div>
+                
+            </div>
+        </xpath>
+
+    </template>
+
+    <template
+        id="website_sale_products_item_ext_default_code"
+        name="Show Our Art No."
+        inherit_id="website_sale.products_item"
+        customize_show="True">
+        
+        <xpath expr="//a[@t-field='product.name']" position="after">
+            
+            <div class="oe_subdescription">
+                
+                <div t-if="product.default_code">
+                    <span>Our art no.: </span>
+                    <span
+                        itemprop="name"
+                        t-att-href="product_href"
+                        t-att-content="product.default_code"
+                        t-field="product.default_code"
+                    />
+                </div>
+                               
+            </div>
+        </xpath>
+
+    </template>
+
+    <template
+        id="website_sale_products_item_ext_barcode"
+        name="Show Barcode"
+        inherit_id="website_sale.products_item"
+        customize_show="True">
+        
+        <xpath expr="//a[@t-field='product.name']" position="after">
+          
+            <div class="oe_subdescription">
+                              
+                <div t-if="product.barcode">
+                    <span>Barcode: </span>
+                    <span
+                        itemprop="name"
+                        t-att-href="product_href"
+                        t-att-content="product.barcode"
+                        t-field="product.barcode"
+                    />
+                </div>
+            </div>
+        </xpath>
+
+    </template>
+
+    <template
+        id="website_sale_recommended_products_ext_customer_art_no"
+        inherit_id="website_sale.recommended_products"
+        name="Show Customer Art No."
+        customize_show="True">
+       
+        <xpath expr="//span[@t-field='alt_product.name']" position="after">
+                       
+            <div class="oe_subdescription">
+
+                <div t-if="alt_product.customer_art_no">
+                    <span>Your art no.: </span>
+                    <span
+                        t-att-title="alt_product.customer_art_no"
+                        t-field="alt_product.customer_art_no"
+                        class="o_text_overflow"
+                        style="display: block;"
+                    />
+                </div>
+
+            </div>
+        </xpath>
+    </template>
+
+    <template
+        id="website_sale_recommended_products_ext_default_code"
+        inherit_id="website_sale.recommended_products"
+        name="Show Our Art No."
+        customize_show="True">
+       
+        <xpath expr="//span[@t-field='alt_product.name']" position="after">
+            
+           
+            <div class="oe_subdescription">
+
+                <div t-if="alt_product.default_code">
+                    <span>Our art no.: </span>
+                    <span
+                        t-att-title="alt_product.default_code"
+                        t-field="alt_product.default_code"
+                        class="o_text_overflow"
+                        style="display: block;"
+                    />
+                </div>
+                             
+            </div>
+        </xpath>
+    </template>
+
+    <template
+        id="website_sale_recommended_products_ext_barcode"
+        inherit_id="website_sale.recommended_products"
+        name="Show Barcode"
+        customize_show="True">
+       
+        <xpath expr="//span[@t-field='alt_product.name']" position="after">
+                       
+            <div class="oe_subdescription">
+               
+                <div t-if="alt_product.barcode">
+                    <span>Barcode: </span>
+                    <span
+                        t-att-title="alt_product.barcode"
+                        t-field="alt_product.barcode"
+                        class="o_text_overflow"
+                        style="display: block;"
+                    />
+                </div>
+
+            </div>
+        </xpath>
+    </template>
+
+
+    <template
+        id="website_sale_product_ext"
+        inherit_id="website_sale.product"
+        name="Show all product refs"
+        customize_show="True" >
+
+        <xpath expr="//t[@t-set='additional_title']" positions="after">
+            <t t-set="additional_title" t-value="product.customer_art_no" />
+        </xpath>
+        
+        <xpath expr="//span[@t-field='product.name']" position="after">
+            <div t-if="product.customer_art_no">
+                <span>Your art no.: </span>
+                <span t-field="product.customer_art_no" />
+            </div>
+            <div t-if="product.default_code">
+                <span>Our art no.: </span>
+                <span t-field="product.default_code" />
+            </div>
+            <div t-if="product.barcode">
+                <span>Barcode: </span>
+                <span t-field="product.barcode" />
+            </div>
+        </xpath>
+
+        <xpath expr="//div[@id='product_details']" position="inside">
+            <div t-if="product.customer_art_no">
+                <span>Your art no.: </span>
+                <span t-field="product.customer_art_no" />
+            </div>
+            <div t-if="product.default_code">
+                <span>Our art no.: </span>
+                <span t-field="product.default_code" />
+            </div>
+            <div t-if="product.barcode">
+                <span>Barcode: </span>
+                <span t-field="product.barcode" />
+            </div>
+        </xpath>
+
+    </template>
+    
+	
+</odoo>

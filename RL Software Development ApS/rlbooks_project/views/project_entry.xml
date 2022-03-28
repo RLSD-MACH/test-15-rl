@@ -1,0 +1,236 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="rlbooks_project_entry_tree">
+      <field name="name">rlbooks.project.entry.tree</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <tree string="Project entries" sample="1">
+          <header>
+            <button name="action_invoice_entries" string="Invoice"
+                        type="object" class="oe_highlight"/>
+            <button name="action_account_invoice_entries" string="Invoice(acc)"
+                        type="object" class="oe_highlight"/>
+          </header>
+  
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="project_id" optional="show" widget="many2one"/>
+          <field name="type" optional="show" />
+          <field name="product_id" optional="show" widget="many2one"/>          
+          
+          <field name="date" optional="show" />
+          <field name="description" optional="show" />
+          <field name="user_id" widget="many2one_avatar_user" optional="show" />
+          <field name="qty_spent" optional="show" sum="Total qty spent"/>
+          <field name="qty_invoiceable" optional="show" sum="Total qty invoiceable"/>
+          <field name="salesprice" optional="show"/>
+          <field name="discount" optional="show"/>
+          <field name="s_salesprice" optional="show"/>
+          <field name="s_salesprice_t" optional="show" string="Total salesprice" sum="Total salesprice"/>
+          <field name="s_costprice_t" optional="show" string="Costprice" sum="Total costprice"/>          
+
+          <field name="create_date" optional="hide" />
+          <field name="company_id" optional="hide" />
+        
+        </tree>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_project_entry_graph">
+      <field name="name">rlbooks.project.entry.graph</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <graph string="Production statistic" sample="1">
+  
+          <field name="user_id" type="row"/>
+          <field name="date" interval="month" type="col" />
+          <field name="user_id" optional="show" />
+          <field name="qty_spent" invisible="1" />
+          <field name="qty_invoiceable" invisible="1" />         
+          <field name="s_salesprice_t" type="measure" invisible="1" />          
+        
+        </graph>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_project_entry_select">
+      <field name="name">rlbooks.project.entry.select</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <search string="Search">
+          <field name="description" filter_domain="[('description', 'ilike', self)]"/>
+          <separator/>
+          <filter string="Locked" name="locked_entries" domain="[('locked', '=', True)]"/>
+          <filter string="Unlocked" name="unlocked_entries" domain="[('locked', '=', False)]"/>
+          <separator/>
+          <filter string="Approved" name="approved_entries" domain="[('approved', '=', True)]"/>
+          <filter string="Unapproved" name="unapproved_entries" domain="[('approved', '=', False)]"/>
+          <separator/>
+          <filter string="Billed" name="billed_entries" domain="[('sales_invoice_id', '!=', False)]"/>
+          <filter string="Unbilled" name="unbilled_entries" domain="[('sales_invoice_id', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+              <filter name="type" string="Type" domain="[]" context="{'group_by' : 'type'}"/>
+              <filter name="user_id" string="User" domain="[]" context="{'group_by' : 'user_id'}"/>
+              <filter name="project_id" string="Project" domain="[]" context="{'group_by' : 'project_id'}"/>
+              <filter name="product_id" string="Product" domain="[]" context="{'group_by' : 'product_id'}"/>
+              <filter name="approved" string="Approved" context="{'group_by': 'approved'}"/>
+              <filter name="locked" string="Locked" context="{'group_by': 'locked'}"/>
+              <filter name="sales_invoice" string="Sales invoice" context="{'group_by': 'sales_invoice_id'}"/>
+          </group>
+        </search>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_project_entry_form">
+      <field name="name">rlbooks.project.entry.form</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <form string="Project entry">
+  
+          <header>
+              <!-- <button name="164" string="Share" type="action" class="oe_highlight oe_read_only"/> -->
+              <!-- <field widget="statusbar" options="{'clickable': '1'}" name="stage_id" attrs="{}" string="Stage"/> -->
+              <widget name="attach_document" string="Attach Document" action="message_post" />
+          </header>
+                            
+          <sheet string="Entry">
+            
+            <div class="oe_button_box" name="button_box" groups="base.group_user">
+                              
+                
+            </div>
+            
+            <widget name="web_ribbon" title="Deleted" bg_color="bg-danger" attrs="{'invisible': [('deleted', '!=', True)]}"/>
+
+            <div class="oe_title" attrs="{'invisible':[('type','=','hours')]}">
+                <h1>
+                    <field name="name"/>
+                </h1>
+            </div>
+            <notebook>
+                <page name="description_page" string="Details">
+
+                    <group>
+                        <field name="project_id" string="Project" attrs="{'readonly':[('locked','=',True)]}" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+                        <field name="date" attrs="{'readonly':[('locked','=',True)]}"/>                        
+                        <field name="qty_spent" optional="show" attrs="{'readonly':[('locked','=',True)],'invisible':[('type','=','hours')]}" />
+                        <field name="qty_spent" optional="show" attrs="{'readonly':[('locked','=',True)],'invisible':[('type','!=','hours')]}" widget="float_time"/>
+                        <field name="qty_invoiceable" optional="show" attrs="{'readonly':[('locked','=',True)],'invisible':[('type','=','hours')]}"/>
+                        <field name="description" nolabel="0" placeholder="Describe your entry..." type="Description" attrs="{'readonly':[('locked','=',True)]}"/>
+                    </group>
+
+                    <group>
+                        <field name="sale_order_id" readonly="1" attrs="{'invisible':[('sale_order_id','=',False)]}"/>
+                        <field name="sales_invoice_id" readonly="1" attrs="{'invisible':[('sales_invoice_id','=',False)]}"/>
+                        <field name="move_id" attrs="{'readonly':[('locked','=',True)], 'invisible': [('move_id', '=', False)]}"/>     
+                        <field name="move_line_id" attrs="{'readonly':[('locked','=',True)], 'invisible': [('move_line_id', '=', False)]}"/>  
+                        <field name="timesheet_id" attrs="{'readonly':[('locked','=',True)], 'invisible': [('timesheet_id', '=', False)]}"/>     
+                    </group>
+                    
+                    <group attrs="{'invisible':[('type','=','hours'),('create_date','=',False)]}">
+                        
+                        <field name="salesprice" attrs="{'readonly':[('locked','=',True)]}"/>
+                        <field name="discount" attrs="{'readonly':[('locked','=',True)]}"/>
+                        <field name="s_salesprice" attrs="{'readonly':[('locked','=',True)]}"/>
+                        <field name="s_costprice" string = "Costprice" attrs="{'readonly':[('locked','=',True)]}"/>
+                        <field name="s_salesprice_t" string="Total salesprice"/>
+                        <field name="s_costprice_t" string="Total costprice"/>
+
+                    </group>
+                </page>
+                
+                <page name="settings" string="Settings">
+                    <group>
+                        <group>
+
+                            <field name="locked" invisible="1"/>
+                            <field name="deleted" invisible="1"/>
+                            <field name="create_date" invisible="1"/>
+                            <field name="user_id" widget="many2one_avatar_user"  attrs="{'readonly':[('locked','=',True)],'invisible':[('create_date','=',False)]}" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+                            <field name="product_id" attrs="{'readonly':[('locked','=',True),('product_id','!=',False)],'invisible':[('create_date','=',False)]}" options="{'limit': 20, 'create': false, 'create_edit': false}"/>     
+                            <field name="type" attrs="{'readonly':[('locked','=',True)]}"/>   
+                                                                         
+                        </group>
+                        
+                        <group>                            
+                            <field name="company_id" groups="base.group_multi_company" attrs="{'readonly':[('locked','=',True)]}" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+                        </group>
+                        <group name="extra_settings">
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+            
+            <div class="oe_chatter">
+              
+                <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this entry to automatically track the events associated to tasks and issues of this entry." groups="base.group_user"/>
+            
+            </div>
+              
+          </sheet>
+
+          <div class="o_attachment_preview"/>
+          <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+        </form>
+
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="rlbooks_project_entry_action_window">
+      <field name="name">Entry</field>
+      <field name="res_model">rlbooks.project.entry</field>
+      <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+        
+    <menuitem name="Entries" id="rlbooks_project_entry_menu" parent="rlbooks_project_project_menu_root" action="rlbooks_project_entry_action_window" sequence="30"/>
+    
+    <!-- rlbooks_project_entry graph view -->
+    <record id="rlbooks_project_entry_view_graph" model="ir.ui.view">
+      <field name="name">rlbooks_project_entry.view.graph</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+        <graph string="Project entries">
+         
+          <field name="project_id" type="row"/>
+          <field name="user_id" type="row"/>
+          
+          <field name="date" interval="month" type="col"/>
+          <field name="s_salesprice_t" type="measure"/>
+          
+        </graph>
+      </field>
+    </record>
+
+    <!-- rlbooks_imp_sale pivot view -->
+    <record id="rlbooks_project_entry_view_pivot" model="ir.ui.view">
+      <field name="name">rlbooks_project_entry.view.pivot</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+        <pivot string="Project entries">
+
+          <field name="project_id" type="row"/>
+          <field name="date" interval="month" type="col"/>
+          <field name="s_salesprice_t" type="measure"/>
+          
+        </pivot>
+      </field>
+    </record>
+
+  </data>
+</odoo>

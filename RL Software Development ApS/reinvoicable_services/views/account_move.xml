@@ -1,0 +1,81 @@
+<odoo>
+
+  <data>
+   
+   <record id="action_account_move_outlays" model="ir.actions.act_window">
+
+      <field name="name">Outlays</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">outlay</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('account_move_id', '=', active_id)]</field>
+      <!-- <field name="context">{'search_default_partner_id': active_id,'default_partner_id': active_id}</field> -->
+
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+         
+        </p>
+        <p>
+         
+        </p>
+      </field>
+
+    </record> 
+
+    <record model="ir.ui.view" id="account_move_ext_form">
+      <field name="name">account_move_ext.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+    
+          <button class="oe_stat_button" icon="fa-dollar" type="action" name="%(action_account_move_outlays)d" attrs="{'invisible': [('outlay_count', '=', 0)]}" groups="account.group_account_readonly">
+              
+            <div class="o_form_field o_stat_info" groups="account.group_account_readonly">
+              
+              <span class="o_stat_value">
+                  <field name="outlay_count" widget="integer"/>
+              </span>
+              
+              <span class="o_stat_text">Outlays</span>
+              
+            </div>
+              
+          </button>
+          
+        </xpath>
+
+        <xpath expr="//field[@name='invoice_line_ids']" position="before">
+
+          <group>
+              <button name="%(act_open_select_outlays_view)d" type="action" string="Select Outlays"
+                  context="{'default_partner_id': partner_id}" attrs="{'invisible': ['|',('state', '!=', 'draft'),('move_type','not in',['out_invoice'])]}"
+                  class="oe_highlight" />
+          </group>
+
+        </xpath>
+
+      </field>
+    </record>
+
+
+    <!-- account.move.line action window -->
+    <record id="action_assign_as_outlay" model="ir.actions.server">
+      <field name="name">Move to Outlays</field>
+      <field name="type">ir.actions.server</field>
+      <field name="model_id" ref="model_account_move_line"></field>
+      <field name="binding_model_id" ref="model_account_move_line"></field>
+      <field name="state">code</field>
+      <field name="code">
+      
+        records.action_move_to_outlay()
+      
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

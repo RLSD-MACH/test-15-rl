@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="rlbooks_imp_stock_picking.change_type_wizard_form" model="ir.ui.view">
+        <field name="name">rlbooks_imp_stock_picking.change_type_wizard_form</field>
+        <field name="model">stock.picking.change_type.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Change delivery type">
+
+                <group>
+
+                    <field name="picking_type_id" invisible="0"/>
+
+                </group>
+                
+                <field name="order_id" invisible="1"/>
+                
+                <footer>
+
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="rlbooks_imp_stock_picking.change_type_wizard_action" model="ir.actions.act_window">
+        <field name="name">Change delivery type</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.change_type.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="rlbooks_imp_stock_picking.change_type_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_imp_stock_picking.change_type_wizard_stock_picking_ext_form">
+
+        <field name="name">rlbooks_imp_stock_picking.change_type_wizard_stock_picking_ext.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="mode">extension</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+
+                <button name="%(rlbooks_imp_stock_picking.change_type_wizard_action)d" string="Change type" type="action" class="oe_highlight" context="{'default_order_id':id, 'default_picking_type_id':picking_type_id}" attrs="{'invisible': [('state', '=', 'done')]}" help="Change delivery type"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>

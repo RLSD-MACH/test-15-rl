@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_attr_map_view,access_attr_map_view,model_attr_map_view,,1,1,1,1
+access_base_dyn_attr_line,access_base_dyn_attr_line,model_base_dyn_attr_line,,1,1,1,1
+access_base_dyn_middle,access_base_dyn_middle,model_base_dyn_middle,,1,1,1,1
+access_selection_type_field,access_selection_type_field,model_selection_type_field,,1,1,1,1
+access_base_dyn_name_middle,access_base_dyn_name_middle,model_base_dyn_name_middle,,1,1,1,1

@@ -1,0 +1,51 @@
+<odoo>
+
+  <data>
+   
+    <record id="action_purchase_order_inspection_reports_count" model="ir.actions.act_window">
+
+        <field name="name">Inspection reports FSC</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">inspection.report</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('purchase_order_id', '=', active_id)]</field>
+        <field name="context">{'order': 'purchase_order_id'}</field>
+
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            
+            </p>
+            <p>
+            
+            </p>
+        </field>
+        
+    </record> 
+
+    <record model="ir.ui.view" id="order_ext_form">
+      <field name="name">purchase_order_ext.form</field>
+      <field name="model">purchase.order</field>
+      <field name="inherit_id" ref="purchase.purchase_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+           
+          <button type="action" name="%(action_purchase_order_inspection_reports_count)d" icon="fa-eye" class="oe_stat_button" attrs="{'invisible': [('inspection_reports_count', '=', 0)]}" groups="purchase.group_purchase_user">
+            
+            <field string="IR" name="inspection_reports_count" widget="statinfo"/>
+
+          </button>
+
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>
+
+
+                    

@@ -1,0 +1,53 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="sale_order_ext_tree">
+      <field name="name">sale_order_ext.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_quotation_tree"/>
+      <field name="mode">extension</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//tree" position="inside">
+          
+          <field name="fsc_certificate_id" optional="hide"/>
+          <field name="fsc_claim_id" optional="hide"/>
+
+        </xpath>
+       
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_ext_form">
+      <field name="name">sale_order_ext.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      
+      <field name="arch" type="xml">      
+
+        <xpath expr="//field[@name='payment_term_id']" position="after">
+          
+          <field name="fsc_certificate_id"  options="{'no_create': True, 'no_open': False}" readonly="1"/>
+          <field name="fsc_claim_id"  options="{'no_create': True, 'no_open': False}" attrs="{'invisible': [['fsc_certificate_id','=',False]],'required':[('fsc_certificate_id','!=',False)]}" readonly="1"/>
+          <field name="fsc_weigthin_kg" attrs="{'invisible': [['fsc_certificate_id','=',False]]}"/>
+
+        </xpath>
+
+        <xpath expr="//header" position="inside">
+          
+          <button name="action_check_fsc_claim_on_products" type="object" string="Update FSC"/>
+
+        </xpath>        
+
+
+      </field>
+
+    </record>
+    
+  </data>
+
+</odoo>

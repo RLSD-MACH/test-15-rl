@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<odoo>
+
+        <record id="rlbooks_project.reminder_create_wizard_form" model="ir.ui.view">
+            <field name="name">rlbooks.project.reminder.create.wizard.form</field>
+            <field name="model">rlbooks.project.reminder.create.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Reminder">
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Reminder Name"/>
+                        </h1>
+                        <group>
+                            <field name="deadline"/>
+                        </group>
+                        
+                    </div>
+                    <notebook>
+                        <page name="description_page" string="Description">
+                            <field name="description" nolabel="1" placeholder="Describe your reminder..." type="html"/>
+                            <div class="oe_clear"/>
+                        </page>
+                        
+                        <page name="settings" string="Settings">
+                            <group>
+                                <group>
+                                                                        
+                                    <field name="user_id" options="{'no_create_edit': True}" /> 
+                                    <field name="project_id" options="{'no_create_edit': True}" invisible="1"/>   
+                                    <field name="company_id" options="{'no_create_edit': True}" invisible="1"/>          
+                                        
+                                </group>
+
+                                <group>
+
+                                        <field name="repeat" attrs="{}"/>
+                                        <field name="repeat_qty_move_one" attrs="{'invisible': [('repeat', '=', False)]}"/>
+                                        <field name="repeat_periode_move_one" attrs="{'invisible': [('repeat', '=', False)]}"/>
+                                        <field name="repeat_qty_move_two" attrs="{'invisible': [('repeat', '=', False)]}"/>
+                                        <field name="repeat_periode_move_two" attrs="{'invisible': [('repeat', '=', False)]}"/>
+                                        <field name="next_deadline" attrs="{'invisible': [('repeat', '=', False)]}"/>
+                                        
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+
+                    <footer>
+                        <button name="action_create_reminder" string="Submit" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="rlbooks_project.reminder_create_wizard_action" model="ir.actions.act_window">
+
+            <field name="name">Reminder</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">rlbooks.project.reminder.create.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="rlbooks_project.reminder_create_wizard_form"/>
+            <field name="target">new</field>
+
+        </record>
+
+        <record model="ir.ui.view" id="rlbooks_project.project_create_reminder_ext_form">
+
+            <field name="name">rlbooks.project.project_ext.form</field>
+            <field name="model">rlbooks.project.project</field>
+            <field name="inherit_id" ref="rlbooks_project.project_form"/>
+            <field name="mode">extension</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+
+                <xpath expr="//header[@name='Project_header']" position="inside">
+
+                    <button name="%(rlbooks_project.reminder_create_wizard_action)d" string="" type="action" class="fa fa-bell-o  oe_highlight" context="{'default_project_id':id}" attrs="{'invisible': [('active', '=', False)]}" help="Add a new reminder"/>
+              
+                </xpath>
+
+            </field>
+
+        </record>
+
+</odoo>

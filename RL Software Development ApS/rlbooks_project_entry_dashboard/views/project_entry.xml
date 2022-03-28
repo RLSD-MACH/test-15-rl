@@ -1,0 +1,49 @@
+<odoo>
+
+  <data>
+    
+    <record id="rlbooks_project.rlbooks_project_entry_action_window" model="ir.actions.act_window">
+      
+      <field name="view_mode">tree,form,graph,pivot,dashboard</field>
+            
+    </record>
+       
+    <record id="project_entryview_dashboard" model="ir.ui.view">
+      <field name="name">rlbooks_project_entry.view.dashboard</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <dashboard sample="1">
+
+          <group>
+
+            <group>
+              
+              <aggregate name="open_salesvalue_total" string="Open Salesvalue Total" field="s_salesprice_t" widget="float"/>
+              <!-- <formula name="total" string="Average Order" value="record.price_subtotal_all_orders / record.order_id_confirmed_orders" widget="float"/> -->
+              
+              <aggregate name="users" string="# Users" field="user_id" clickable="False" widget="float"/>
+              <aggregate name="projects" string="# Projects" field="project_id" clickable="False" widget="float"/>
+              <aggregate name="products" string="# Products" field="product_id" clickable="False" widget="float"/>
+
+            </group>
+
+            <group col="1">
+              <widget name="pie_chart" title="Salesvalue by product" attrs="{'groupby': 'product_id', 'measure': 's_salesprice_t'}"/>
+            </group>
+
+          </group>
+            
+          <view type="graph" ref="rlbooks_project.rlbooks_project_entry_view_graph"/>
+
+          <view type="pivot" ref="rlbooks_project.rlbooks_project_entry_view_pivot"/>
+          
+          
+        </dashboard>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

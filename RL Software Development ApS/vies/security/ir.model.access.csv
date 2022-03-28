@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vies_message_manager,account.move manager,model_vies_message,account.group_account_manager,1,1,1,0
+access_vies_message_readonly,account.move readonly,model_vies_message,account.group_account_readonly,1,1,1,0
+access_vies_message_uinvoice,account.move,model_vies_message,account.group_account_invoice,1,1,1,0
+access_vies_message_readonly_res_partner,res_partner group_user,model_vies_message,base.group_user,1,0,1,0

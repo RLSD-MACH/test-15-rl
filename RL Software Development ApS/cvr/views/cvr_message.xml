@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+<data>
+
+<!-- cvr.message tree view -->
+<record id="view_cvr_message_tree" model="ir.ui.view">
+  <field name="name">cvr.message.view.tree</field>
+  <field name="model">cvr.message</field>
+  <field name="arch" type="xml">
+    <tree create="0" edit="0" string="Messages" sample="1" decoration-success="valid==True" decoration-danger="valid==False">
+
+      <!-- Add your fields here -->
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="create_date" optional="show" />
+      <field name="partner_id" optional="show" />
+      <field name="vat_number" optional="show" />      
+      <field name="request_identifier" optional="show" />
+      <field name="valid" optional="hide" widget="badge"/>
+    </tree>
+  </field>
+</record>
+
+<!-- cvr.message form view -->
+<record id="view_cvr_message_form" model="ir.ui.view">
+  <field name="name">cvr.message.view.form</field>
+  <field name="model">cvr.message</field>
+  <field name="arch" type="xml">
+    <form string="" edit="0" create="0">
+
+      <sheet>
+      
+        <widget name="web_ribbon" title="Not valid!" bg_color="bg-danger" attrs="{'invisible': [('valid', '=', True)]}"/>
+        <widget name="web_ribbon" title="Valid!" bg_color="bg-success" attrs="{'invisible': [('valid', '=', False)]}"/>
+
+        <notebook>
+
+          <page string="Data">
+            
+              <group>
+
+                <group>
+                  
+                  <!-- Add your fields here -->
+                  <field name="create_date" />
+
+                  <field name="partner_id" />
+                  <field name="vat_number" />
+                  <field name="requestDate" />            
+                  <field name="request_identifier" invisible="1"/>
+                  
+                  <field name="company_id" groups="base.group_multi_company"/>
+                  <field name="active" invisible="1"/>
+                  <field name="valid" invisible="1"/>
+                
+                </group>
+                
+              </group>
+
+              <!-- <group>
+
+                <group>
+
+                  <field name="traderName" />
+
+                </group>
+
+                <group>
+
+                  <field name="traderNameMatch" />
+
+                </group>
+                
+              </group>
+
+              <group>
+
+                <group>
+
+                  <field name="traderCompanyType" />
+
+                </group>
+
+                <group>
+
+                  <field name="traderCompanyTypeMatch" />
+
+                </group>
+                
+              </group>
+
+              <group>
+
+                <group>
+
+                  <field name="traderAddress" />
+
+                </group>
+
+                <group>
+
+
+                </group>
+                
+              </group>
+
+              <group>
+
+                <group>
+
+                  <field name="traderStreet" />
+
+                </group>
+
+                <group>
+
+                  <field name="traderStreetMatch" />
+
+                </group>
+                
+              </group>
+
+              <group>
+
+                <group>
+
+                  <field name="traderPostcode" />
+
+                </group>
+
+                <group>
+
+                  <field name="traderPostcodeMatch" />
+
+                </group>
+                
+              </group>
+
+              <group>
+
+                <group>
+
+                  <field name="traderCity" />
+
+                </group>
+
+                <group>
+
+                  <field name="traderCityMatch" />
+
+                </group>
+                
+              </group> -->
+
+          </page>
+
+          <page string="Send">
+          
+              <group>
+
+                  <field name="full_request"/>
+                                
+              </group>
+            
+          </page>
+
+          <page string="Recieved">
+          
+              <group>
+
+                  <field name="full_response"/>
+                                
+              </group>
+            
+          </page>
+
+
+        </notebook>
+      </sheet>
+    </form>
+  </field>
+</record>
+
+<!-- cvr.message search view -->
+<record id="view_cvr_message_search" model="ir.ui.view">
+  <field name="name">cvr.message.view.search</field>
+  <field name="model">cvr.message</field>
+  <field name="arch" type="xml">
+    <search string="Search Login">
+
+      <field name="partner_id" filter_domain="[('partner_id', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          <filter name="partner_id" string="Partner" context="{'group_by': 'partner_id'}"/>
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- cvr.message pivot view -->
+<record id="view_cvr_message_pivot" model="ir.ui.view">
+  <field name="name">cvr.message.view.pivot</field>
+  <field name="model">cvr.message</field>
+  <field name="arch" type="xml">
+    <pivot string="Pivot Description">
+      <!-- Add your fields here -->
+      <field name="create_date" optional="show" />
+      <field name="partner_id" optional="show" />
+      <field name="valid" optional="show"/>
+      
+    </pivot>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="action_cvr_message_window">
+    <field name="name">CVR message</field>
+    <field name="res_model">cvr.message</field>
+    <field name="view_mode">tree,form,pivot</field>
+  </record>
+
+</data>
+</odoo>

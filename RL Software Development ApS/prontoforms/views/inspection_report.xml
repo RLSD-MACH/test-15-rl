@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_inspection_report_form" model="ir.ui.view">
+      <field name="name">prontoforms.view.form</field>
+      <field name="model">inspection.report</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="inspection_report.view_inspection_report_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='purchase_order_id']" position="after">
+
+          <field name="purchase_order" attrs="{'invisible': [('purchase_order_id', '!=', False)]}"/>
+          
+        </xpath>
+
+        <xpath expr="//group[@name='product_section']" position="inside">
+        
+          <field name="products" attrs="{'invisible': []}"/>
+              <field name="products_not_found" attrs="{'invisible': [('products_not_found', '=', False)]}"/>
+          
+        </xpath>
+
+        <xpath expr="//group[@name='product_section']" position="before">
+        
+          <group name="prontoforms_section">
+            
+               <group>
+               
+                <field name="prontoforms_form_submission_id"/>  
+                <field name="pfs_user_id"/>  
+                <field name="conducted_by"/>  
+                <field name="result"/> 
+               
+               </group>
+            
+            </group>
+          
+        </xpath>
+
+      </field>
+      
+    </record>
+
+  </data>
+</odoo>

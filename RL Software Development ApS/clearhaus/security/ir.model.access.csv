@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_clearhaus_transaction,Clearhaus transaction,model_clearhaus_transaction,,1,1,1,1
+access_clearhaus_login,Clearhaus login,model_clearhaus_login,,1,1,1,1
+access_clearhaus_token,Clearhaus token,model_clearhaus_token,,1,1,1,1

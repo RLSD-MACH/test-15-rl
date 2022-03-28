@@ -1,0 +1,50 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+
+<templates id="template" xml:space="preserve">
+
+<!-- Search Bar autocomplete item -->
+    
+<t t-extend="website.s_searchbar.autocomplete" > 
+            
+    <t t-jquery="div.media-body" t-operation="replace">
+       <div class="media-body px-3">
+            <t t-set="description" t-value="parts['description'] and widget.displayDescription and result['description']"/>
+            <t t-set="extra_link" t-value="parts['extra_link'] and widget.displayExtraLink and result['extra_link_url'] and result['extra_link']"/>
+                        
+            <t t-set="default_code" t-value="parts['default_code'] and widget.displayDefault_code and result['default_code']"/>      
+            <t t-set="customer_art_no" t-value="parts['customer_art_no'] and widget.displayCustomer_art_no and result['customer_art_no']"/> 
+            <t t-set="barcode" t-value="parts['barcode'] and widget.displayBarcode and result['barcode']"/>    
+            
+            <style>
+                .media-body .mb-0 > span.text-primary{color: #18a906 !important;}
+            </style>
+           
+            <div t-attf-class="h6 font-weight-bold #{description ? '' : 'mb-0'}" t-out="result['name']"/>
+                        
+             <div t-if="customer_art_no" style="font-size:12px;font-weight:bold;">
+                <span>Your no.: </span>
+                <span t-if="customer_art_no" class="mb-0" t-out="customer_art_no" />
+            </div>
+
+            <div t-if="default_code" style="font-size:12px;font-weight:bold;">
+                <span>Our no.: </span>
+                <span t-if="default_code" class="mb-0" t-out="default_code" />
+            </div>
+
+            <div t-if="barcode" style="font-size:12px;font-weight:bold;">
+                <span>Barcode: </span>
+                <span t-if="barcode" class="mb-0" t-out="barcode" />
+            </div>
+
+            <p t-if="description" class="mb-0" t-out="description"/>
+
+            <button t-if="extra_link" class="extra_link btn btn-link btn-sm" t-att-data-target="result['extra_link_url']" t-out="extra_link"/>
+
+        </div>
+    </t>   
+
+</t>
+    
+
+</templates>
+

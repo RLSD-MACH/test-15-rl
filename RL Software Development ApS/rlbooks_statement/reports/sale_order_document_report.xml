@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+		
+	<template id="rlbooks_statement.saleorder_document_report">
+
+		<t t-name="rlbooks_statement.saleorder_document_report">
+
+			<t t-call="web.html_container">
+      
+				<t t-foreach="docs" t-as="doc">
+
+					<t t-set="doc_type" t-value="'sale_order'"/>
+				
+					<t t-call="rlbooks_statement.report_document" t-lang="doc.partner_id.lang"/>
+				
+				</t>
+				
+			</t>
+
+		</t>
+
+	</template>
+
+	<template id="doc_number_sale_order">
+
+		<t t-if="not (env.context.get('proforma', False) or is_pro_forma)">
+			<span t-if="doc.state not in ['draft','sent']">Order confirmation</span>
+			<span t-if="doc.state in ['draft','sent']">Quotation</span>
+		</t>
+
+		<t t-if="env.context.get('proforma', False) or is_pro_forma">
+			<span>Pro-Forma Invoice</span>
+		</t>
+
+	</template>
+
+	<template id="details_sale_order">
+
+		<div class="row">
+						
+			<div class="col-5">
+				
+				<span>Customer no.</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<span t-field="partner.ref"/>
+				
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+
+				<span>Customer VAT-no.</span>
+											
+			</div>
+			
+			<div class="col-7">
+				
+				<span t-field="partner.vat"/>
+				
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+					<span>Customer ref.</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<span t-field="doc.client_order_ref"/>
+				
+			</div>
+		
+		</div>
+
+		<div class="row" t-if="doc.validity_date and doc.state in ['draft', 'sent']">
+						
+			<div class="col-5">
+							
+				Expiration date
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<t t-if="doc.validity_date">
+					<span t-field="doc.validity_date" t-options="{'widget': 'date', 'format':'d. MMMM yyyy'}"/>
+				</t>
+
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+				<span>Order date</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<t t-if="doc.date_order">
+					<span t-field="doc.date_order" t-options="{'widget': 'date', 'format':'d. MMMM yyyy'}"/>
+				</t>
+				
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+				<span>Expected date</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<t t-if="doc.commitment_date">
+
+					<span t-field="doc.commitment_date" t-options="{'widget': 'date', 'format':'d. MMMM yyyy'}"/>
+
+				</t>
+			
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+				<span>Payment terms</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<span t-field="doc.payment_term_id.name"/>
+			
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+				<span>Delivery terms</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<t t-if="doc.incoterm.code == doc.incoterm.name">
+
+					<span t-field="doc.incoterm.code"/>
+
+				</t>
+				<t t-if="doc.incoterm.code != doc.incoterm.name">
+
+					<span t-field="doc.incoterm.code"/> - <span t-field="doc.incoterm.name"/>
+
+				</t>
+				
+			</div>
+		
+		</div>
+
+		<div class="row">
+						
+			<div class="col-5">
+							
+				<span>Price includes VAT</span>
+				
+			</div>
+			
+			<div class="col-7">
+				
+				<span>No</span>
+				
+			</div>
+		
+		</div>
+
+	</template>
+
+	<template id="document_sale_order">
+
+		<!-- Is there a discount on at least one line? -->
+		<t t-set="display_discount" t-value="any(l.discount for l in doc.order_line)"/>
+		
+		<t t-if="display_prices_overwrite">
+
+			<t t-set="display_prices" t-value="false"/>
+
+		</t>
+		<t t-else="">
+
+			<t t-set="display_prices" t-value="doc.display_prices"/>
+
+		</t>        
+
+		<!-- <t t-set="display_hs_code" t-value="any(l.product_id.product_tmpl_id.hs_code for l in doc.order_line)"/> -->
+        <t t-set="display_hs_code" t-value="False"/>
+
+		<t t-set="display_producttext_in_line" t-value="doc.display_producttext_in_line"/>		
+		
+		<t t-set="has_bom_ids" t-value="any('bom_ids' in l.product_id.fields_get() for l in doc.order_line)"/>
+		
+		<t t-set="display_default_code" t-value="any(l.product_id.default_code for l in doc.order_line)"/>
+		
+		<t t-if="doc.display_bomspecifications_sales_line and not display_default_code and has_bom_ids">
+
+			<t t-set="display_default_code" t-value="any(line.product_id.default_code for line in (bom.bom_line_ids for bom in (l.product_id.bom_ids for l in doc.order_line)))"/>
+
+		</t>
+
+		<t t-set="display_customer_art_no" t-value="any(l.product_id.product_tmpl_id.customer_art_no for l in doc.order_line)"/>
+		
+		<t t-if="doc.display_bomspecifications_sales_line and not display_customer_art_no and has_bom_ids">
+      
+      		<t t-set="display_customer_art_no" t-value="any(l.product_id.customer_art_no for l in doc.order_line.product_id.bom_ids.bom_line_ids)"/>
+      
+		</t>
+				
+		<t t-set="display_product_uom_id" t-value="any(l.product_uom for l in doc.order_line)"/>
+
+        <t t-set="display_productspecifications" t-value="doc.display_productspecifications"/>		
+	
+		<t t-call="rlbooks_statement.document_lines" t-lang="doc.partner_id.lang"/>
+
+		<t t-call="rlbooks_statement.document_tax_and_total" t-lang="doc.partner_id.lang"/>
+<!-- 								
+		<div class="clearfix" name="so_total_summary">
+
+			<div id="total" class="row title-avenirfont" name="total">
+
+				<div t-attf-class="#{'col-4' if report_type != 'html' else 'col-sm-7 col-md-5'} ml-auto">
+
+					<table class="table table-sm">
+
+						<tr class="border-black o_subtotal" style="">
+
+							<td name="td_amount_untaxed_label">
+								<strong><span>Subtotal</span></strong>
+							</td>
+
+							<td name="td_amount_untaxed" class="text-right">
+								<span t-field="doc.amount_untaxed"/>
+							</td>
+
+						</tr>
+						
+						<t t-if="'amount_by_group' in doc.fields_get()">
+							
+							<t t-foreach="doc.amount_by_group" t-as="amount_by_group">
+
+								<tr style="">
+
+									<t t-if="len(doc.order_line.filtered(lambda line: line.tax_id)) in [0, 1] and doc.amount_untaxed == amount_by_group[2]">
+
+										<td>
+										<span class="text-nowrap" t-esc="amount_by_group[0]"/>
+										</td>
+
+										<td class="text-right o_price_total">
+											<span class="text-nowrap" t-esc="amount_by_group[3]"/>
+										</td>
+
+									</t>
+
+									<t t-else="">
+
+										<td>
+											<span t-esc="amount_by_group[0]"/>
+											<span class="text-nowrap"> <span>on</span>
+												<t t-esc="amount_by_group[4]"/>
+											</span>
+										</td>
+
+										<td class="text-right o_price_total">
+											<span class="text-nowrap" t-esc="amount_by_group[3]"/>
+										</td>
+
+									</t>
+
+								</tr>
+
+							</t>
+						</t>
+						
+						<tr class="border-black o_total">
+
+							<td name="td_amount_total_label">
+								<span style="font-weight:bold;">Total</span>
+							</td>
+
+							<td name="td_amount_total" class="text-right">
+								<span style="font-weight:bold;" t-field="doc.amount_total"/>
+							</td>
+							
+						</tr>
+
+					</table>
+
+				</div>
+
+			</div>
+
+		</div> -->
+				
+		<t t-call="rlbooks_statement.sale_order_options" t-lang="doc.partner_id.lang" t-if="doc.sale_order_option_ids and doc.state in ['draft', 'sent']"/>
+
+		<t t-call="rlbooks_statement.signature" t-lang="doc.partner_id.lang"/>	
+		
+		<div class="oe_structure"/>
+
+		<p t-field="doc.note"/>
+		
+		<p t-if="doc.payment_term_id.note and 1==2">
+			<span t-field="doc.payment_term_id.note"/>
+		</p>
+		
+		<t t-if="'order_text' in doc.fields_get()">
+
+			<div id="order_text" t-if="doc.order_text" class="title-avenirfont" style="break-inside: avoid;display: table;">
+		
+				<strong class="title-avenirfont-bold"><span>Comment:</span></strong><br/>
+				<span t-field="doc.order_text"/>
+			
+			</div>
+		
+		</t>
+		
+		<t t-if="'text_on_invoices' in doc.warehouse_id.fields_get()">
+			
+			<t t-if="doc.warehouse_id.text_on_invoices and doc.display_warehouse_message">
+
+				<t t-if="doc.order_text"> <br></br></t>
+
+				<div id="warehouse_text" class="title-avenirfont">
+
+					<strong class="title-avenirfont-bold"><span>Warehouse:</span></strong><br/>
+
+					<span t-field="doc.warehouse_id.text_on_invoices"/>
+
+				</div>
+
+			</t>
+			
+		</t>
+		
+		<t t-call="rlbooks_statement.fiscal_position_remark" t-lang="doc.partner_id.lang"/>
+
+		<t t-if="'order_text' in company.fields_get()">
+
+			<p t-if="company.order_text" class="title-avenirfont">
+				<span t-field="company.order_text"/>
+			</p>
+
+		</t>
+
+		<t t-set="IndividualProduct" t-value="[]"/>
+
+		<t t-foreach="doc.order_line" t-as="l">
+		
+			<t t-if="l.product_type == 'product' and l.product_id not in IndividualProduct">
+
+				<t t-set="IndividualProduct" t-value="IndividualProduct+[l.product_id]"/>
+
+			</t>	
+
+		</t>
+		<t t-foreach="doc.sale_order_option_ids" t-as="l">
+		
+			<t t-if="l.product_id.type == 'product' and l.product_id not in IndividualProduct">
+
+				<t t-set="IndividualProduct" t-value="IndividualProduct+[l.product_id]"/>
+
+			</t>	
+
+		</t>
+
+		<t t-if="doc.display_productspecifications" >
+
+			<div style="page-break-before: always;">
+
+				<t t-call="rlbooks_statement.product_specifications" t-lang="doc.partner_id.lang"/>
+				
+			</div>
+
+		</t>
+
+	</template>
+	
+	<!-- <record id="rlbooks_statement.saleorder_document_report_print" model="ir.actions.report">
+
+		<field name="name">Saleorder</field>
+		<field name="model">sale.order</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">rlbooks_statement.saleorder_document_report</field>
+		<field name="report_file">rlbooks_statement.saleorder_document_report</field>
+		<field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field>
+		<field name="binding_model_id" ref="sale.model_sale_order"/>
+		<field name="binding_type">report</field>
+		<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard"/>
+			
+	</record> -->
+
+	<record id="sale.action_report_saleorder" model="ir.actions.report">
+
+		<!-- <field name="name">Saleorder</field> -->
+		<!-- <field name="model">sale.order</field> -->
+		<!-- <field name="report_type">qweb-pdf</field> -->
+		<field name="report_name">rlbooks_statement.saleorder_document_report</field>
+		<field name="report_file">rlbooks_statement.saleorder_document_report</field>
+		<!-- <field name="print_report_name">(object.state in ('draft', 'sent') and 'Quotation - %s' % (object.name)) or 'Order - %s' % (object.name)</field> -->
+		<!-- <field name="binding_model_id" ref="sale.model_sale_order"/> -->
+		<!-- <field name="binding_type">report</field> -->
+		<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard"/>
+			
+	</record>
+
+	<!-- <record model="ir.ui.view" id="sales_order_template_ext_form">
+    
+      <field name="inherit_id" ref="sale.report_saleorder"/>
+      <field name="mode">extension</field>
+      <field name="priority">2</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//t[@t-name='sale.report_saleorder']" position="replace">
+          
+           <t t-call="rlbooks_statement.saleorder_document_report"/>                
+        
+        </xpath>
+
+      </field>
+
+    </record> -->
+
+</odoo>
+

@@ -1,0 +1,31 @@
+<odoo>
+
+  <data>
+     
+    <template id="document_delivery_slip_ext_qweb" inherit_id="rlbooks_statement.document_delivery_slip">
+        <xpath expr="//t[@t-call='rlbooks_statement.document_lines']" position="after">
+          
+          <t t-if="doc.sale_id.fsc_certificate_id">
+
+            <div id="fsc_text" style="padding-top:10px;">
+
+              <span>FSC Certificate No.:</span> <span t-esc="doc.sale_id.fsc_certificate_id.name"/>
+              <br/>
+
+              <span>FSC claim:</span> <span t-esc="doc.sale_id.fsc_claim_id.name"/>
+              <br/>  
+
+              <!-- <t t-if="doc.sale_id.fsc_weigthin_kg > 0">
+                <span >Weight of FSC Paper: </span><span t-esc="doc.sale_id.fsc_weigthin_kg"/> <span>kgs.</span>
+                <br/>
+              </t> -->
+             
+            </div>
+          </t>
+
+        </xpath>
+    </template>
+    
+  </data>
+
+</odoo>

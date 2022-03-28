@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="rlbooks_statement_res_config_settings_view_form">
+      <field name="name">res.config.settings.view.form.inherit.rlbooks.statement</field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[hasclass('settings')]" position="inside">
+
+          <div class="app_settings_block" data-string="Statement" string="Statement" data-key="rlbooks_statement" groups="account.group_account_manager">
+            
+            <h2>Statements</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+                
+                
+
+                  <group>
+
+                    <field name="customer_statement_account_ids" options="{'no_create':true}" widget="many2many_tags"/>
+
+                  </group>
+
+                  <group>
+
+                    <field name="supplier_statement_account_ids" options="{'no_create':true}" widget="many2many_tags"/>
+
+                  </group>
+
+                  <group>
+
+                    <field name="statement_goods_product_ids" options="{'no_create':true}" widget="many2many_tags"/>
+                    <field name="statement_services_product_ids" options="{'no_create':true}" widget="many2many_tags"/>
+                    <field name="statement_consus_product_ids" options="{'no_create':true}" widget="many2many_tags"/>
+
+                  </group>
+                
+                
+                
+              </div>
+
+            </div>
+
+          </div>
+
+        </xpath>
+
+      </field>
+    </record>
+
+
+</odoo>

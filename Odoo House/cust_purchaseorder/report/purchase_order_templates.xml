@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_purchaseorder_document_oh_inherit" inherit_id="purchase.report_purchaseorder_document">
+        <xpath expr="//t/t[2]" position="replace">
+            <t t-set="address" >
+            <div class="title-avenirfont" t-field="o.partner_id"
+            t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
+            </t>
+        </xpath>
+        <xpath expr="//t/t[3]" position="replace">
+            <t t-if="o.dest_address_id">
+            <t t-set="information_block">
+                <strong>Shipping address:</strong>
+                <div t-if="o.dest_address_id">
+                    <div class="title-avenirfont" t-field="o.dest_address_id"
+                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' name="purchase_shipping_address"/>
+                </div>
+            </t>
+        </t>
+        </xpath>
+        <xpath expr="//t/div/h2[1]" position="replace">
+            <h2 t-if="o.state == 'draft'">Request for Quotation</h2>
+        </xpath>
+        <xpath expr="//t/div/h2[2]" position="replace">
+            <h2 t-if="o.state in ['sent', 'to approve']">Purchase Order</h2>
+        </xpath>
+        <xpath expr="//t/div/h2[3]" position="replace">
+            <h2 t-if="o.state in ['purchase', 'done']">Purchase Order</h2>
+        </xpath>
+        <xpath expr="//t/div/h2[4]" position="replace">
+            <h2 t-if="o.state == 'cancel'">Cancelled Purchase Order</h2>
+        </xpath>
+        <xpath expr="//t/div/div[2][@id = 'informations']" position="replace">
+            <div class="row mt32 mb32" id="informations">
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont-bold">Customer no.</strong>
+                    <t t-if="o.partner_id.ref">
+                        <p class="m-0 title-avenirfont" t-field="o.partner_id.ref"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold">Your reference.</strong>
+                    <t t-if="o.partner_ref">
+                        <p class="m-0 title-avenirfont" t-field="o.partner_ref"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold">Confirmation Date</strong>
+                    <t t-if="o.date_approve">
+                        <p class="m-0 title-avenirfont" t-field="o.date_approve" t-options='{"widget": "date"}'/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2" name="expiration_date">
+                    <strong class="title-avenirfont title-avenirfont-bold">Expected Date</strong>
+                    <t t-if="o.date_planned">
+                        <p class="m-0 title-avenirfont" t-field="o.date_planned" t-options='{"widget": "date"}'/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold">Purchaser</strong>
+                    <t t-if="o.user_id.name">
+                        <p class="m-0 title-avenirfont" t-field="o.user_id"/>
+                    </t>
+                </div>
+            </div>
+            <div id="other_informations" class="row mt32 mb32">
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold" t-att-style="'color: %s;' % o.company_id.secondary_color">VAT</strong>
+                    <t t-if="o.partner_id.vat">
+                        <p class="m-0 title-avenirfont" t-field="o.partner_id.vat"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold" t-att-style="'color: %s;' % o.company_id.secondary_color">
+                        <span t-if="o.state in ['purchase', 'done']">Order no.</span>
+                    </strong>
+                    <t t-if="o.name">
+                        <p class="m-0 title-avenirfont" t-field="o.name"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold" t-att-style="'color: %s;' % o.company_id.secondary_color">Delivery terms</strong>
+                    <t t-if="o.picking_ids.carrier_id">
+                        <p class="m-0 title-avenirfont" t-field="o.picking_ids.carrier_id.name"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                    <strong class="title-avenirfont title-avenirfont-bold" t-att-style="'color: %s;' % o.company_id.secondary_color">Payment terms</strong>
+                    <t t-if="o.payment_term_id">
+                        <p class="m-0 title-avenirfont" t-field="o.payment_term_id"/>
+                    </t>
+                </div>
+                <div class="col-auto col-3 mw-100 mb-2">
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//t/div/table" position="replace">
+            <table class="table table-sm o_main_table" name="purchase_line_table">
+                <thead>
+                    <tr>
+                        <th name="th_customer_art_no" class="title-avenirfont-bold text-left"><span><b>Customer art no.</b></span></th>
+                        <th name="th_default_code" class="title-avenirfont-bold text-left"><span>Number</span></th>
+                        <th name="th_description" class="title-avenirfont-bold text-left">Description</th>
+                        <th name="th_quantity" class="title-avenirfont-bold text-right">Quantity</th>
+                        <th name="th_uom" class="title-avenirfont-bold text-right"><span>UOM</span></th>
+                        <th name="th_price_unit" class="title-avenirfont-bold text-right">Unit Price</th>
+                        <th name="th_amount" class="title-avenirfont-bold text-right">
+                            <span>Amount</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="purchase_tbody">
+                    <t t-set="current_subtotal" t-value="0"/>
+                    <t t-foreach="o.order_line" t-as="line">
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                        <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+
+                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                            <t t-if="not line.display_type">
+                                <td class="title-avenirfont text-left">
+                                    <span t-field="line.product_id.product_tmpl_id.customer_art_no"/>
+                                </td>
+                                <td class="title-avenirfont text-left">
+                                    <span t-field="line.product_id.product_tmpl_id.default_code"/>
+                                </td>
+                                <td name="td_name" class="title-avenirfont text-left"><span t-field="line.product_id.name"/>
+                                <br/>
+                                    <t t-if='line.product_id.description_purchase and not(line.product_id.bom_ids)'>
+                                        <span t-field="line.product_id.description_purchase"></span>
+                                    </t>
+                                </td>
+                                <td name="td_quantity" class="title-avenirfont text-right">
+                                    <span t-field="line.product_uom_qty"/>
+                                </td>
+                                <td name="td_quantity_uom" class="title-avenirfont text-right">
+                                    <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                </td>
+                                <td name="td_priceunit" class="title-avenirfont text-right">
+                                    <span t-field="line.price_unit"/>
+                                </td>
+                                <td name="price_subtotal" class="title-avenirfont text-right">
+                                    <span t-field="line.price_subtotal"
+                                        t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </t>
+                            <t t-if="line.display_type == 'line_section'">
+                                <td colspan="99" id="section">
+                                    <span t-field="line.name"/>
+                                </td>
+                                <t t-set="current_section" t-value="line"/>
+                                <t t-set="current_subtotal" t-value="0"/>
+                            </t>
+                            <t t-if="line.display_type == 'line_note'">
+                                <td colspan="99" id="note">
+                                    <span t-field="line.name"/>
+                                </td>
+                            </t>
+                        </tr>
+                        <t t-if="line.product_id.bom_ids">
+                            <t t-foreach="line.product_id.bom_ids" t-as="bom">
+                                <t t-if="bom.type == 'phantom'">
+                                    <t t-foreach="bom.bom_line_ids" t-as="bom_line">
+                                        <tr>
+                                            <td class="title-avenirfont text-left">
+                                                <span t-field="bom_line.product_id.product_tmpl_id.customer_art_no"/>
+                                            </td>
+                                            <td class="title-avenirfont text-left">
+                                                <span t-field="bom_line.product_id.product_tmpl_id.default_code"/>
+                                            </td>
+                                            <td name="td_name" class="title-avenirfont text-left"><span t-field="bom_line.product_id.name"/>
+                                            </td>
+                                            <td>
+                                            </td>
+                                            <td></td>
+                                            <td name="td_priceunit" class="title-avenirfont text-right">
+                                            </td>
+                                            <td t-if="display_discount" class="title-avenirfont text-right" groups="product.group_discount_per_so_line">
+                                            </td>
+                                            <td class="title-avenirfont text-right o_price_total">
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>
+                        </t>
+                        <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+                            <td></td>
+                            <td></td>
+                            <td class="title-avenirfont">
+                                <t t-if='line.product_id.description_purchase'>
+                                    <span t-field="line.product_id.description_purchase"></span>
+                                </t>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+        </xpath>
+        <xpath expr="//div[@id = 'total']" position="replace">
+            <div id="total" class="row justify-content-end title-avenirfont">
+                <div class="col-4">
+                    <table class="table table-sm">
+                        <tr class="border-black">
+                            <td name="td_subtotal_label"><strong>Subtotal</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed"
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td name="td_taxes_label">Taxes</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax"
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black o_total">
+                            <td name="td_amount_total_label"><strong>Total</strong></td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total"
+                                    t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </xpath>
+        <xpath expr="//t/div/p" position="replace">
+        </xpath>
+    </template>
+    <template id="report_purchaseorder_document_inherit" inherit_id="purchase_stock.report_purchaseorder_document">
+        <xpath expr="//t[@t-else='']" position="replace">
+            <t t-else="">
+                <t t-set="information_block">
+                    <strong>Shipping address:</strong>
+                    <div class="title-avenirfont" t-if="o.picking_type_id and o.picking_type_id.warehouse_id">
+                        <span t-field="o.picking_type_id.warehouse_id.name"/>
+                        <div t-field="o.picking_type_id.warehouse_id.partner_id" t-options='{"widget": "contact", "fields": ["address", "phone"], "no_marker": True, "phone_icons": True}'/>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
+</odoo>

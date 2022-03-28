@@ -1,0 +1,97 @@
+<odoo>
+<data>
+
+<record id="res_vessel_view_tree" model="ir.ui.view">
+  <field name="name">res.vessel.tree</field>
+  <field name="model">res.vessel</field>
+  <field name="arch" type="xml">
+    <tree create="1" edit="1" string="Container size's" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="name" optional="show" />     
+      <field name="country_id" optional="show" /> 
+      <field name="active" optional="hide"/>     
+      
+    </tree>
+  </field>
+</record>
+
+<record id="res_vessel_view_form" model="ir.ui.view">
+
+  <field name="name">res.vessel.form</field>
+
+  <field name="model">res.vessel</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="res_vessel_header">
+              
+         <!-- <field name="state" widget="statusbar"/> -->
+      
+      </header>
+                      
+      <sheet string="Vessel">
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <group string="Details" modifiers="{}">
+              
+          <field name="name"/> 
+          <field name="country_id"/> 
+          
+          <field name="active" invisible="1"/>
+                          
+        </group>
+
+      </sheet>
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="res_vessel_view_search" model="ir.ui.view">
+  <field name="name">res.vessel.search</field>
+  <field name="model">res.vessel</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+
+        <filter name="country_id" string="Country" domain="[]" context="{'group_by' : 'country_id'}"/>
+
+        <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+         
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="res_vessel_action_window">
+    <field name="name">Vessel</field>
+    <field name="res_model">res.vessel</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Vessel" id="res_vessel_menu" parent="stock.menu_stock_config_settings" action="res_vessel_action_window" sequence="21"/>
+  
+</data>
+</odoo>

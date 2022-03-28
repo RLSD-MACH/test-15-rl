@@ -1,0 +1,83 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* auth_signup_extend
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0+e\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-07 12:09+0000\n"
+"PO-Revision-Date: 2021-12-07 12:09+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "City"
+msgstr "By"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Company Name"
+msgstr "Firmanavn"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Country"
+msgstr "Land"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Country..."
+msgstr "Land...."
+
+#. module: auth_signup_extend
+#: code:addons/auth_signup_extend/controllers/main.py:0
+#, python-format
+msgid "Passwords do not match; please retype them."
+msgstr ""
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Phone"
+msgstr "Telefon"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "State / Province"
+msgstr "Stat / Region"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Street"
+msgstr "Vej"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Street 2"
+msgstr "Vej 2"
+
+#. module: auth_signup_extend
+#: code:addons/auth_signup_extend/controllers/main.py:0
+#, python-format
+msgid "The form was not properly filled in."
+msgstr ""
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "VAT"
+msgstr "SE/CVR-nr."
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "Zip / Postal Code"
+msgstr "Postnummer"
+
+#. module: auth_signup_extend
+#: model_terms:ir.ui.view,arch_db:auth_signup_extend.auth_signup_fields_ext
+msgid "select..."
+msgstr "vælg..."

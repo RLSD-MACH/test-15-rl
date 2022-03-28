@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mto_ic_order,MTO IC order,model_mto_ic_order,,1,1,1,1
+access_mto_ic_order_line,MTO IC order line,model_mto_ic_order_line,,1,1,1,1
+access_mto_ic_order_stage,MTO IC order stage,model_mto_ic_order_stage,,1,1,1,1
+access_mto_ic_shipping_order,Shipping order,model_shipping_order,,1,1,1,1
+access_mto_ic_shipping_order_line,Shipping order line,model_shipping_order_line,,1,1,1,1
+access_mto_ic_shipping_order_ship_wizard,Shipping order ship wizard,model_shipping_order_ship_wizard,,1,1,1,1
+access_container_size,Container size,model_container_size,,1,1,1,1
+access_container_stock,Container stock,model_container_stock,,1,1,1,1
+access_container,Container,model_container,,1,1,1,1

@@ -1,0 +1,45 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="product_template_ext_form">
+      <field name="name">product_template.form</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_form_view"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="priority">2</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='standard_price_uom']" position="after">
+          
+          <field name="fsc_claim_id" options="{'no_create': True, 'no_open': False}" widget="many2one" groups="sales_team.group_sale_salesman"></field>                  
+        
+          <field name="fsc_artwork" attrs="{'invisible': [['fsc_claim_id','=',False]]}"/> 
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_template_ext_search">
+      <field name="name">product_template.search</field>
+      <field name="model">product.template</field>
+      <field name="inherit_id" ref="product.product_template_search_view"/>
+      <field name="mode">extension</field>
+      <field name="type">search</field>
+      <field name="priority">2</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//group" position="inside">
+                      
+          <filter name="fsc_claim_id" context="{'group_by':'fsc_claim_id'}" groups="sales_team.group_sale_salesman"/>
+
+        </xpath>
+
+      </field>
+    </record>
+    
+  </data>
+
+</odoo>

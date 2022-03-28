@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit_sale_inherit" inherit_id="sale.report_invoice_document_inherit_sale">
+        <div groups="sale.group_delivery_invoice_address" position="attributes">
+            <attribute name="class">title-avenirfont</attribute>
+        </div>
+
+        <div t-field="o.partner_id" position="attributes">
+            <attribute name="class">title-avenirfont</attribute>
+        </div>
+     </template>
+     
+</odoo>

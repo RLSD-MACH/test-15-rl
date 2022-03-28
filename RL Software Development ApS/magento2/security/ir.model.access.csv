@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_magento2_login,Magento2 Login,model_magento2_login,,1,1,1,1
+access_magento2_api_call,Magento2 API Call,model_magento2_api_call,,1,1,1,1
+access_magento2_api_standard,Magento2 API Standard,model_magento2_api_standard,,1,1,1,1
+access_magento2_store,Magento2 Store,model_magento2_store,,1,1,1,1
+access_magento2_attribute,Magento2 attribute,model_magento2_attribute,,1,1,1,1
+access_magento2_attribute_info,Magento2 attribute info,model_magento2_attribute_info,,1,1,1,1
+access_magento2_datatable,Magento2 datatable,model_magento2_datatable,,1,1,1,1

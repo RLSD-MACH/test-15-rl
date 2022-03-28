@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2019 Odoo House (https://www.odoohouse.dk)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>  
+    <record model="mis.report" id="mis_report_plbs">
+      <field name="name">Resultatopgørelse og balance</field>
+      <field name="style_id" ref="l10n_dk"/>
+    </record>
+    <record model="mis.report.instance" id="mis_report_instance_plbs">
+      <field name="name">Resultatopgørelse og balance</field>
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="comparison_mode" eval="False"/>
+    </record> 
+    <record model="mis.report.kpi" id="mis_report_plbs_res">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RES</field>
+      <field name="description">Resultatopgørelse</field>
+      <field name="expression">AccountingNone</field>
+      <field name="accumulation_method">none</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_caption"/>
+      <field name="sequence">1</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_oms">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">OMS</field>
+      <field name="description">Omsætning</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_revenue').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">2</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_do">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">DO</field>
+      <field name="description">Direkte omkostninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_direct_costs').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">3</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_dknb">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">DKNB</field>
+      <field name="description">Dækningsbidrag</field>
+      <field name="expression">+OMS +DO</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">4</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_perso">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">LON</field>
+      <field name="description">Lønninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_staff_costs').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">5</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_saom">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">SAOM</field>
+      <field name="description">Salgs- og rejseomkostninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_sales_travel_expenses').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">6</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_bildm">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">BILDM</field>
+      <field name="description">Autodrift - personbiler</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_auto_operation').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">7</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_lokom">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">LOKOM</field>
+      <field name="description">Lokaleomkostninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_room_cost').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">8</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_admok">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">ADMOK</field>
+      <field name="description">Administrationsomkostninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_administration_costs').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">9</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_fasto">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">FASTO</field>
+      <field name="description">Faste omkostninger i alt</field>
+      <field name="expression"> +LON +SAOM +BILDM +LOKOM +ADMOK</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_resfa">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RESFA</field>
+      <field name="description">Resultat før afskrivninger</field>
+      <field name="expression">+DKNB +FASTO</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">11</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_afned">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">AFNED</field>
+      <field name="description">Afskrivninger</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_depreciation').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">12</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_resff">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RESFF</field>
+      <field name="description">Resultat før renter</field>
+      <field name="expression">+RESFA +AFNED</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">13</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_finin">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">FININ</field>
+      <field name="description">Renteindtægter</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_financial_income').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">14</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_finud">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">FINUD</field>
+      <field name="description">Renteudgifter</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_financial_expenses').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">15</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_resfe">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RESFE</field>
+      <field name="description">Resultat før ekstraordinære indt./udg.</field>
+      <field name="expression">+RESFF +FININ +FINUD</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">16</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_eksi">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">EKSI</field>
+      <field name="description">Ekstraordinære poster</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_extraordinary').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">17</field>
+    </record>    
+    <record model="mis.report.kpi" id="mis_report_plbs_resfs">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RESFS</field>
+      <field name="description">Resultat før skat</field>
+      <field name="expression">+RESFE +EKSI </field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">18</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_skat">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">SKAT</field>
+      <field name="description">Selskabsskat</field>
+      <field name="expression">balp[('group_id', '=', ref('l10n_dk_ec.account_group_sales_corporation_tax').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">19</field>
+    </record>
+    <record model="mis.report.kpi" id="ressr">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">RESSR</field>
+      <field name="description">Samlet resultat</field>
+      <field name="expression">+RESFS +SKAT </field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">20</field>
+    </record>  
+
+    <record model="mis.report.kpi" id="mis_report_plbs_bal">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">BAL</field>
+      <field name="description">Balance</field>
+      <field name="expression">AccountingNone</field>
+      <field name="accumulation_method">none</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_caption"/>
+      <field name="sequence">21</field>
+    </record>
+
+    <record model="mis.report.kpi" id="mis_report_plbs_akt">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">AKT</field>
+      <field name="description">Aktiver</field>
+      <field name="expression"> +ANAK +OMAK</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">22</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_anak">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">ANAK</field>
+      <field name="description">Anlægsaktiver</field>
+      <field name="expression">+GBYG +AADI +EDB +DEPO</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">23</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_gbyg">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">GBYG</field>
+      <field name="description">Goodwill, licenser m.m.</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_buildings').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">24</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_aadi">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">AADI</field>
+      <field name="description">Driftsmidler og inventar</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_equipment_tools_fixtures').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">25</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_edb">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">EDB</field>
+      <field name="description">Edb-anlæg</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_it').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">26</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_depo">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">DEPO</field>
+      <field name="description">Depositum</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_deposit').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">27</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_omak">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">OMAK</field>
+      <field name="description">Omsætningsaktiver</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_current_assets').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">28</field>
+    </record>
+    
+    <record model="mis.report.kpi" id="mis_report_plbs_pas">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">PAS</field>
+      <field name="description">Passiver</field>
+      <field name="expression">+EGEN +HENS +GALD</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">29</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_egen">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">EGEN</field>
+      <field name="description">EGENKAPITAL</field>
+      <field name="expression">+EGEN2 +AARES</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">30</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_aares">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">AARES</field>
+      <field name="description">Årets foreløbige resultat</field>
+      <field name="expression">+RESFS</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sub"/>
+      <field name="sequence">31</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_egen2">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">EGEN2</field>
+      <field name="description">Egenkapital</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_equity').id)][]</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sub"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">32</field>
+    </record>    
+    <record model="mis.report.kpi" id="mis_report_plbs_hens">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">HENS</field>
+      <field name="description">HENSÆTTELSER</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_reserves').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">33</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_gald">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">GALD</field>
+      <field name="description">GÆLD</field>
+      <field name="expression">+KOFG +MOMS +ANDG </field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">34</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_kofg">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">KOFG</field>
+      <field name="description">Kortfristet gæld</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_credit_current_liabilities').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sub"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">35</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_moms">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">MOMS</field>
+      <field name="description">Moms og afgifter</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_vat_taxes').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sub"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">36</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_andg">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">ANDG</field>
+      <field name="description">Anden gæld</field>
+      <field name="expression">bale[('group_id', '=', ref('l10n_dk_ec.account_group_other_current_liabilities').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sub"/>
+      <field name="auto_expand_accounts" eval="1"/>
+      <field name="auto_expand_accounts_style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">37</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_plbs_NUL">
+      <field name="report_id" ref="mis_report_plbs"/>
+      <field name="name">NUL</field>
+      <field name="description">Nulkontrol</field>
+      <field name="expression">+AKT +PAS</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_sum"/>
+      <field name="sequence">38</field>
+    </record>
+
+</odoo>

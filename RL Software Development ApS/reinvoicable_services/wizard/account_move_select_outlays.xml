@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_select_outlays_form" model="ir.ui.view">
+        <field name="name">account.move.select.outlay.wizard.form</field>
+        <field name="model">account.move.select.outlay.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Select Outlays">
+
+                <!-- <group string="Outlays Config"> -->
+                    <field name="partner_id" invisible="1"/>
+                    <field name="line_ids" nolabel="1" domain="[('account_move_select_outlay_wizard_id','=',active_id)]" options="{'no_open':True,'no_create':1,'no_create_edit':1}" >
+                        <tree editable="bottom">
+
+                            <field name="outlay_id"/>
+                            <field name="product_id"/>                            
+                            <field name="description"/>
+                            <field name="open_balance"/>
+                            <field name="selected_percentage"/>
+                            <field name="selected_balance"/>
+                           
+                        </tree>
+                    </field>
+                <!-- </group> -->
+                
+                <footer>
+                    <button name="select_outlays" string="Add" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_select_outlays_view">
+        <field name="name">Select Outlays</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move.select.outlay.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_select_outlays_view_form">
+        <field name="act_window_id" ref="act_open_select_outlays_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_select_outlays_form" />
+    </record>
+
+</odoo>

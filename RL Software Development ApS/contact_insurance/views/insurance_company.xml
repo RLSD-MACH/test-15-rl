@@ -1,0 +1,102 @@
+<odoo>
+<data>
+
+<record id="insurance_company_view_tree" model="ir.ui.view">
+  <field name="name">insurance.company.tree</field>
+  <field name="model">insurance.company</field>
+  <field name="arch" type="xml">
+
+    <tree create="1" edit="1" string="Insurance Company" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="name" optional="show" />     
+      <field name="country_id" optional="show" /> 
+      <field name="active" optional="hide"/>     
+      <button name="action_visit_webpage" type="object" string="Homepage" class="oe_highlight" />
+      
+    </tree>
+
+  </field>
+</record>
+
+<record id="insurance_company_view_form" model="ir.ui.view">
+
+  <field name="name">insurance.company.form</field>
+
+  <field name="model">insurance.company</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="insurance_company_header">
+              
+         <!-- <field name="state" widget="statusbar"/> -->
+      
+      </header>
+                      
+      <sheet string="Insurance company">
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <group string="Details" modifiers="{}">
+              
+          <field name="name"/> 
+          <field name="homepage"/> 
+          
+          <field name="country_id"/> 
+          
+          <field name="active" invisible="1"/>
+                          
+        </group>
+
+      </sheet>
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="insurance_company_view_search" model="ir.ui.view">
+  <field name="name">insurance.company.search</field>
+  <field name="model">insurance.company</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+
+        <filter name="country_id" string="Country" domain="[]" context="{'group_by' : 'country_id'}"/>
+
+        <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+         
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="insurance_company_action_window">
+    <field name="name">Insurance company</field>
+    <field name="res_model">insurance.company</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Insurance company" id="insurance_company_menu" parent="contacts.res_partner_menu_config" action="insurance_company_action_window" sequence="20"/>
+  
+</data>
+</odoo>

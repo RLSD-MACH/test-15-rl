@@ -1,0 +1,27 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_dw.account_view_account_position_ext_form">
+      <field name="name">rlbooks_dw.account_view_account_position_ext.form</field>
+      <field name="model">account.fiscal.position</field>
+      <field name="inherit_id" ref="account.view_account_position_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='company_id']" position="after">
+    
+          <field name="default_warehouse_id"/>
+          <field name="default_customer_location_id"/>
+          <field name="default_supplier_location_id"/>
+          
+        </xpath>
+        
+      </field>
+    </record>
+    
+
+  </data>
+
+</odoo>

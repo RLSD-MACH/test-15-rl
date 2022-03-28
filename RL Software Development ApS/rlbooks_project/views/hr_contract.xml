@@ -1,0 +1,33 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_project_hr_contract_ext_form">
+      <field name="name">rlbooks.project.hr_contract_ext.form</field>
+      <field name="model">hr.contract</field>
+      <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//page[@name='information']" position="after">
+            <page string="RL-Books Settings" name="rlbooks">
+                <group name="settings_rlbooks">
+                    <group name="hourrates" string="Hourrates">
+
+                        <field name="standard_costprice_hourrate" string="Standard costprice"/>
+                        <field name="real_costprice_hourrate" string="Realised costprice"/>
+                        <field name="invoiceable_hourrate" string="Salesprice"/>
+                        <field name="product_id"/>
+                        
+                    </group>
+                </group>
+            </page>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

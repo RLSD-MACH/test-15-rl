@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_select_products_container_form" model="ir.ui.view">
+        <field name="name">container.select.products.wizard.form</field>
+        <field name="model">container.select.products.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Pack Products in container">
+                <group string="Products">
+                    <field name="product_ids" nolabel="1" domain="[('location_id.usage', '=', 'internal')]"/>
+                </group>
+                <footer>
+                    <button name="select_products" string="Pack in Container" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_select_products_container_view">
+        <field name="name">Select Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">container.select.products.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_select_products_container_view_form">
+        <field name="act_window_id" ref="act_open_select_products_container_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_select_products_container_form" />
+    </record>
+
+    <record id="view_unselect_products_container_form" model="ir.ui.view">
+        <field name="name">container.select.products.wizard.form</field>
+        <field name="model">container.select.products.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Unpack Products from container">
+                <group string="Products">
+                    <field name="product_ids" nolabel="1" domain="[('location_id.usage', '=', 'internal'), ('container_id', '=', active_id)]"/>
+                </group>
+                <footer>
+                    <button name="unselect_products" string="Unpack from Container" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_unselect_products_container_view">
+        <field name="name">Select Products</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">container.select.products.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_unselect_products_container_view_form">
+        <field name="act_window_id" ref="act_open_unselect_products_container_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_unselect_products_container_form" />
+    </record>
+    
+</odoo>

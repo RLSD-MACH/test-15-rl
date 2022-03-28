@@ -1,0 +1,178 @@
+<odoo>
+<data>
+
+<record id="container_view_tree" model="ir.ui.view">
+  <field name="name">container.tree</field>
+  <field name="model">container</field>
+  <field name="arch" type="xml">
+    <tree create="1" edit="1" string="Containers" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="name" optional="show" />     
+      <field name="container" optional="show"/>  
+      <field name="container_size_id" optional="show"/>  
+      <field name="remaining_capacity_cubic_meter" optional="show"/> 
+      <field name="state" optional="show"/> 
+      <field name="active" optional="hide"/>     
+      
+    </tree>
+  </field>
+</record>
+
+<record id="container_view_form" model="ir.ui.view">
+
+  <field name="name">container.form</field>
+
+  <field name="model">container</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="container_header">
+              
+         <field name="state" widget="statusbar"/>
+      
+      </header>
+                      
+      <!-- <sheet string="Container"> -->
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <div class="oe_title">
+          <h1>
+              <field name="name"/>
+          </h1>
+          <div name="options_active">
+            <div>
+            
+            </div>
+          </div>
+        </div>
+
+        <group>
+
+          <group>
+                
+            <field name="container"/>
+            <field name="container_size_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+
+            <label for="capacity_cubic_meter"/>
+            <div class="o_row">
+                <span><field name="volume_cubic_meter_total" nolabel="1"/></span>
+                <span> / </span>
+                <span><field name="capacity_cubic_meter" nolabel="1"/></span>
+            </div>
+
+            <label for="capacity_kg"/>
+            <div class="o_row">
+                <span><field name="weight_kg_total" nolabel="1"/></span>
+                <span> / </span>
+                <span><field name="capacity_kg" nolabel="1"/></span>
+            </div>
+          
+            <field name="active" invisible="1"/>
+                            
+          </group>
+
+        </group>
+
+        <group string="Current Container Stock" modifiers="{}">
+           
+          <field name="stock_ids" context="{'default_container_id': id}" nolabel="1">
+
+            <tree editable="bottom" string="Container Stock" default_order="id" decoration-success="active == True" decoration-danger="active == False">
+
+              <field name="container_id" invisible="1"/>
+              <field name="order_id" optional="show"/>              
+              <field name="product_id" optional="show"/>
+              <field name="packs" optional="show"/>
+              <field name="pack_qty" optional="show"/>
+              <field name="qty" optional="show"/>
+              
+              <field name="volume_cubic_meter_unit" optional="show"/>
+              <field name="volume_cubic_meter_total" optional="show"/>                  
+              <field name="weight_kg_unit" optional="show"/>
+              <field name="weight_kg_total" optional="show"/>
+              <field name="note" optional="hide"/>
+                
+              <field name="state" optional="hide"/>
+              <field name="active" optional="hide"/>
+            
+            </tree>
+
+          </field>  
+        
+        </group>
+
+        <group name="note_group" col="5" class="mt-2 mt-md-0">
+            
+          <group colspan="3">
+            
+            <field name="note" nolabel="1" placeholder="Delivery note..."/>
+            
+          </group>
+            
+          <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+              
+              <field name="capacity_cubic_meter" widget="float"/>
+              <field name="volume_cubic_meter_total" widget="float"/>
+              
+              <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                  <label for="remaining_capacity_cubic_meter"/>
+              </div>
+              <field name="remaining_capacity_cubic_meter" widget="float" nolabel="1" class="oe_subtotal_footer_separator"/>
+             
+          </group>
+        </group>
+          
+      <!-- </sheet> -->
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="container_view_search" model="ir.ui.view">
+  <field name="name">container.search</field>
+  <field name="model">container</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      <field name="container" filter_domain="[('container', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          <filter name="container_size_id" context="{'group_by': 'container_size_id'}"/>
+         
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="container_action_window">
+    <field name="name">Container</field>
+    <field name="res_model">container</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Containers" id="container_menu" parent="mto_ic_order_menu_root" action="container_action_window" sequence="20"/>
+  
+</data>
+</odoo>

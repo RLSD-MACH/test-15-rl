@@ -1,0 +1,125 @@
+<odoo>
+<data>
+
+<record id="container_size_view_tree" model="ir.ui.view">
+  <field name="name">container.size.tree</field>
+  <field name="model">container.size</field>
+  <field name="arch" type="xml">
+    <tree create="1" edit="1" string="Container size's" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="name" optional="show" />     
+      <field name="length" optional="show" /> 
+      <field name="width" optional="show" /> 
+      <field name="height" optional="show" /> 
+      <field name="capacity_cubic_meter" optional="show" /> 
+      <field name="capacity_kg" optional="show" /> 
+      <field name="active" optional="hide"/>     
+      
+    </tree>
+  </field>
+</record>
+
+<record id="container_size_view_form" model="ir.ui.view">
+
+  <field name="name">container.size.form</field>
+
+  <field name="model">container.size</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="container_size_header">
+              
+         <!-- <field name="state" widget="statusbar"/> -->
+      
+      </header>
+                      
+      <sheet string="Container Size">
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <div class="oe_title">
+          <h1>
+              <field name="name"/>
+          </h1>
+          <div name="options_active">
+            <div>
+                <!-- <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                <field name="label_tasks" class="oe_inline oe_input_align"/> -->
+            </div>
+          </div>
+        </div>
+
+        <notebook>
+
+          <page name="container_size_page" string="Container Size">
+
+            <group string="Details" modifiers="{}">
+                 
+              <field name="length"/> 
+              <field name="width"/> 
+              <field name="height"/> 
+              <field name="capacity_cubic_meter"/>
+
+              <field name="capacity_kg"/> 
+              
+
+              <!-- <field name="state" invisible="1"/> -->
+              <field name="active" invisible="1"/>
+                             
+           </group>
+
+          </page>
+          
+        </notebook>
+
+      </sheet>
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="container_size_view_search" model="ir.ui.view">
+  <field name="name">container.size.search</field>
+  <field name="model">container.size</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+         
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="container_size_action_window">
+    <field name="name">Container size</field>
+    <field name="res_model">container.size</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Container size's" id="container_size_menu" parent="stock.menu_stock_config_settings" action="container_size_action_window" sequence="20"/>
+  
+</data>
+</odoo>

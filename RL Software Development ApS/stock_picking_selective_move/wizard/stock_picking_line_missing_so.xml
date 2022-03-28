@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_stock_picking_line_missing_so_form" model="ir.ui.view">
+        <field name="name">stock.picking.add_so_line.wizard.form</field>
+        <field name="model">stock.picking.add_so_line.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Stock Picking Lines Missing Salesorder Line ID">
+
+                <field name="picking_id" invisible="1"/>
+                <field name="line_ids" nolabel="1" domain="[('wizard_id','=',active_id)]" options="{'no_open':True,'no_create':1,'no_create_edit':1}" >
+                    <tree editable="bottom">
+
+                        <field name="sale_id" options="{'no_open':True,'no_create':1,'no_create_edit':1}" invisible="1"/>   
+                        <field name="line_id" options="{'no_open':True,'no_create':1,'no_create_edit':1}" invisible="1"/>    
+                        <field name="default_code"/>                           
+                        <field name="description"/>
+                        <field name="quantity_done"/>
+                        <field name="product_uom_qty"/>
+                        <field name="order_line_id" options="{'no_open':False,'no_create':1,'no_create_edit':1}" domain="[('order_id', '=', sale_id )]"/>
+                        <field name="new"/>    
+                        
+                    </tree>
+                </field>
+                
+                <footer>
+                    <button name="done" string="Submit and confirm delivery" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_stock_picking_line_missing_so_view">
+        <field name="name">Stock Picking Lines Missing Salesorder</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.picking.add_so_line.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_stock_picking_line_missing_so_view_form">
+        <field name="act_window_id" ref="act_stock_picking_line_missing_so_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_stock_picking_line_missing_so_form" />
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="website_profile_ext" inherit_id="portal.portal_my_details" name="Profiles">
+		<xpath expr="//div[contains(@t-attf-class,'form-group #')]" position="before">
+
+			<div name="image_512" t-attf-class="form-group #{error.get('image_512') and 'o_has_error' or ''} col-lg-12">
+				<img t-if="partner.image_512" type="file" id="image_style" name="image_512" t-attf-class="form-control o_website_form_input #{error.get('image_512') and 'is-invalid' or ''}" t-attf-src="data:image/*;base64,{{image_512 or partner.image_512}}" data-show-upload="true" style="height: 180px; width: 200px; background-color: #ececec; border: 1px solid #ececec; border-radius: 130px;"/>
+			</div>
+
+			<div t-attf-class="form-group #{error.get('image_1920') and 'o_has_error' or ''} col-lg-12">
+				<label class="col-form-label" for="image_1920">Update Profile</label>
+				<input type="file" id="image_style" name="image_1920" t-attf-class="form-control o_website_form_input #{error.get('image_1920') and 'is-invalid' or ''}" t-attf-src="data:image/*;base64,{{image_1920 or partner.image_1920}}" data-show-upload="true" accept="image/*"/>
+			</div>	
+
+		</xpath>
+
+		<xpath expr="//form" position="attributes">
+			<attribute name="enctype">multipart/form-data</attribute>
+		</xpath>
+	</template>
+
+	<template id="website_portal_layout_ext" inherit_id="portal.portal_layout" name="Profiles">
+		
+		<xpath expr="//div[contains(@class, 'o_my_contact')]" position="before">
+			<div class="o_portal_my_details" t-if="profile_image" style="padding-bottom: 10px;align-self: center;">
+				<img t-attf-src="data:image/jpg;base64,{{ profile_image }}" style="margin:0px;padding-top:0px;height: 100%; width: 100%; object-fit: contain;"/>
+			</div>
+		</xpath>
+
+	</template>
+
+	
+</odoo>

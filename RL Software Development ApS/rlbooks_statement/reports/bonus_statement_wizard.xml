@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<data>
+
+		<record id="rlbooks_statement.bonus_report_print" model="ir.actions.report">
+
+			<field name="name">Partner bonus statement</field>
+			<field name="model">rlbooks_statement.bonus_report.print</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">rlbooks_statement.bonus_report_partner_statement</field>
+			<field name="report_file">rlbooks_statement.bonus_report_partner_statement</field>
+			<field name="print_report_name">'Bonus Statement from %s to %s.pdf' % (object.date_start.strftime('%d-%m-%Y'), object.date_end.strftime('%d-%m-%Y'))</field>
+			
+			<field name="binding_model_id" ref="model_rlbooks_statement_bonus_report_print"/>
+			<field name="binding_type">report</field>
+			<field name="paperformat_id" ref="rlbooks_statement_paperformat_standard"/>
+				
+		</record>
+		
+		<record id="rlbooks_statement.bonus_report_wizard_view" model="ir.ui.view">
+			<field name="name">Bonus Statement</field>
+			<field name="model">rlbooks_statement.bonus_report.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Create bonus statement">
+
+					<group>
+						<group>
+							
+							<field name="date_start" widget="daterange" options="{'related_end_date': 'date_end'}"/>
+						
+						</group>
+						<group>
+
+							<field name="date_end" widget="daterange" options="{'related_start_date': 'date_start'}"/>
+
+						</group>
+					</group>
+
+					<group>
+
+						<group>
+
+							<field name="bonus_goods" widget="percentage"/>
+							<field name="bonus_consus" widget="percentage"/>
+							<field name="bonus_services" widget="percentage"/>
+
+						</group>
+						
+
+					</group>
+
+					<group>
+
+						<field name="type"  widget="radio"/>
+						<field name="type_ids" widget="many2many_tags" options="{'no_create':true}"/>
+						
+						<field name="partner_id" options="{'no_create':true}" widget="res_partner_many2one"/>
+						<field name="company_id" invisible="1"/>
+
+					</group>
+
+					<footer>
+						<button string="Save and print" type="object" name="action_print_save_pdf"/>		
+						<button string="Send by mail" type="object" name="action_send_statement"/>											
+						<button string="Cancel" special="cancel"/>
+					</footer>
+
+				</form>
+			</field>
+		</record>
+
+		<record id="rlbooks_statement.bonus_report_wizard_action" model="ir.actions.act_window">
+			<field name="name">Bonus Statement</field>
+			<field name="res_model">rlbooks_statement.bonus_report.wizard</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="rlbooks_statement.bonus_report_wizard_view"/>
+			<field name="target">new</field>
+		</record>
+	
+	</data>
+</odoo>
+

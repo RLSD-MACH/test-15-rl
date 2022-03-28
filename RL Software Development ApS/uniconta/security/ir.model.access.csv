@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_uniconta_login,Uniconta Login,model_uniconta_login,,1,1,1,1
+access_uniconta_firm,Uniconta Firm,model_uniconta_firm,,1,1,1,1
+access_uniconta_datatable,Uniconta datatable,model_uniconta_datatable,,1,1,1,1
+access_uniconta_api_call,Uniconta API Call,model_uniconta_api_call,,1,1,1,1
+
+access_uniconta_creditor_group,Uniconta Creditor Group,model_uniconta_creditor_group,,1,1,1,1
+access_uniconta_debtor_group,Uniconta Debtor Group,model_uniconta_debtor_group,,1,1,1,1
+access_uniconta_partner,Uniconta Partner,model_uniconta_partner,,1,1,1,1

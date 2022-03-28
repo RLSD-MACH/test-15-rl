@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="rlbooks_statement_res_partner_bank_view_form">
+      <field name="name">res.partner.bank.form.inherit.rlbooks.statement</field>
+      <field name="model">res.partner.bank</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.view_partner_bank_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='acc_number']" position="after">
+
+          <field name="iban"/>
+
+        </xpath>
+
+      </field>
+
+    </record>
+
+</odoo>

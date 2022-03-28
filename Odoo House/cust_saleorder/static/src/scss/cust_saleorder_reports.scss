@@ -1,0 +1,19 @@
+
+@font-face {
+    font-family: AvenirFont;
+    src: url(/cust_invoice/static/src/fonts/Avenir-font.otf);
+}
+
+@font-face {
+    font-family: AvenirFont-bold;
+    src: url(/cust_invoice/static/src/fonts/Avenir-Next-LT-Pro-Bold.ttf);
+}
+
+.title-avenirfont {
+                font-family: AvenirFont !important;
+                font-size: 9pt !important;
+            }
+.title-avenirfont-bold {
+                font-family: AvenirFont-bold !important;
+                font-size: 9pt !important;
+            }

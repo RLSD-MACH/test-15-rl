@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="view_res_config_settings_view_form">
+      <field name="name">res.config.settings.view.form.inherit.prontoforms</field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[hasclass('settings')]" position="inside">
+
+          <div class="app_settings_block" data-string="Prontoforms" string="Prontoforms" data-key="prontoforms" groups="account.group_account_manager">
+            
+            <h2>Prontoforms</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+                     
+                  <group>
+
+                    <field name="prontoforms_api_key" password="True"/>
+
+                  </group>
+
+                  <group>
+
+                    <field name="prontoforms_api_secret" password="True"/>
+
+                  </group>
+                                                
+              </div>
+
+            </div>
+
+          </div>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_prontoforms_res_config_settings_window">
+      <field name="name">Settings</field>
+      <field name="res_model">res.config.settings</field>
+      <field name="view_id" ref="view_res_config_settings_view_form"/>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+      <field name="context">{'module':'prontoforms'}</field>
+    </record>
+
+
+</odoo>

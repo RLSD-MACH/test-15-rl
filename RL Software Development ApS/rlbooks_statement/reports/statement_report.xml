@@ -1,0 +1,1072 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="rlbooks_statement_report_print_tree">
+      <field name="name">rlbooks_statement.report.print.tree</field>
+      <field name="model">rlbooks_statement.report.print</field>
+      <field name="arch" type="xml">
+        <tree string="Projects" sample="1">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>
+          <field name="partner_id" optional="show" can_create="False" can_write="False" modifiers="{'required':true}"/>          
+          <field name="date_start" optional="show"/>
+          <field name="date_end" optional="show"/>
+          <field name="create_date" optional="hide" modifiers="{'readonly':true}"/>
+          <field name="send" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+
+	<record model="ir.ui.view" id="rlbooks_statement_report_print_select">
+      <field name="name">rlbooks_statement.report.print.select</field>
+      <field name="model">rlbooks_statement.report.print</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="['|',('name', 'ilike', self)]"/>          
+          <field name="partner_id" operator="child_of"/>
+                   
+          <separator/>
+            <filter string="Send" name="send"/>            
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="partner_id" string="Partner" domain="[]" context="{'group_by' : 'partner_id'}"/>
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+	<record id="open_partner_statements_domain" model="ir.actions.act_window">
+
+      <field name="name">Statements</field>
+      <field name="res_model">rlbooks_statement.report.print</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('partner_id','=', active_id)]</field>
+      <field name="context">{}</field>
+      <!-- <field name="view_id" ref="task_type_tree"/> -->
+      <field name="help" type="html">
+		<p class="o_view_nocontent_smiling_face">
+		
+		</p>
+      </field>
+
+    </record>
+
+	<record model="ir.ui.view" id="rlbooks_statement_res_partner_ext_form">
+      <field name="name">rlbooks_statement.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+    
+          <button class="oe_stat_button" icon="fa-file-text" type="action" name="%(open_partner_statements_domain)d" attrs="{'invisible': [('statements_count', '=', 0)]}" groups="account.group_account_readonly">
+              
+            <div class="o_form_field o_stat_info">
+              
+              <span class="o_stat_value">
+                  <field name="statements_count" widget="integer"/>
+              </span>
+              
+              <span class="o_stat_text">Statements</span>
+              
+            </div>
+              
+          </button>
+
+		  <button class="oe_stat_button" icon="fa-file-text" type="action" name="%(open_partner_bonus_statements_domain)d" attrs="{'invisible': [('bonus_statements_count', '=', 0)]}" groups="account.group_account_readonly">
+              
+            <div class="o_form_field o_stat_info">
+              
+              <span class="o_stat_value">
+                  <field name="bonus_statements_count" widget="integer"/>
+              </span>
+              
+              <span class="o_stat_text">Bonus Statements</span>
+              
+            </div>
+              
+          </button>
+          
+        </xpath>     
+
+      </field>
+    </record>
+	
+    <record model="ir.ui.view" id="rlbooks_statement.report_print_form">
+      <field name="name">rlbooks_statement.report.print.form</field>
+      <field name="model">rlbooks_statement.report.print</field>
+      <field name="arch" type="xml">
+
+        <form string="Statements">
+  
+          <header name="header">
+              
+             
+          </header>
+                            
+          <sheet string="Statements">
+            
+            <div class="oe_button_box" name="button_box" groups="base.group_user">
+                                
+                                
+            </div>
+            
+            <div class="oe_title">
+
+                <h1>
+                    <field name="name" placeholder="Name"/>
+                </h1>
+                
+            </div>
+
+            <notebook>
+
+                <page name="alt_page" string="Description">
+
+					<group>
+						<group>
+
+							<field name="date_start"/>
+							<field name="date_end"/>
+
+						</group>
+						<group>
+
+							
+
+						</group>
+					</group>
+
+
+                    <group>
+
+						<field name="id" invisible="1"/>
+						<field name="partner_id"/>    
+						<field name="send"/>
+						<field name="company_id" invisible="1"/>
+						<field name="type" widget="radio"/>
+						<field name="account_ids" widget="many2many_tags" options="{'no_create':true}"/>						
+						<field name="attachment" invisible="1" />		
+
+					</group>
+
+                </page>
+
+							
+                
+            </notebook>
+            
+          
+          </sheet>
+
+		  <div class="o_attachment_preview"/>
+	         
+          <div class="oe_chatter">
+                <field name="message_follower_ids"/>
+                <field name="activity_ids"/>
+                <field name="message_ids"/>
+            </div>
+        
+        </form>
+      </field>
+    </record>
+	
+	<template id="rlbooks_statement.report_partner_statement_document">
+
+		<t t-call="web.external_layout">
+
+			<link rel="stylesheet" href="/rlbooks_statement/static/src/css/statement_report.css"/>
+
+			<t t-set="doc" t-value="doc.with_context(lang=doc.lang)" />
+			<t t-set="company" t-value="main_doc['company_id']" />
+					
+			<div class="page">
+
+				<div class="footer" style="font-family: 'Segoe UI';font-size: 11px;font-weight: normal;vertical-align: bottom;float:right;">
+
+					<t t-if="report_type == 'pdf'">
+						
+						<span>Page</span> <span class="page"/> <span>of</span> <span class="topage"/>
+
+					</t>
+
+				</div>
+
+				<div>
+
+					<div class="row">
+
+						<div class="col-12 text-right">
+
+							<span class="standard_document_header_text">
+
+								<b><span>Statement</span></b>
+
+							</span>
+
+							<br/>
+								
+						</div>
+
+					</div>
+					
+					<div class="row" style="padding-bottom: 50px;">
+
+						<div class="col-7">
+
+							<div class="pull-left standard_body_text">
+
+								<div>
+
+									<t t-if="doc.name">
+
+										<span t-field="doc.name"/>
+										<br/>
+
+									</t>
+
+									<t t-if="doc.street">
+										<span t-field="doc.street"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.street2">
+										<span t-field="doc.street2"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.zip">
+										<span t-field="doc.zip"/>
+									</t>
+
+									<t t-if="doc.city">
+										<span t-field="doc.city"/>
+									</t>
+
+									<t t-if="doc.city or doc.zip">
+										<br/>
+									</t>
+
+									<t t-if="doc.state_id">
+										<span t-field="doc.state_id.name"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.country_id">
+										<span t-field="doc.country_id.name"/>
+										<br/>
+									</t>
+
+								</div>
+							
+							</div>
+							
+						</div>
+
+						<div class="col-1">
+						
+						</div>
+
+						<div class="col-4 text-right">
+						
+							<div class="pull-right standard_body_text">
+								
+								<br/>
+								<br/>
+
+								<t t-if="company.name">
+									<span t-field="company.name"/>
+									<br/>
+								</t>
+								
+								<t t-if="company.street">
+									<span t-field="company.street"/>
+									<br/>
+								</t>
+
+								<t t-if="company.street2">
+									<span t-field="company.street2"/>
+									<br/>
+								</t>
+
+								<t t-if="company.zip">
+									<span t-field="company.zip"/>
+								</t>
+
+								<t t-if="company.city">
+									<span t-field="company.city"/>
+								</t>
+
+								<t t-if="company.city or company.zip">
+									<br/>
+								</t>
+
+								<t t-if="company.state_id">
+									<span t-field="company.state_id.name"/>
+									<br/>
+								</t>
+
+								<t t-if="company.country_id">
+									<span t-field="company.country_id.name"/>
+									<br/>
+								</t>
+								
+								<t t-if="company.phone">
+									<i class="fa fa-phone icon-large"/>
+									<span t-field="company.phone"/>
+									<br/>
+								</t>
+								
+								<t t-if="company.email">
+									<span t-field="company.email"/>
+									<br/>
+								</t>
+								
+							</div>
+											
+						</div>
+
+					</div>
+				
+				</div>
+				
+				<div class="standard_body_text" style="padding-bottom: 30px;">
+
+					<div class="row standard_document_header_left_text">
+					
+						<div class="col-12">
+							
+							<span ></span>
+							
+						</div>
+						
+					</div>
+					
+					<p></p>
+					
+					<div class="row">
+						
+						<div class="col-3">
+							
+							<t t-if="type == 'customer'">
+								<span>Customer no.</span>
+							</t>
+
+							<t t-if="type == 'supplier'">
+								<span>Supplier no.</span>
+							</t>
+							
+						</div>
+						
+						<div class="col-3">
+							
+							<span t-field="doc.ref"/>
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<t t-if="type == 'customer'">
+								<span>Salesperson</span>
+							</t>
+
+							<t t-if="type == 'supplier'">
+								<span>Purchaser</span>
+							</t>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.user_id.name"/>
+							
+						</div>
+						
+					</div>
+						
+					<div class="row">
+						
+						<div class="col-3">
+
+							<t t-if="type == 'customer'">
+								<span>Customer VAT-no.</span>
+							</t>
+
+							<t t-if="type == 'supplier'">
+								<span>Supplier VAT-no.</span>
+							</t>
+							
+						</div>
+						
+						<div class="col-3">
+							
+							<span t-field="doc.vat"/>
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>Phone no.</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-if="doc.user_id.phone">
+							
+								<i class="fa fa-phone icon-large"/>
+								
+								<t t-esc="doc.user_id.phone"/>
+							
+							</span>
+							
+							<span t-if="doc.user_id.mobile">
+							
+								<t t-esc="doc.user_id.mobile"/>
+							
+							</span>
+							
+						</div>
+						
+					</div>
+						
+					<div class="row">
+						
+						<div class="col-3">
+							
+							<span>Starting Date</span>
+							
+						</div>
+						
+						<div class="col-3">
+							
+							<span t-esc="date_start.strftime('%d-%m-%Y')" />
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>E-Mail</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.user_id.email"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-3">
+							
+							<span>Ending Date</span>
+							
+						</div>
+						
+						<div class="col-3">
+							
+							<span t-esc="date_end.strftime('%d-%m-%Y')" />
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span> Homepage </span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="company.website"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-3">
+							
+							<span>Statement date</span>
+							
+						</div>
+						
+						<div class="col-3">
+							
+							<span t-esc="datetime.date.today()" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+						
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>VAT-reg.</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="company.vat"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row">
+					
+						<div class="col-3">
+							
+							
+							
+						</div>
+						
+						<div class="col-3">
+							
+						
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>Bank</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.property_default_bank_account_id.bank_account_id.bank_name"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-3">
+							
+							
+							
+						</div>
+						
+						<div class="col-3">
+							
+							
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>Account no.</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.property_default_bank_account_id.bank_account_id.acc_number"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row">
+						
+						<div class="col-3">
+							
+						
+							
+						</div>
+						
+						<div class="col-3">
+							
+							
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>IBAN</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.property_default_bank_account_id.bank_account_id.iban"/>
+							
+						</div>
+						
+					</div>
+					
+					<div class="row" style="padding-bottom: 10px">
+						
+						<div class="col-3">
+						
+						</div>
+						
+						<div class="col-3">
+							
+							
+						</div>
+						
+						<div class="col-1">
+							
+							<span/>
+							
+						</div>
+						
+						<div class="col-2">
+							
+							<span>SWIFT</span>
+							
+						</div>
+						
+						<div class="col-3 text-right">
+							
+							<span t-field="doc.property_default_bank_account_id.bank_account_id.bank_bic"/>
+							
+						</div>
+						
+					</div>
+					
+				</div>
+
+				<t t-set="lines" t-value="env['account.move.line'].search([['id','in',main_doc['move_line_ids']]], order='date, move_name asc').with_context(lang=doc.lang)"/>
+
+				<t t-set="line_currency" t-value="[]"/>
+
+				<t t-foreach="lines" t-as="l">
+
+					<t t-set="line_currency" t-value="line_currency+[l.currency_id]"/>
+
+				</t>
+
+				<t t-foreach="main_doc['prior']" t-as="old">
+
+					<t t-set="line_currency" t-value="line_currency+[env['res.currency'].browse(old['currency_id'])]"/>
+
+				</t>
+
+				<t t-if="len(line_currency) == 0">
+
+					<t t-set="line_currency" t-value="line_currency+[main_doc['company_id'].currency_id]"/>
+
+				</t>
+
+				<t t-foreach="set(line_currency)" t-as="currency">
+
+					<div><strong><span>Transactions in </span><t t-esc="currency.name"/></strong></div>
+				
+					<table class="table table-sm o_main_table standard_body_text">
+						
+						<thead>
+
+							<tr>
+
+								<th name="th_posting_date" class="title-avenirfont-bold text-left" width="100px">
+									<span>Posting Date</span>
+								</th>
+
+								<th name="th_document_no" class="title-avenirfont-bold text-left" width="100px">
+									<span>Document No.</span>
+								</th>
+								<th name="th_desciption" class="title-avenirfont-bold text-left">
+									<span>Description</span>
+								</th>
+								<th name="th_date_maturity" class="title-avenirfont-bold text-right" width="100px">
+									<span>Due Date</span>
+								</th>
+								<th name="th_original_amount" class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Original Amount</span>
+								</th>
+
+								<th name="th_remaining_amount" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Remaining Amount</span>
+								</th>
+
+								<th name="th_balance" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Balance</span>
+								</th>
+
+							</tr>
+
+						</thead>
+
+						<tbody class="invoice_tbody">
+								
+							<t t-set="current_subtotal" t-value="0"/>
+							<t t-set="residual_current_subtotal" t-value="0"/>
+							<t t-set="prior_found" t-value="False"/>
+
+							<t t-foreach="main_doc['prior']" t-as="old">
+
+								<t t-if="currency.id==old['currency_id']">
+									
+									<t t-set="current_subtotal" t-value="current_subtotal + old['amounttotal']"/>
+									<t t-set="residual_current_subtotal" t-value="residual_current_subtotal + old['residualtotal']"/>
+									<t t-set="prior_found" t-value="True"/>
+
+									<tr>
+									
+										<td class="title-avenirfont text-left">
+											<field name="date_start" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+										</td>
+
+										<td name="td_move_name" class="title-avenirfont text-left">
+											
+										</td>
+										
+										<td name="td_name" class="title-avenirfont text-left">
+											<span>Prior</span>
+										</td>
+									
+										<td name="td_date_maturity" class="title-avenirfont text-right">
+											<!-- <span t-field="line.date_maturity" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/> -->
+										</td>
+
+										<td name="td_original_amount" class="title-avenirfont text-right">
+											<span t-esc="old['amounttotal']" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_remaining_amount" class="title-avenirfont text-right">
+											<span t-esc="old['residualtotal']" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_balance" class="title-avenirfont text-right">
+											<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+										
+									</tr>
+
+								</t>
+
+							</t>
+
+							<t t-if="prior_found == False">
+
+								<tr>
+									
+									<td class="title-avenirfont text-left">
+										<field name="date_start" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+									</td>
+
+									<td name="td_move_name" class="title-avenirfont text-left">
+										
+									</td>
+									
+									<td name="td_name" class="title-avenirfont text-left">
+										<span>Prior</span>
+									</td>
+								
+									<td name="td_date_maturity" class="title-avenirfont text-right">
+										<!-- <span t-field="line.date_maturity" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/> -->
+									</td>
+
+									<td name="td_original_amount" class="title-avenirfont text-right">
+										<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+									</td>
+
+									<td name="td_remaining_amount" class="title-avenirfont text-right">
+										<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+									</td>
+
+									<td name="td_balance" class="title-avenirfont text-right">
+										<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+									</td>
+									
+								</tr>
+
+							</t>
+
+							<t t-foreach="lines" t-as="line">
+
+								<t t-if="currency.id==line.currency_id.id">
+
+									<t t-set="current_subtotal" t-value="current_subtotal + line.amount_currency"/>
+									<t t-set="residual_current_subtotal" t-value="residual_current_subtotal + line.amount_residual_currency"/>
+								
+									<tr>
+									
+										<td class="title-avenirfont text-left">
+											<span t-field="line.date" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+										</td>
+
+										<td name="td_move_name" class="title-avenirfont text-left">
+											<span t-field="line.move_name" t-options="{'widget': 'text'}"/>
+										</td>
+										
+										<td name="td_name" class="title-avenirfont text-left">
+											<span t-field="line.name" t-options="{'widget': 'text'}"/>
+										</td>
+									
+										<td name="td_date_maturity" class="title-avenirfont text-right">
+											<span t-field="line.date_maturity" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+										</td>
+
+										<td name="td_original_amount" class="title-avenirfont text-right">
+											<span t-field="line.amount_currency" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_remaining_amount" class="title-avenirfont text-right">
+											<span t-field="line.amount_residual_currency" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_balance" class="title-avenirfont text-right">
+											<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+										
+									</tr>
+
+								</t>
+
+							</t>
+
+							<tr class="border-black o_total" style="font-weight: bold;">
+
+								<td colspan="5"><span>Total</span> <span t-esc="currency.name"/></td>
+
+								<td class="text-right">
+
+									<span  class="text-nowrap" t-esc="residual_current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span  class="text-nowrap" t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+
+								</td>
+
+							</tr>
+							
+						</tbody>
+
+						<tfoot>
+							
+
+						</tfoot>
+
+					</table>
+
+				</t>
+
+				<t t-set="due_lines" t-value="env['account.move.line'].search([['partner_id','=',doc.id],['company_id','=',main_doc['company_id'].id],['account_id.id','in',account_ids],['reconciled','=',False],['parent_state', 'in', ['posted']],'|',['date_maturity','&lt;=',datetime.date.today()],'&amp;',['date_maturity','=',False],['date','&lt;=',datetime.date.today()]], order='date, move_name asc').with_context(lang=doc.lang)"/>
+								
+				<t t-set="line_currency" t-value="[]"/>
+
+				<t t-foreach="due_lines" t-as="l">
+
+					<t t-set="line_currency" t-value="line_currency+[l.currency_id]"/>
+
+				</t>
+
+				<t t-foreach="set(line_currency)" t-as="currency">
+
+					<div><strong><span>Due entries - </span><t t-esc="currency.name"/></strong></div>
+
+					<table class="table table-sm o_main_table standard_body_text">
+							
+						<thead>
+
+							<tr>
+
+								<th name="th_posting_date" class="title-avenirfont-bold text-left" width="100px">
+									<span>Posting Date</span>
+								</th>
+
+								<th name="th_document_no" class="title-avenirfont-bold text-left" width="100px">
+									<span>Document No.</span>
+								</th>
+								<th name="th_desciption" class="title-avenirfont-bold text-left">
+									<span>Description</span>
+								</th>
+								<th name="th_date_maturity" class="title-avenirfont-bold text-right" width="100px">
+									<span>Due Date</span>
+								</th>
+								<th name="th_original_amount" class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Original Amount</span>
+								</th>
+
+								<th name="th_remaining_amount" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Remaining Amount</span>
+								</th>
+
+								<th name="th_balance" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Balance</span>
+								</th>
+
+							</tr>
+
+						</thead>
+
+						<tbody class="invoice_tbody">
+								
+							<t t-set="current_subtotal" t-value="0"/>
+							<t t-set="residual_current_subtotal" t-value="0"/>
+
+							<t t-foreach="due_lines" t-as="line">
+
+								<t t-if="currency.id==line.currency_id.id">
+
+									<t t-set="current_subtotal" t-value="current_subtotal + line.amount_currency"/>
+									<t t-set="residual_current_subtotal" t-value="residual_current_subtotal + line.amount_residual_currency"/>
+								
+									<tr>
+									
+										<td class="title-avenirfont text-left">
+											<span t-field="line.date" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+										</td>
+
+										<td name="td_move_name" class="title-avenirfont text-left">
+											<span t-field="line.move_name" t-options="{'widget': 'text'}"/>
+										</td>
+										
+										<td name="td_name" class="title-avenirfont text-left">
+											<span t-field="line.name" t-options="{'widget': 'text'}"/>
+										</td>
+									
+										<td name="td_date_maturity" class="title-avenirfont text-right">
+											<t t-if="line.date_maturity">
+
+												<span t-field="line.date_maturity" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+
+											</t>
+											<t t-if="not line.date_maturity">
+
+												<t t-if="line.move_id.invoice_date_due">
+
+													<span t-field="line.move_id.invoice_date_due" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+
+												</t>
+
+											</t>
+
+										</td>
+
+										<td name="td_original_amount" class="title-avenirfont text-right">
+											<span t-field="line.amount_currency" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_remaining_amount" class="title-avenirfont text-right">
+											<span t-field="line.amount_residual_currency" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+
+										<td name="td_balance" class="title-avenirfont text-right">
+											<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+										</td>
+										
+									</tr>
+
+								</t>
+
+							</t>
+
+							<tr class="border-black o_total" style="font-weight: bold;">
+
+								<td colspan="5"><span>Total</span> <span t-esc="currency.name"/></td>
+
+								<td class="text-right">
+
+									<span  class="text-nowrap" t-esc="residual_current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span  class="text-nowrap" t-esc="current_subtotal" t-options="{'widget':'float', 'precision':3}"/>
+
+								</td>
+
+							</tr>
+							
+						</tbody>
+
+						<tfoot>
+							
+						</tfoot>
+
+					</table>
+				
+				</t>
+
+			</div>
+
+		</t>
+
+	</template>
+
+	<template id="rlbooks_statement.report_partner_statement">
+
+		<t t-name="rlbooks_statement.report_partner_statement">
+
+			<t t-call="web.html_container">
+      
+				<t t-foreach="docs" t-as="main_doc">
+					
+					<t t-set="doc" t-value="main_doc['partner_id']"/>
+					<t t-set="company" t-value="main_doc['company_id']"/>
+					
+					<t t-set="lang" t-value="doc.lang"/>
+					<t t-call="rlbooks_statement.report_partner_statement_document" t-lang="lang"/>
+				
+				</t>
+				
+			</t>
+
+		</t>
+
+	</template>
+
+
+</odoo>
+

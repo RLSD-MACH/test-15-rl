@@ -1,0 +1,45 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="magento2_attribute_tree">
+      <field name="name">magento2.attribute.tree</field>
+      <field name="model">magento2.attribute</field>
+      <field name="arch" type="xml">
+        <tree string="Attribute" sample="1" default_order="name asc">
+            
+            <field name="id" optional="hide" readonly="1"/>
+            <field name="name" optional="show"/>
+            <field name="value" optional="show"/>
+            <field name="product_id" optional="show" widget="many2one"/>
+            <field name="active" optional="hide" />
+            <field name="company_id" optional="hide" />
+            <!-- <button name="action_excecute_selected_calls" type="object" string="Run" class="oe_highlight" attrs="{'invisible': '|', ('active', '=', False), ('state','!=','new')}"/> -->
+          
+        </tree>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="magento2_attribute_select">
+      <field name="name">magento2.attribute.select</field>
+      <field name="model">magento2.attribute</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+
+            <filter name="create_date" string="Created date" context="{'group_by': 'create_date'}"/>
+
+          </group>
+        </search>
+      </field>
+    </record>
+    
+    
+  </data>
+</odoo>

@@ -1,0 +1,1703 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+	<record model="ir.ui.view" id="rlbooks_dw_distributors_statement_print_tree">
+		<field name="name">rlbooks_dw.distributors_statement.print.tree</field>
+		<field name="model">rlbooks_dw.distributors_statement.print</field>
+		<field name="arch" type="xml">
+			<tree string="Distributors Statement" sample="1">
+				<field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>
+				<field name="date_start" optional="show"/>
+				<field name="date_end" optional="show"/>
+				<field name="create_date" optional="hide" modifiers="{'readonly':true}"/>
+				<field name="send" optional="hide" modifiers="{'required':true}"/>
+				<field name="company_id" optional="hide" modifiers="{'required':true}"/>
+			</tree>
+		</field>
+	</record>
+
+	<record model="ir.ui.view" id="rlbooks_dw_distributors_statement_print_select">
+		<field name="name">rlbooks_dw.distributors_statement.print.select</field>
+		<field name="model">rlbooks_dw.distributors_statement.print</field>
+		<field name="arch" type="xml">
+			<search string="Search">
+				<field name="name" filter_domain="['|',('name', 'ilike', self)]"/>
+				<separator/>
+				<filter string="Send" name="send"/>
+				<separator/>
+				<group expand="0" name="group_by" string="Group By">
+					<filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+				</group>
+			</search>
+		</field>
+	</record>
+
+	<record id="open_distributors_statements_domain" model="ir.actions.act_window">
+
+		<field name="name">Distributors Statements</field>
+		<field name="res_model">rlbooks_dw.distributors_statement.print</field>
+		<field name="view_mode">tree,form</field>
+		<!-- <field name="domain">[('partner_id','=', active_id)]</field> -->
+		<field name="context">{}</field>
+		<!-- <field name="view_id" ref="task_type_tree"/> -->
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+
+			</p>
+		</field>
+
+	</record>
+
+	<record model="ir.ui.view" id="rlbooks_dw.distributors_statement_print_form">
+		<field name="name">rlbooks_dw.distributors_statement.print.form</field>
+		<field name="model">rlbooks_dw.distributors_statement.print</field>
+		<field name="arch" type="xml">
+
+			<form string="Distributors Statements">
+
+				<header name="header">
+
+
+				</header>
+
+				<sheet string="Distributors Statements">
+
+					<div class="oe_button_box" name="button_box" groups="base.group_user">
+
+
+					</div>
+
+					<div class="oe_title">
+
+						<h1>
+							<field name="name" placeholder="Name"/>
+						</h1>
+
+					</div>
+
+					<notebook>
+
+						<page name="alt_page" string="Description">
+
+							<group>
+
+								<group>
+
+									<field name="date_start"/>
+									<field name="date_end"/>
+
+								</group>
+								<group>
+
+								</group>
+							</group>
+
+							<group>
+								<group>
+
+									<field name="id" invisible="1"/>
+
+									<field name="languages_id" options="{'no_create':True, 'no_open': True}"/>
+									<field name="currency_id" options="{'no_create':True, 'no_open': True}"/>
+									<field name="type"/>
+									<field name="send"/>
+									<field name="company_id" invisible="1"/>
+
+									<field name="attachment" invisible="1" />
+
+								</group>
+
+							</group>
+
+						</page>
+
+
+
+					</notebook>
+
+
+				</sheet>
+
+				<div class="o_attachment_preview"/>
+
+				<div class="oe_chatter">
+					<field name="message_follower_ids"/>
+					<field name="activity_ids"/>
+					<field name="message_ids"/>
+				</div>
+
+			</form>
+		</field>
+	</record>
+
+	<template id="rlbooks_dw.distributors_statement_document">
+
+		<t t-call="web.external_layout">
+
+			<link rel="stylesheet" href="/rlbooks_dw/static/src/css/statement_report.css"/>
+
+			<t t-set="doc" t-value="doc.with_context(lang=lang)"/>
+
+			<div class="page">
+
+				<div class="footer" style="font-family: 'Segoe UI';font-size: 11px;font-weight: normal;vertical-align: bottom;float:right;">
+
+					<t t-if="report_type == 'pdf'">
+
+						<span>Page</span>
+						<span class="page"/>
+						<span>of</span>
+						<span class="topage"/>
+
+					</t>
+
+				</div>
+
+				<div>
+
+					<div class="row">
+
+						<div class="col-12 text-right">
+
+							<span class="standard_document_header_text">
+
+								<b>
+									<span>Statement Distributors overview</span>
+								</b>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+					</div>
+
+					<div class="row" style="padding-bottom: 50px;">
+
+						<div class="col-7">
+
+							<div class="pull-left standard_body_text">
+
+								<div>
+
+									<t t-if="doc.partner_id.name">
+
+										<span t-field="doc.partner_id.name"/>
+										<br/>
+
+									</t>
+
+									<t t-if="doc.partner_id.street">
+										<span t-field="doc.partner_id.street"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.partner_id.street2">
+										<span t-field="doc.partner_id.street2"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.partner_id.zip">
+										<span t-field="doc.partner_id.zip"/>
+									</t>
+
+									<t t-if="doc.partner_id.city">
+										<span t-field="doc.partner_id.city"/>
+									</t>
+
+									<t t-if="doc.partner_id.city or doc.partner_id.zip">
+										<br/>
+									</t>
+
+									<t t-if="doc.partner_id.state_id">
+										<span t-field="doc.partner_id.state_id.name"/>
+										<br/>
+									</t>
+
+									<t t-if="doc.partner_id.country_id">
+										<span t-field="doc.partner_id.country_id.name"/>
+										<br/>
+									</t>
+
+								</div>
+
+							</div>
+
+						</div>
+
+						<div class="col-1">
+
+						</div>
+
+						<div class="col-4 text-right">
+
+							<div class="pull-right standard_body_text">
+
+								<br/>
+								<br/>
+
+								<t t-if="company.name">
+									<span t-field="company.name"/>
+									<br/>
+								</t>
+
+								<t t-if="company.street">
+									<span t-field="company.street"/>
+									<br/>
+								</t>
+
+								<t t-if="company.street2">
+									<span t-field="company.street2"/>
+									<br/>
+								</t>
+
+								<t t-if="company.zip">
+									<span t-field="company.zip"/>
+								</t>
+
+								<t t-if="company.city">
+									<span t-field="company.city"/>
+								</t>
+
+								<t t-if="company.city or company.zip">
+									<br/>
+								</t>
+
+								<t t-if="company.state_id">
+									<span t-field="company.state_id.name"/>
+									<br/>
+								</t>
+
+								<t t-if="company.country_id">
+									<span t-field="company.country_id.name"/>
+									<br/>
+								</t>
+
+								<t t-if="company.phone">
+									<i class="fa fa-phone icon-large"/>
+									<span t-field="company.phone"/>
+									<br/>
+								</t>
+
+								<t t-if="company.email">
+									<span t-field="company.email"/>
+									<br/>
+								</t>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="standard_body_text" style="padding-bottom: 30px;">
+
+
+					<div class="row standard_document_header_left_text">
+
+						<div class="col-12">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<p/>
+
+					<div class="row">
+
+						<div class="col-3">
+
+							<span>Customer no.</span>
+
+
+						</div>
+
+						<div class="col-3">
+
+							<span t-field="doc.partner_id.ref"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2">
+
+							<span>Contactperson</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span t-field="doc.user_id.name"/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3">
+
+							<span>Customer VAT-no.</span>
+
+						</div>
+
+						<div class="col-3">
+
+							<span t-field="doc.partner_id.vat"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2">
+
+							<span>Phone no.</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span t-if="doc.user_id.phone">
+
+								<i class="fa fa-phone icon-large"/>
+
+								<t t-esc="doc.user_id.phone"/>
+
+							</span>
+
+							<span t-if="doc.user_id.mobile">
+
+								<t t-esc="doc.user_id.mobile"/>
+
+							</span>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3">
+
+							<span>Starting Date</span>
+
+						</div>
+
+						<div class="col-3">
+
+							<span t-if="doc.date_start" t-esc="doc.date_start.strftime('%d-%m-%Y')"/>
+							<t t-if="not doc.date_start">
+								<span>-</span>
+							</t>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2">
+
+							<span>E-Mail</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span t-field="doc.user_id.email"/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3">
+
+							<span>Ending Date</span>
+
+						</div>
+
+						<div class="col-3">
+
+							<span t-if="doc.date_end" t-esc="doc.date_end.strftime('%d-%m-%Y')"/>
+							<t t-if="not doc.date_end">
+								<span>-</span>
+							</t>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2">
+
+							<span> Homepage </span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span t-field="company.website"/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3">
+
+							<span>Statement date</span>
+
+						</div>
+
+						<div class="col-3">
+
+							<span t-esc="datetime.date.today()" t-options="{'widget': 'date', 'format':'d. MMMM yyyy'}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2">
+
+							<span>VAT-reg.</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span t-field="company.vat"/>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div>
+
+					<h3 style="font-weight:bold;">DW - Overview</h3>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;"></span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">Periode</span>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text">
+								<span style="font-weight:bold;">At Ending date</span>
+							</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span>Sent invoices to DW distributors</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span class="standard_body_text" t-esc="doc.stat_dw_distributors_invoice_total_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" t-esc="doc.stat_dw_distributors_invoice_total" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text" style="white-space:nowrap;">
+
+								<span>Service part of invoices (Handling and freight)</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span class="standard_body_text" t-esc="-doc.stat_dw_distributors_invoice_service_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text">
+
+								<span class="standard_body_text" t-esc="-doc.stat_dw_distributors_invoice_service" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text" style="white-space:nowrap;font-weight:bold;">
+
+								DW's revenue for goods
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;">
+								
+								<span t-esc="doc.stat_dw_distributors_invoice_goods_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;">
+								
+								<span t-esc="doc.stat_dw_distributors_invoice_goods" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="white-space:nowrap;">Used by DW to make write-off's on lost recievables</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="-doc.stat_dw_distributors_write_off_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" t-esc="-doc.stat_dw_distributors_write_off" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">DW's net income</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;">
+
+								<span class="standard_body_text" t-esc="doc.stat_dw_net_income_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;">
+
+								<span class="standard_body_text" t-esc="doc.stat_dw_net_income" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text" style="white-space:nowrap;">
+
+								Used by DW to settle invoices
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="-doc.stat_used_dw_bank_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="-doc.stat_used_dw_bank" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span>Recievables from DW distributors</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="-doc.stat_dw_distributors_recievables_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" t-esc="-doc.stat_dw_distributors_recievables" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text" style="font-weight:bold;">
+
+								<span style="white-space:nowrap;">Money left to use for settlement of purchases (DW Bank)</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;" t-esc="doc.stat_dw_bank_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" style="font-weight:bold;" t-esc="doc.stat_dw_bank" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+				
+
+					<div class="row" style="padding-top: 40px;">
+
+						<div class="col-12 text-left">
+							<span class="standard_body_text" style=" font-style: italic;">Sourzing - Intern control of report:</span>
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span>Account 22200</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="doc.acc22200_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span class="standard_body_text" t-esc="doc.acc22200" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span>Account 22400</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span class="standard_body_text">
+
+								<span t-esc="doc.acc22400_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+							</span>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+						
+							<span class="standard_body_text" t-esc="doc.acc22400" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">Control</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="doc.acc22200_periode + doc.acc22400_periode + doc.stat_dw_bank_periode + doc.stat_dw_distributors_recievables_periode" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="doc.acc22200 + doc.acc22400 + doc.stat_dw_bank + doc.stat_dw_distributors_recievables" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<t t-if="doc.type in ['long','long_debug']">
+
+					<t t-call="rlbooks_dw.distributors_statement_document_long" t-lang="lang"/>
+
+				</t>
+
+				<t t-if="doc.type == 'long_debug'">
+
+					<t t-call="rlbooks_dw.distributors_statement_document_long_debug" t-lang="lang"/>
+
+				</t>
+
+			</div>
+		</t>
+
+	</template>
+
+	<template id="rlbooks_dw.distributors_statement_document_long">
+
+		<t t-name="rlbooks_dw.distributors_statement_document_long">
+			
+			<t t-set="current_reporttotal" t-value="0"/>
+			<t t-set="residual_current_reporttotal" t-value="0"/>
+
+			<t t-set="dw_related_inv_reporttotal" t-value="0"/>
+			<t t-set="not_dw_related_reporttotal" t-value="0"/>
+			<t t-set="unpaid_reporttotal" t-value="0"/>
+			<t t-set="dw_bank_movement_reporttotal" t-value="0"/>
+
+			<t t-foreach="doc.partners" t-as="partner">
+
+				<div style="page-break-before: always;">
+
+					<div>
+						<strong>
+
+							<t t-if="partner.ref">
+
+								<t t-esc="partner.name"/>
+ 								<t t-esc="partner.ref"/>
+
+							</t>
+
+							<t t-if="not partner.ref">
+
+								<t t-esc="partner.name"/>
+
+							</t>
+
+						</strong>
+					</div>
+
+					<table class="table table-sm o_main_table standard_body_text">
+
+						<thead>
+
+							<tr>
+
+								<th name="th_posting_date" class="title-avenirfont-bold text-left" width="100px">
+									<span>Posting Date</span>
+								</th>
+
+								<th name="th_document_no" class="title-avenirfont-bold text-left" width="100px">
+									<span>Document No.</span>
+								</th>
+								<th name="th_date_maturity" class="title-avenirfont-bold text-right" width="100px">
+									<span>Due Date</span>
+								</th>
+								<th name="th_currency" class="title-avenirfont-bold text-right" width="50px">
+									<span>Currency</span>
+								</th>
+								<th name="th_original_amount" class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Original Amount</span>
+								</th>
+
+								<th name="th_remaining_amount" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Remaining Amount</span>
+								</th>
+
+								<th name="th_balance" t-attf-class="title-avenirfont-bold text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}" width="100px">
+									<span>Balance</span>
+									<span t-esc="doc.currency_id.name"/>
+								</th>
+
+								<th name="th_dw_related_inv" class="title-avenirfont-bold text-left">
+									<span>DW's</span>
+									<span t-esc="doc.currency_id.name"/>
+								</th>
+
+								<th name="th_not_dw_related" class="title-avenirfont-bold text-left">
+									<span>Sourzing's</span>
+									<span t-esc="doc.currency_id.name"/>
+								</th>
+
+								<th name="th_unpaid" class="title-avenirfont-bold text-left">
+									<span>Unpaid</span>
+									<span t-esc="doc.currency_id.name"/>
+								</th>
+
+								<th name="th_dw_bank_movement" class="title-avenirfont-bold text-left">
+									<span>DW bank movement</span>
+									<span t-esc="doc.currency_id.name"/>
+								</th>
+
+							</tr>
+
+						</thead>
+
+						<tbody class="invoice_tbody">
+
+							<t t-set="current_subtotal" t-value="0"/>
+							<t t-set="residual_current_subtotal" t-value="0"/>
+
+							<t t-set="dw_related_inv_subtotal" t-value="0"/>
+							<t t-set="not_dw_related_subtotal" t-value="0"/>
+							<t t-set="unpaid_subtotal" t-value="0"/>
+							<t t-set="dw_bank_movement_subtotal" t-value="0"/>
+
+
+							<tr>
+
+								<t t-set="moves_recievable" t-value="env['account.move.line'].search([['account_id','in',company.dw_statement_recievable_account_ids.ids],['parent_state','=','posted'],['date','&lt;',doc.date_start],['partner_id','=',partner.id]])"/>
+								<t t-set="balance" t-value="sum(l.balance for l in moves_recievable)"/>
+								<t t-set="amount_currency" t-value="sum(l.amount_currency for l in moves_recievable)"/>
+								<t t-set="amount_residual_currency" t-value="sum(l.amount_residual_currency for l in moves_recievable)"/>
+
+								<t t-set="current_subtotal" t-value="current_subtotal + balance"/>
+								<t t-set="residual_current_subtotal" t-value="residual_current_subtotal + amount_residual_currency"/>
+								<t t-set="unpaid_subtotal" t-value="unpaid_subtotal + balance"/>
+
+								<td class="title-avenirfont text-left" colspan="4">
+									<span>Opening balance</span>
+								</td>
+
+								<td name="td_original_amount" class="title-avenirfont text-right">
+									<span t-esc="amount_currency" t-options="{'widget':'float', 'precision':2}"/>
+								</td>
+
+								<td name="td_remaining_amount" class="title-avenirfont text-right">
+									<span t-esc="amount_residual_currency" t-options="{'widget':'float', 'precision':2}"/>
+								</td>
+
+								<td name="td_balance" class="title-avenirfont text-right">
+									<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+								</td>
+
+								<td class="title-avenirfont text-left" colspan="2">
+									<span></span>
+								</td>
+
+								<td name="td_unpaid" class="title-avenirfont text-right">
+									<span t-esc="balance" t-options="{'widget':'float', 'precision':2}"/>
+								</td>
+
+								<td class="title-avenirfont text-left" colspan="1">
+									<span></span>
+								</td>
+
+
+							</tr>
+
+
+							<t t-set="done_moves" t-value="[]"/>
+
+							<t t-set="moves" t-value="env['account.move.line'].search([['account_id','in',company.dw_statement_recievable_account_ids.ids],['parent_state','=','posted'],['date','&gt;=',doc.date_start],['date','&lt;=',doc.date_end],['partner_id.property_account_position_id','in',company.dw_statement_recievable_afp_ids.ids],['partner_id','=',partner.id]], order='date,name asc')"/>
+
+							<t t-foreach="moves" t-as="line">
+
+								<t t-if="line.move_id.id not in done_moves">
+
+									<t t-set="done_moves" t-value="done_moves + [line.move_id.id]"/>
+									<t t-set="dw_related_inv" t-value="0"/>
+									<t t-set="moves_recievable" t-value="env['account.move.line'].search([['account_id','in',company.dw_statement_recievable_account_ids.ids],['parent_state','=','posted'],['date','&lt;=',doc.date_end],['partner_id','=',partner.id],['move_id','=',line.move_id.id]])"/>
+									<t t-set="balance" t-value="sum(l.balance for l in moves_recievable)"/>
+									<t t-set="amount_currency" t-value="sum(l.amount_currency for l in moves_recievable)"/>
+									<t t-set="amount_residual_currency" t-value="sum(l.amount_residual_currency for l in moves_recievable)"/>
+
+									<t t-set="unpaid" t-value="balance"/>
+
+									<t t-foreach="moves_recievable" t-as="record">
+
+										<t t-set="partial_debit" t-value="env['account.partial.reconcile'].search([['max_date','&lt;=',doc.date_end],['debit_move_id','=',record.id]])"/>
+										<t t-set="partial_credit" t-value="env['account.partial.reconcile'].search([['max_date','&lt;=',doc.date_end],['credit_move_id','=',record.id]])"/>
+										<t t-set="unpaid" t-value="unpaid + sum(l.amount for l in partial_credit) - sum(l.amount for l in partial_debit)"/>
+
+									</t>
+
+									<t t-set="unpaid_subtotal" t-value="unpaid_subtotal + unpaid"/>
+									<t t-set="current_subtotal" t-value="current_subtotal + balance"/>
+									<t t-set="residual_current_subtotal" t-value="residual_current_subtotal + amount_residual_currency"/>
+
+									<t t-if="line.move_id.move_type in ['out_invoice','out_refund']">
+
+										<t t-set="dwbank" t-value="env['account.move.line'].search([['account_id','=',company.dw_statement_dwbank_account_id.id],['parent_state','=','posted'],['move_id','=',line.move_id.id],['partner_id','=',line.partner_id.id]])"/>
+										<t t-set="dw_related_inv" t-value="-sum(l.balance for l in dwbank.filtered(lambda x: x.move_id.move_type in ['out_invoice','out_refund']))"/>
+										<t t-set="bank_move" t-value="-sum(l.balance for l in dwbank.filtered(lambda x: x.move_id.move_type not in ['out_invoice','out_refund']))"/>
+										<t t-set="not_dw_related" t-value="balance - dw_related_inv"/>
+
+
+										<!-- ...................................... -->
+
+
+
+
+										<t t-set="dw_related_inv_subtotal" t-value="dw_related_inv_subtotal + dw_related_inv"/>
+										<t t-set="not_dw_related_subtotal" t-value="not_dw_related_subtotal + not_dw_related"/>
+
+
+									</t>
+
+									<t t-set="dw_bank_movement" t-value="dw_related_inv - unpaid"/>
+									<t t-set="dw_bank_movement_subtotal" t-value="dw_bank_movement_subtotal + dw_bank_movement"/>
+
+									<tr>
+
+										<td class="title-avenirfont text-left">
+											<span t-field="line.date" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+										</td>
+
+										<t t-if="line.move_id.move_type in ['out_invoice','out_refund']">
+
+											<td name="td_move_name" class="title-avenirfont text-left">
+												<span t-field="line.move_name" t-options="{'widget': 'text'}"/>
+											</td>
+
+										</t>
+
+										<t t-else="">
+
+											<td name="td_move_name" class="title-avenirfont text-left">
+												<span t-options="{'widget': 'text'}">Payment</span>
+											</td>
+										</t>
+
+										<td name="td_date_maturity" class="title-avenirfont text-right">
+											<t t-if="line.date_maturity">
+
+												<span t-field="line.date_maturity" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+
+											</t>
+											<t t-if="not line.date_maturity">
+
+												<t t-if="line.move_id.invoice_date_due">
+
+													<span t-field="line.move_id.invoice_date_due" t-options="{'widget': 'date', 'format':'dd-MM-YYYY'}"/>
+
+												</t>
+
+											</t>
+
+										</td>
+
+										<td name="td_currency" class="title-avenirfont text-right">
+											<span t-esc="line.currency_id.name"/>
+										</td>
+
+										<td name="td_original_amount" class="title-avenirfont text-right">
+											<span t-esc="amount_currency" t-options="{'widget':'float', 'precision':2}"/>
+										</td>
+
+										<td name="td_remaining_amount" class="title-avenirfont text-right">
+											<span t-esc="amount_residual_currency" t-options="{'widget':'float', 'precision':2}"/>
+										</td>
+
+										<td name="td_balance" class="title-avenirfont text-right">
+											<span t-esc="current_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+										</td>
+
+										<t t-if="line.move_id.move_type in ['out_invoice','out_refund']">
+
+											<td name="td_dw_related_inv" class="title-avenirfont text-right">
+												<span t-esc="dw_related_inv" t-options="{'widget':'float', 'precision':2}"/>
+											</td>
+
+											<td name="td_not_dw_related" class="title-avenirfont text-right">
+												<span t-esc="not_dw_related" t-options="{'widget':'float', 'precision':2}"/>
+											</td>
+
+										</t>
+										<t t-else="">
+
+											<td name="td_dw_related_inv" class="title-avenirfont text-right">
+												<span>-</span>
+											</td>
+
+											<td name="td_not_dw_related" class="title-avenirfont text-right">
+												<span>-</span>
+											</td>
+
+										</t>
+
+										<td name="td_unpaid" class="title-avenirfont text-right">
+											<span t-esc="unpaid" t-options="{'widget':'float', 'precision':2}"/>
+										</td>
+
+										<td name="td_dw_bank_movement" class="title-avenirfont text-right">
+											<span t-esc="dw_bank_movement" t-options="{'widget':'float', 'precision':2}"/>
+										</td>
+
+
+									</tr>
+
+
+								</t>
+
+							</t>
+
+							<tr class="border-black o_total" style="font-weight: bold;">
+
+								<td colspan="5">
+									<span>Total</span>
+									<span t-esc="doc.currency_id.name"/>
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="residual_current_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="current_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="dw_related_inv_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="not_dw_related_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="unpaid_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+								<td class="text-right">
+
+									<span class="text-nowrap" t-esc="dw_bank_movement_subtotal" t-options="{'widget':'float', 'precision':2}"/>
+
+								</td>
+
+							</tr>
+
+						</tbody>
+
+						<tfoot>
+
+						</tfoot>
+
+					</table>
+
+				</div>
+
+				<t t-set="current_reporttotal" t-value="current_reporttotal + current_subtotal"/>
+				<t t-set="residual_current_reporttotal" t-value="residual_current_reporttotal + residual_current_subtotal"/>
+
+				<t t-set="dw_related_inv_reporttotal" t-value="dw_related_inv_reporttotal + dw_related_inv_subtotal"/>
+				<t t-set="not_dw_related_reporttotal" t-value="not_dw_related_reporttotal + not_dw_related_subtotal"/>
+				<t t-set="unpaid_reporttotal" t-value="unpaid_reporttotal + unpaid_subtotal"/>
+				<t t-set="dw_bank_movement_reporttotal" t-value="dw_bank_movement_reporttotal + dw_bank_movement_subtotal"/>
+
+			</t>
+			
+		</t>
+
+	</template>
+
+	<template id="rlbooks_dw.distributors_statement_document_long_debug">
+
+		<t t-name="rlbooks_dw.distributors_statement_document_long_debug">
+		
+			<div style="page-break-before: always;">
+
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">current_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="current_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">residual_current_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="residual_current_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">dw_related_inv_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="dw_related_inv_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">not_dw_related_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="not_dw_related_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">unpaid_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="unpaid_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+					<div class="row">
+
+						<div class="col-3 text-left">
+
+							<span class="standard_body_text">
+
+								<span style="font-weight:bold;">dw_bank_movement_reporttotal</span>
+
+							</span>
+
+							<br/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span style="font-weight:bold;" class="standard_body_text" t-esc="dw_bank_movement_reporttotal" t-options="{'widget':'float', 'precision':2}"/>
+
+						</div>
+
+						<div class="col-1">
+
+							<span/>
+
+						</div>
+
+						<div class="col-2 text-right">
+
+							<span/>
+
+						</div>
+
+						<div class="col-3 text-right">
+
+							<span/>
+
+						</div>
+
+					</div>
+
+				</div>
+			
+		
+		</t>
+	</template>
+
+	<template id="rlbooks_dw.distributors_statement">
+
+		<t t-name="rlbooks_dw.distributors_statement">
+
+			<t t-call="web.html_container">
+
+				<t t-foreach="docs" t-as="doc">
+
+					<t t-set="company" t-value="doc.company_id"/>
+					<t t-set="lang" t-value="doc.languages_id.name"/>
+					<t t-call="rlbooks_dw.distributors_statement_document" t-lang="lang"/>
+
+				</t>
+
+			</t>
+
+		</t>
+
+	</template>
+
+
+</odoo>
+

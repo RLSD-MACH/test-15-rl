@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+    
+    <menuitem 
+        name="Uniconta" 
+        id="menu_uniconta_root" 
+        sequence="1"
+        web_icon="uniconta,static/description/icon.png"
+    >
+
+      <menuitem name="Login" id="menu_uniconta_login" action="action_uniconta_login_window" sequence="10"/>
+      <menuitem name="Firms" id="menu_uniconta_firm" action="action_uniconta_firm_window" sequence="20"/>
+      <menuitem name="API Calls" id="menu_uniconta_api_call" action="action_uniconta_api_call_window" sequence="30"/>
+      <menuitem name="Data" id="menu_uniconta_data_api" sequence="40">
+
+        <menuitem name="Partner" id="menu_uniconta_partner" action="action_uniconta_partner_window" sequence="10"/>
+        <menuitem name="Debtor Group" id="menu_uniconta_debtor_group" action="action_uniconta_debtor_group_window" sequence="20"/>
+
+        <!-- <menuitem name="Creditor" id="menu_uniconta_creditor" action="action_uniconta_creditor_window" sequence="10"/> -->
+        <menuitem name="Creditor Group" id="menu_uniconta_creditor_group" action="action_uniconta_creditor_group_window" sequence="20"/>
+
+      </menuitem>
+
+    </menuitem>
+
+  </data>
+</odoo>

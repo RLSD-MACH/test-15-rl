@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+     
+    <record model="ir.ui.view" id="view_cvr_account_move_ext_form">
+      <field name="name">cvr.account_move_ext.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//group[@id='header_left_group']" position="inside">
+
+          <field name="partner_last_cvr_message_valid" invisible="1" groups="account.group_account_readonly"/>
+
+          <field 
+            name="partner_last_cvr_message_id" 
+            attrs="{'invisible': [('partner_last_cvr_message_id','=',False)]}" 
+            groups="account.group_account_readonly"
+            decoration-warning ="partner_last_cvr_message_id == False" 
+            decoration-danger = "partner_last_cvr_message_valid==False and partner_last_cvr_message_id != False"
+            decoration-success = "partner_last_cvr_message_valid==True"
+            widget="badge"
+          />
+
+        </xpath>
+
+        <xpath expr="//widget[@name='web_ribbon']" position="after">
+
+          <widget name="web_ribbon" title="Partner VAT-number is invalid!" bg_color="bg-danger" attrs="{'invisible': ['|','|',('partner_last_cvr_message_valid', '=', True),('partner_last_cvr_message_id','=',False),('state','in',['posted','cancel'])]}" groups="account.group_account_readonly"/>
+          
+        </xpath>
+
+      </field>
+      
+    </record>
+    
+
+  </data>
+
+</odoo>

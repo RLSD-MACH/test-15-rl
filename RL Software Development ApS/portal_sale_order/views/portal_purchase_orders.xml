@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+  <template id="purchase_template_ext" inherit_id="purchase.purchase_order_portal_content">
+
+      <xpath expr="//span[@class='oe_order_line_price_subtotal']" position="replace">
+          
+          <span class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" t-options="{'widget':'float', 'precision':2}"/>
+
+      </xpath>
+
+      <xpath expr="//span[@class='oe_order_line_price_total']" position="replace">
+          
+          <span class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included" t-options="{'widget':'float', 'precision':2}"/>
+
+      </xpath>
+
+      <xpath expr="//t/div[2]" position="inside">
+        
+        <t t-set="current_doc" t-value="order"/>
+        <t t-set="IndividualProduct" t-value="[]"/>
+
+        <t t-foreach="order.order_line" t-as="l">
+					
+          <t t-if="l.product_type == 'product' and l.product_id not in IndividualProduct">
+
+            <t t-set="IndividualProduct" t-value="IndividualProduct+[l.product_id]"/>
+
+          </t>	
+
+        </t>
+        
+        <section class="mt-5" t-if="len(IndividualProduct) > 0" id="product_specifications" name="Product specifications">
+          
+          <h3 class="">Product specifications</h3>
+          <hr class="mt-0 mb-1"/>
+          
+          <t t-call="portal_sale_order.product_specification"/>
+          
+        </section>
+
+      </xpath>
+
+  </template>
+ 
+ </odoo>
+
+

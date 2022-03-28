@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+created by Odoo House ApS - odoohouse.dk
+(c) 2019 Odoo House ApS
+ -->
+<!--
+Account types:
+Resultat opgørelse:
++ account.data_account_type_revenue                      Indtægter
+- account.data_account_type_direct_costs                Direkte omkostninger
+= GROSS PROFIT                                          Bruttofortjeneste
+
++ account.data_account_type_other_income                Andre indtægter (Kurs gevinster m.m.)
+- account.data_account_type_expenses                    Udgifter
+- account.data_account_type_depreciation                Afskrivninger
+= NET PROFIT                                            ?
+
+Balance:
+Aktiver:
++ account.data_account_type_current_assets              Kortfristede aktiver / Omsætningsaktiver (lager)
++ account.data_account_type_receivable                  Debitore / Omsætningsaktiver
++ Accounts ???
++ account.data_account_type_prepayments         Forudbetalinger / Omsætningsaktiver
++ account.data_account_type_liquidity                   Bank og kasse / Omsætningsaktiver
+
++ account.data_account_type_fixed_assets                Materielle anlægsaktiver 
++ account.data_account_type_non_current_assets          Finansielle / Immaterielle anlægsaktiver
+= Aktiver ialt
+
+Passiver:
+- account.data_account_type_current_liabilities         Kortfristede gældsforpligtelser
+- account.data_account_type_payable                     Kreditore / Kortfristede gældsforpligtelser
+- account.data_account_type_non_current_liabilities     Langfristede gældsforpligtelser
+= NET ASSETS
+
+Egenkapital:
+account.data_account_type_equity                        Egenkapital
+account.data_account_type_current_year_ernings          Årets overskud
+= Egenkabital ialt
+-->
+<odoo>
+    <data noupdate="1">
+	    <!-- Account Template -->
+	    <record id="dk_chart_template" model="account.chart.template">
+	        <field name="name">Denmark - Chart of Accounts (E-conomic)</field>
+	        <field name="code_digits">4</field>
+	        <field name="currency_id" ref="base.DKK"/>
+	        <field name="use_anglo_saxon" eval="True"/>
+<!--	        <field name="spoken_languages" eval="'da_DK'"/>-->
+	        <field name="cash_account_code_prefix">581</field> 
+	        <field name="bank_account_code_prefix">582</field>                          
+	        <field name="transfer_account_code_prefix">582</field>  
+	    </record>
+    </data>
+</odoo>

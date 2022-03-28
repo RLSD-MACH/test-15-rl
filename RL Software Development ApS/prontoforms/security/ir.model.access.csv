@@ -1,0 +1,12 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prontoforms_user_manager,Prontoforms User manager,model_prontoforms_user,account.group_account_manager,1,1,1,1
+access_prontoforms_user_readonly,Prontoforms User readonly,model_prontoforms_user,account.group_account_readonly,1,1,1,1
+
+access_prontoforms_formspace_manager,Prontoforms Formspace manager,model_prontoforms_formspace,account.group_account_manager,1,1,1,1
+access_prontoforms_formspace_readonly,Prontoforms Formspace readonly,model_prontoforms_formspace,account.group_account_readonly,1,1,1,1
+
+access_prontoforms_form_manager,Prontoforms Forms manager,model_prontoforms_form,account.group_account_manager,1,1,1,1
+access_prontoforms_form_readonly,Prontoforms Forms readonly,model_prontoforms_form,account.group_account_readonly,1,1,1,1
+
+access_prontoforms_form_submission_manager,Prontoforms Forms Submission manager,model_prontoforms_form_submission,account.group_account_manager,1,1,1,1
+access_prontoforms_form_submission_readonly,Prontoforms Forms Submission readonly,model_prontoforms_form_submission,account.group_account_readonly,1,1,1,1

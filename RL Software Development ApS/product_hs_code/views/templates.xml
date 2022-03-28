@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="view_document_lines_inherit" inherit_id="rlbooks_statement.document_lines">
+
+        <xpath expr="//thead/tr/th[@name='th_ref']" position="after">
+        
+            <t t-if="not display_productspecifications and display_hs_code" >
+
+                <th name="th_hs_code" class="title-avenirfont-bold text-left" style="width: 120px">
+
+                    <span>HS Code</span>
+
+                </th>
+
+            </t>
+
+        </xpath>
+
+        <xpath expr="//td[@name='td_default_code']" position="after">
+        
+            <t t-if="not display_productspecifications and display_hs_code" >
+
+                <td name="td_hs_code" class="title-avenirfont text-left">
+                    <span t-field="line.product_id.product_tmpl_id.hs_code"/>
+                </td>
+
+            </t>
+
+        </xpath>
+
+    </template>
+
+</odoo>

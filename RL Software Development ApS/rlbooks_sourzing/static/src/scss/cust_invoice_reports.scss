@@ -1,0 +1,19 @@
+
+@font-face {
+    font-family: AvenirFont;
+    src: url(/rlbooks_sourzing/static/src/fonts/Avenir-font.otf);
+}
+
+@font-face {
+    font-family: AvenirFont-bold;
+    src: url(/rlbooks_sourzing/static/src/fonts/Avenir-Next-LT-Pro-Bold.ttf);
+}
+
+.title-avenirfont {
+                font-family: AvenirFont;
+                font-size: 9pt;
+            }
+.title-avenirfont-bold {
+                font-family: AvenirFont-bold !important;
+                font-size: 9pt !important;
+            }

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_select_approver_form" model="ir.ui.view">
+        <field name="name">select_approver.wizard.form</field>
+        <field name="model">select_approver.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Select approver">
+                <group string="Approver">
+                    <field name="approver_id" nolabel="1"  options="{'no_create': True}"/>
+                </group>
+                <footer>
+                    <button name="send" string="Send to approval" type="object" class="oe_highlight" />
+                    <button name="approve_my_self" string="I approve this bill my self" type="object" groups="accounting_approvals.bill_approver"/>
+                    <button string="Cancel" special="cancel" />
+
+                    
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_select_approver_view">
+        <field name="name">Select Approver</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">select_approver.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_select_approver_view_form">
+        <field name="act_window_id" ref="act_open_select_approver_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_select_approver_form" />
+    </record>
+
+</odoo>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="view_product_category_form_png" model="ir.ui.view">
+        <field name="name">product.category.form.png</field>
+        <field name="model">product.category</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='first']" position="after">
+                <group string="Auto Generate Product Name &amp; Ref." colspan="4">
+                    <field name="is_product_name" />
+                    <field name="is_product_code" />
+                </group>
+                <field name="name_generator_line" context="{'default_model': 'product.category'}"
+                    attrs="{'readonly': [('state','=', 'confirm')]}">
+                    <tree string="Name Generator" editable="bottom">
+                        <field name="sequence" widget="handle" />
+                        <field name="dyn_attr_line_id" />
+                        <field name="complete_name" readonly="1" />
+                        <field name="p_type" />
+                        <field name="delimeter_type" />
+                        <field name="name_delimeter" />
+                        <field name="field_description" invisible="1" />
+                        <field name="res_id" invisible="1" />
+                        <field name="model" invisible="1" />
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="website_portal_my_quotations_ext" inherit_id="sale.portal_my_quotations" name="website_portal_my_quotations_ext">
+		<xpath expr="//t[1]/t[4]" position="replace">
+		
+            <t t-if="quotations" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-left">Quotation #</th>
+                        <th class="text-left">Customer ref.</th>
+						<th class="text-right">Quotation Date</th>
+                        <th class="text-right">Valid Until</th>
+						<th class="text-right">Delivery Date</th>
+                        <th class="text-center"/>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <t t-foreach="quotations" t-as="quotation">
+                    <tr>
+                        <td><a t-att-href="quotation.get_portal_url()"><t t-esc="quotation.name"/></a></td>
+                        <td><a t-att-href="quotation.get_portal_url()"><t t-esc="quotation.client_order_ref"/></a></td>
+						<td class="text-right"><span t-field="quotation.date_order" t-options='{"widget": "date"}'/></td>						
+                        <td class="text-right"><span t-field="quotation.validity_date" t-options='{"widget": "date"}'/></td>
+						<td class="text-right"><span t-field="quotation.commitment_date" t-options='{"widget": "date"}'/></td>
+                        <td class="text-center">
+                            <span t-if="quotation.state == 'cancel'" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-remove"/> Cancelled</span>
+                            <span t-if="quotation.is_expired" class="badge badge-pill badge-secondary"><i class="fa fa-fw fa-clock-o"/> Expired</span>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="quotation.amount_total"/>
+                        </td>
+                    </tr>
+                </t>
+            </t>       
+
+		</xpath>
+
+	</template>
+
+	<template id="website_portal_my_orders_ext" inherit_id="sale.portal_my_orders" name="website_portal_my_orders_ext">
+		<xpath expr="//t[1]/t[4]" position="replace">
+		
+			<t t-if="orders" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-left">
+                            <span class='d-none d-md-inline'>Sales Order #</span>
+                            <span class='d-block d-md-none'>Ref.</span>
+                        </th>
+						<th class="text-left">Customer ref.</th>
+                        <th class="text-right">Order Date</th>
+						<th class="text-right">Delivery Date</th>
+                        <th class="text-center"/>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <t t-foreach="orders" t-as="order">
+                    <tr>
+                        <td><a t-att-href="order.get_portal_url()"><t t-esc="order.name"/></a></td>
+						<td><a t-att-href="order.get_portal_url()"><t t-esc="order.client_order_ref"/></a></td>                        
+                        <td class="text-right"><span t-field="order.date_order" t-options='{"widget": "date"}'/></td>
+						<td class="text-right"><span t-field="order.commitment_date" t-options='{"widget": "date"}'/></td>
+                        <td class="text-center">
+                            <span t-if="order.state == 'done'"  class="badge badge-pill badge-success">
+                                <i class="fa fa-fw fa-check" role="img" aria-label="Done" title="Done"/>Done
+                            </span>
+                        </td>
+                        <td class="text-right"><span t-field="order.amount_total"/></td>
+                    </tr>
+                </t>
+            </t>       
+
+		</xpath>
+
+		
+	</template>
+            
+    <template id="website_portal_sale_layout_ext" inherit_id="sale_management.sale_order_portal_content_inherit_sale_management">
+		
+<!-- 		<xpath expr="//table[1]/thead/tr/th[2]]" position="before">
+			
+            <th class="text-left">Quantity</th>
+           
+		</xpath>
+        <xpath expr="//table[1]/tbody/tr/td[2]]" position="before">
+			<td class="text-right">
+                <div t-field="option.quantity"/>
+            </td>
+		</xpath> -->
+
+	</template>
+	
+</odoo>

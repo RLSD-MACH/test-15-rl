@@ -1,0 +1,168 @@
+<odoo>
+  <data>
+       
+    <record model="ir.ui.view" id="form_submission_tree">
+      <field name="name">prontoforms.form.submission.tree</field>
+      <field name="model">prontoforms.form.submission</field>
+      <field name="arch" type="xml">
+        <tree string="User" sample="1" create="0" edit="0">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>         
+          <field name="identifier" widget="integer"/>
+          <field name="name"/>
+          <field name="form_id"/>
+          <field name="state"/>
+          <field name="active" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+        
+    <record model="ir.ui.view" id="form_submission_select">
+      <field name="name">prontoforms.form.submission.select</field>
+      <field name="model">prontoforms.form.submission</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+            <filter name="form_id" string="Form" domain="[]" context="{'group_by' : 'form_id'}"/>
+            <filter name="prontoforms_user_id" string="Pronto User" domain="[]" context="{'group_by' : 'prontoforms_user_id'}"/>
+            <filter name="state" string="State" domain="[]" context="{'group_by' : 'state'}"/>
+            
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_submission_form">
+      <field name="name">prontoforms.form.submission.form</field>
+      <field name="model">prontoforms.form.submission</field>
+      <field name="arch" type="xml">
+      
+        <form string="Form submission" create="0" edit="0">
+          <header>
+
+            <button 
+              name="action_get_pdf_report" 
+              string="PDF"
+              icon="fa-cloud-download"
+              type="object" 
+              class="oe_highlight" 
+              help="Get PDF report from Prontoforms"
+              attrs="{'invisible': [['report_pdf_attachment_id','!=', False]]}"
+            />
+
+            <button 
+              name="action_get_xml_report" 
+              string="XML"
+              icon="fa-cloud-download"
+              type="object" 
+              class="oe_highlight" 
+              help="Get XML report from Prontoforms"
+              attrs="{'invisible': [['report_xml_attachment_id','!=', False]]}"
+            />
+
+            <button 
+              name="action_get_json_report" 
+              string="JSON"
+              icon="fa-cloud-download"
+              type="object" 
+              class="oe_highlight" 
+              help="Get data as JSON-object from Prontoforms"
+              attrs="{'invisible': [['inspection_report_id','!=', False]]}"
+            />
+
+            <button 
+              name="action_get_attachments" 
+              string="Attachments"
+              icon="fa-cloud-download"
+              type="object" 
+              class="oe_highlight" 
+              help="Get ZIP-file with all Attachments from Prontoforms"
+              attrs="{'invisible': [['attachments_attachment_id','!=', False]]}"
+            />
+            
+          </header>
+          <sheet>
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              
+              <group>
+                  <group>
+                      <field name="identifier" readonly="1" widget="integer"/>
+                      <field name="name" readonly="1"/>
+                      <field name="asyncStatus" readonly="1"/>
+                      <field name="description" readonly="1"/>
+                      <field name="state" readonly="1"/>
+                      <field name="dataState" readonly="1"/>
+                      <field name="actionState" readonly="1"/>
+                      <field name="serverReceiveDate" readonly="1"/>
+                      <field name="dataPersisted" readonly="1"/>
+
+                      <field name="formVersionId" readonly="1" widget="integer"/>
+                      <field name="formId" readonly="1" widget="integer"/>
+
+                      <field name="userId" readonly="1" widget="integer"/>
+                      <field name="username" readonly="1"/>
+
+                      <field name="form_id" readonly="1"/>
+                      <field name="prontoforms_user_id" readonly="1"/>
+                      <field name="user_id" readonly="1"/>
+                      
+
+                      <field name="inspection_report_id" readonly="1"/>
+
+                      <field name="report_pdf_attachment_id" readonly="1"/>
+                      <field name="report_xml_attachment_id" readonly="1"/>                      
+                      <field name="attachments_attachment_id" readonly="1"/>
+
+                      <field name="active" invisible="1"/>
+                      <field name="company_id" invisible="1"/>                        
+                  </group>
+              </group>  
+
+              <!-- Attachment preview -->
+              <div class="o_attachment_preview"/>
+              
+              <!-- Chatter -->
+              <div class="oe_chatter">
+                  <field name="message_follower_ids" groups="base.group_user"/>
+                  <field name="activity_ids"/>
+                  <field name="message_ids"/>
+              </div>  
+              
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+
+    <!-- <record id="action_get_forms_from_server" model="ir.actions.server">
+
+      <field name="name">Get forms from Prontoforms</field>
+      <field name="model_id" ref="prontoforms.model_prontoforms_formspace"/>
+      <field name="state">code</field>
+      <field name="code">
+      
+        for record in records:
+  
+          action = record.action_get_forms()
+      
+      </field>
+        
+      <field name="binding_model_id" ref="prontoforms.model_prontoforms_formspace"/>
+
+    </record> -->
+       
+    <record model="ir.actions.act_window" id="action_prontoforms_form_submission_window">
+      <field name="name">Form submissions</field>
+      <field name="res_model">prontoforms.form.submission</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+
+</odoo>

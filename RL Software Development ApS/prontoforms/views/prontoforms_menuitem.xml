@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    
+    <menuitem 
+        name="Prontoforms" 
+        id="menu_prontoforms" 
+        sequence="120"
+        web_icon="prontoforms,static/description/icon.png"
+    >
+
+      <menuitem name="Submissions" id="menu_form_submissions" action="action_prontoforms_form_submission_window" groups="account.group_account_readonly" sequence="10"/>
+      <menuitem name="Formspaces" id="menu_formspaces" action="action_prontoforms_formspace_window" groups="account.group_account_readonly" sequence="20"/>
+      <menuitem name="Forms" id="menu_forms" action="action_prontoforms_forms_window" groups="account.group_account_readonly" sequence="30"/>      
+      <menuitem name="Users" id="menu_users" action="action_prontoforms_user_window" groups="account.group_account_readonly" sequence="40"/>
+      
+      <menuitem name="Configuration" id="menu_settings" sequence="100" groups="account.group_account_manager">
+      
+        <menuitem name="Settings" id="menu_res_config_settings" action="action_prontoforms_res_config_settings_window" groups="base.group_system" sequence="1"/>
+        <menuitem name="Refresh User List" id="menu_action_refresh_user_list_server" action="action_refresh_user_list_server" groups="base.group_system" sequence="1"/>
+        <menuitem name="Refresh Formspace List" id="menu_action_refresh_formspace_list_server" action="action_refresh_formspace_list_server" groups="base.group_system" sequence="1"/>
+                
+      
+      </menuitem>
+
+    </menuitem>
+
+  </data>
+</odoo>

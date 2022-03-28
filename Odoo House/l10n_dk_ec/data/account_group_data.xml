@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) 2019 Odoo House ApS -->
+<odoo> 
+    <data noupdate="True">
+        <!--Resultatopgørelse indtægter-->
+        <record id="account_group_revenue" model="account.group">
+            <field name="name">Omsætning</field>
+        </record>
+
+        <!--Resultatopgørelse udgifer-->
+        <record id="account_group_direct_costs" model="account.group">
+            <field name="name">Direkte omkostninger</field>
+        </record>
+        <record id="account_group_staff_costs" model="account.group">
+            <field name="name">Lønninger</field>
+        </record>
+        <record id="account_group_sales_travel_expenses" model="account.group">
+            <field name="name">Salgs- og rejseomkostninger</field>
+        </record>
+        <record id="account_group_auto_operation" model="account.group">
+            <field name="name">Autodrift - personbiler</field>
+        </record>
+        <record id="account_group_room_cost" model="account.group">
+            <field name="name">Lokaleomkostninger</field>
+        </record>
+        <record id="account_group_0perating_costs" model="account.group">
+            <field name="name">Kapacitetsomkostninger</field>
+        </record>      
+        <record id="account_group_administration_costs" model="account.group">
+            <field name="name">Administrationsomkostninger</field>
+        </record>
+        <record id="account_group_depreciation" model="account.group">
+            <field name="name">Afskrivninger</field>
+        </record> 
+        <record id="account_group_financial_income" model="account.group">
+            <field name="name">Renteindtægter</field>
+        </record>
+        <record id="account_group_financial_expenses" model="account.group">
+            <field name="name">Renteudgifter</field>
+        </record>
+           <record id="account_group_extraordinary" model="account.group">
+            <field name="name">Ekstraordinære poster</field>
+        </record>
+        <record id="account_group_sales_corporation_tax" model="account.group">
+            <field name="name">Selskabsskat</field>
+        </record>
+
+        <!--Assets Aktiver-->
+        <record id="account_group_buildings" model="account.group">
+            <field name="name">Indretning af lejede lokaler</field>
+        </record>
+        <record id="account_group_equipment_tools_fixtures" model="account.group">
+            <field name="name">Driftsmidler og inventar</field>
+        </record>
+        <record id="account_group_it" model="account.group">
+            <field name="name">Edb-anlæg</field>
+        </record>
+        <record id="account_group_deposit" model="account.group">
+            <field name="name">Depositum</field>
+        </record>
+        <record id="account_group_current_assets" model="account.group">
+            <field name="name">Omsætningsaktiver</field>
+        </record>
+             
+        <!--Liabilities Passiver-->
+         <record id="account_group_equity" model="account.group">
+            <field name="name">EGENKAPITAL</field>
+         </record>          
+         <record id="account_group_reserves" model="account.group">
+            <field name="name">HENSÆTTELSER</field>
+        </record> 
+        <record id="account_group_credit_current_liabilities" model="account.group">
+            <field name="name">Kortfristet gæld</field>
+        </record> 
+        <record id="account_group_vat_taxes" model="account.group">
+            <field name="name">Moms og afgifter</field>
+        </record>
+          <record id="account_group_other_current_liabilities" model="account.group">
+            <field name="name">Anden gæld</field>
+        </record>      
+    </data>
+</odoo>

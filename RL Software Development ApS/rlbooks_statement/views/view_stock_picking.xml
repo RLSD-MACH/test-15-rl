@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_stock_picking_form_inherit" model="ir.ui.view">
+        <field name="name">view.stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+
+            <page string="Layout" name="rlbooks_statement_layout_page">
+
+                <group>
+
+                <group>     
+
+                    <field name="display_backorder" widget="boolean_toggle"/>
+                   
+                </group>
+                    
+                <group>  
+
+                </group>
+
+                </group>
+
+            </page>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

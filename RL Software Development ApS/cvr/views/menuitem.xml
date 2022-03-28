@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    
+    <menuitem 
+        name="CVR" 
+        id="menu_cvr" 
+        sequence="120"
+        web_icon="cvr,static/description/icon.png"
+    >
+
+      <menuitem name="Messages" id="menu_message" action="action_cvr_message_window" groups="account.group_account_readonly" sequence="10"/>
+      
+      <menuitem name="Configuration" id="menu_settings" sequence="100" groups="account.group_account_manager">
+      
+        <menuitem name="Settings" id="menu_res_config_settings" action="action_cvr_res_config_settings_window" groups="base.group_system" sequence="1"/>
+
+        <menuitem name="Re-validate all periodically" id="menu_action_refresh_all_cvr" action="action_refresh_all_cvr" groups="base.group_system" sequence="2"/>
+
+        <menuitem name="Force Re-validate all" id="menu_action_refresh_all_cvr_force" action="action_refresh_all_cvr_force" groups="base.group_system" sequence="3"/>
+      
+      </menuitem>
+
+    </menuitem>
+
+  </data>
+</odoo>

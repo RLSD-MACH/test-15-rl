@@ -1,0 +1,134 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="table_row_tree">
+      <field name="name">mysql.table.row.tree</field>
+      <field name="model">mysql.table.row</field>
+      <field name="arch" type="xml">
+        <tree string="Tables" sample="1">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>
+          <field name="name"/>
+          <field name="model"/>
+          <field name="old_id"/>
+          <field name="new_id"/>
+          <field name="active" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="table_row_select">
+      <field name="name">mysql.table.row.select</field>
+      <field name="model">mysql.table.row</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+          <field name="model" filter_domain="[('model', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+            <filter name="model" string="Model" domain="[]" context="{'group_by' : 'model'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <!-- <record model="ir.ui.view" id="table_row_form">
+      <field name="name">mysql.table.row.form</field>
+      <field name="model">mysql.table.row</field>
+      <field name="arch" type="xml">
+        <form string="Table">
+          <header>
+
+            <button 
+
+              name="action_get_columns" 
+              type="object"
+              string="Get Columns" 
+              class="oe_highlight"
+
+            />
+
+            <button 
+
+              name="action_get_records" 
+              type="object"
+              string="Get Records" 
+              class="oe_highlight"
+
+            />
+
+            <button 
+
+              name="action_update_records" 
+              type="object"
+              string="Update Records" 
+              class="oe_highlight"
+
+            />            
+                        
+          </header>
+          <sheet>
+
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+              
+              <field name="name"/>
+
+              <group>
+                  <group>
+                      
+                      <field name="login_id" invisible="0" options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                      <field name="convertion_model_id" invisible="0" options="{'limit': 10, 'create': false, 'create_edit': false}"/>
+                      <field name="active" invisible="1"/>
+                      <field name="company_id" invisible="1"/>                        
+                  </group>
+              </group> 
+
+              <field name="field_ids">   
+
+                <tree create="0" edit="1">
+
+                  <field name="name" readonly="1"/>
+                  <field name="position" readonly="1"/>
+                  <field name="data_type" readonly="1"/>
+                  <field name="convertion_field_id" options="{'limit': 10, 'create': false, 'create_edit': false}"/>  
+                  <field name="related_table_id" options="{'limit': 10, 'create': false, 'create_edit': false}"/>  
+                        
+                </tree>
+
+             </field>          
+
+             <field name="row_ids">   
+
+                <tree create="0" edit="1">
+
+                  <field name="name" readonly="1"/>
+                  <field name="model" readonly="1"/>
+                  <field name="old_id" readonly="1"/>
+                  <field name="new_id" readonly="1"/>  
+                  <field name="data" readonly="1"/>  
+
+                </tree>
+
+             </field>               
+              
+          </sheet>
+        </form>
+      </field>
+    </record> -->
+
+    
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="action_mysql_table_row_window">
+      <field name="name">Records</field>
+      <field name="res_model">mysql.table.row</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>

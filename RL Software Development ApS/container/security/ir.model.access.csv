@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_container_size,Container size,model_container_size,,1,1,1,1
+access_container_stock,Container stock,model_container_stock,,1,1,1,1
+access_container,Container,model_container,,1,1,1,1
+
+access_container_select_products_wizard,container,model_container_select_products_wizard,,1,1,1,1

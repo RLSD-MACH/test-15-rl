@@ -1,0 +1,31 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_imp_sale_res_partner_ext_form">
+      <field name="name">rlbooks_imp_sale.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <group name="sale" position="inside">
+          
+            <field name="property_customer_incoterm_id" options="{'no_create': True, 'no_open': False}"  widget="selection"/>
+            <field name="property_default_bank_account_id" options="{&quot;no_create&quot;:true}" domain="[&quot;&amp;&quot;,[&quot;active&quot;,&quot;=&quot;,True],&quot;|&quot;,[&quot;type&quot;,&quot;=&quot;,&quot;cash&quot;],[&quot;type&quot;,&quot;=&quot;,&quot;bank&quot;]]" widget="selection"/>
+            <field name="property_default_partner_invoice_id" options="{'no_create': True, 'no_open': False}" widget="many2one" />
+            <field name="property_default_partner_shipping_id" options="{'no_create': True, 'no_open': False}" widget="many2one"/>
+
+        </group>
+
+        <xpath expr="//field[@name='function']" position="before">
+          <field name="contact_id" options="{'no_create': True, 'no_open': False}" widget="many2one"/>
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

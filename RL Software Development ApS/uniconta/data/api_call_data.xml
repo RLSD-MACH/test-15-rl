@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <data noupdate="1">
+
+        <record model="uniconta.datatable">            
+            <field name="name">CreditorClient</field>            
+        </record>
+
+        <record model="uniconta.datatable">            
+            <field name="name">DebtorClient</field>
+        </record>
+
+        <record model="uniconta.datatable">            
+            <field name="name">CreditorGroupClient</field>
+        </record>
+
+        <record model="uniconta.datatable">            
+            <field name="name">DebtorGroupClient</field>
+        </record>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,61 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="api_call_tree">
+      <field name="name">api.call.tree</field>
+      <field name="model">api.call</field>
+      <field name="arch" type="xml">
+        <tree string="API" sample="1" create="0" edit="0">
+
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="action" optional="show" />
+          
+          <field name="create_date" optional="show" />
+          <field name="status_code" optional="show" />
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="api_call_select">
+      <field name="name">api.call.select</field>
+      <field name="model">api.call</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="action" filter_domain="[('action', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+    
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="api_call_action_window">
+      <field name="name">API calls</field>
+      <field name="res_model">api.call</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Top menu item -->
+    
+    <menuitem 
+        name="API" 
+        id="api_menu_root" 
+        sequence="1"
+        web_icon="rlbooks_api,static/description/icon.png"
+    />
+    
+    <!-- menu categories -->
+    
+    <menuitem name="Calls" id="api_call_menu" parent="api_menu_root" action="api_call_action_window" sequence="10"/>
+    
+  </data>
+</odoo>

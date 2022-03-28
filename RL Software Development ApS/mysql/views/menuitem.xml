@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+    
+    <menuitem 
+        name="MySQL" 
+        id="menu_mysql_root" 
+        sequence="1"
+        web_icon="mysql,static/description/icon.png"
+    >
+
+      <menuitem name="Login" id="menu_mysql_login" action="action_mysql_login_window" sequence="10"/>
+      <menuitem name="Tables" id="menu_mysql_table" action="action_mysql_table_window" sequence="20"/>
+      <menuitem name="Records" id="menu_mysql_table_row" action="action_mysql_table_row_window" sequence="30"/>
+      
+    </menuitem>
+
+  </data>
+</odoo>

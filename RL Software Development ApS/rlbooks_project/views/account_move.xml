@@ -1,0 +1,113 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_project_account_move_ext_form">
+      <field name="name">rlbooks.project.account_move_ext.form</field>
+      <field name="model">account.move</field>
+      <field name="inherit_id" ref="account.view_move_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='account_internal_group']" position="after">
+
+          <field name="rlbooks_project_id" optional="show"/>
+          <field name="rlbooks_project_entry_ids" optional="show"/>
+
+        </xpath>
+
+        <xpath expr="//field[@name='account_id']" position="attributes">
+
+          <attribute name="optional">hide</attribute>
+
+        </xpath>
+
+        <xpath expr="//field[@name='amount_residual']" position="after">
+
+          <field name="rlbooks_project_entry_est_salesvalue" readonly="1" attrs="{'invisible': [('project_invoice','=',False)]}"/>
+          <field name="rlbooks_project_entry_cost" readonly="1" attrs="{'invisible': [('project_invoice','=',False)]}"/>
+
+        </xpath>
+
+        <xpath expr="//page[@id='aml_tab']" position="after">
+
+           <page id="project_tab" string="Project entries" name="project_entries" attrs="{'invisible': [('project_invoice','=',False)]}">
+               
+                <!-- <field name="rlbooks_project_entry_ids"/> -->
+
+                <field name="rlbooks_project_entry_ids" widget="section_and_note_one2many" mode="tree" >
+                  
+                  <tree editable="button" create="0" delete="0" string="Journal Items" default_order="user_id desc, date desc, id">
+                      
+                    <!-- Displayed fields -->
+                    <field name="id" optional="hide" readonly="1"/>
+                    <field name="project_id" optional="show" widget="many2one" readonly="1"/>
+                    <field name="sales_invoice_id" optional="hide" readonly="1"/>     
+                    <field name="sales_invoice_line_id" optional="show" options="{'limit': 20, 'create': false, 'create_edit': false}"/>                    
+                    <field name="type" optional="show" readonly="1"/>
+                    <field name="product_id" optional="hide" widget="many2one" readonly="1"/>          
+                    
+                    <field name="date" optional="show" readonly="1"/>
+                    <field name="description" optional="show"/>
+                    <field name="user_id" widget="many2one_avatar_user" optional="show" readonly="1"/>
+                    <field name="qty_spent" optional="show" sum="Total qty spent" readonly="1"/>
+                    <field name="qty_invoiceable" optional="show" sum="Total qty invoiceable"/>
+                    <field name="salesprice" optional="show"/>
+                    <field name="discount" optional="show"/>
+                    <field name="s_salesprice" optional="show" readonly="1"/>
+                    <field name="s_salesprice_t" optional="show" string="Total salesprice" sum="Total salesprice" readonly="1"/>
+                    <field name="s_costprice_t" optional="show" string="Costprice" sum="Total costprice" readonly="1"/>          
+                    <field name="locked" optional="hide" readonly="1"/>
+                    <field name="create_date" optional="hide" readonly="1"/>
+                    <field name="company_id" optional="hide" readonly="1"/>
+
+                    <button name="action_remove_from_move" type="object" icon="fa-trash-o" help="Remove"/>
+
+                  </tree>
+                  
+              </field>
+
+              <!-- Totals (only invoices / receipts) -->
+              <!-- <group class="oe_subtotal_footer oe_right" attrs="{'invisible': ['|', ('move_type', 'not in', ('out_invoice', 'out_refund', 'in_invoice', 'in_refund', 'out_receipt', 'in_receipt')),                                                                ('payment_state' ,'=', 'invoicing_legacy')]}">
+                  <field name="amount_tax" invisible="1"/>
+                  <field name="amount_untaxed" attrs="{'invisible': [('amount_tax', '=', 0)]}"/>
+                  <field name="amount_by_group" widget="tax-group-custom-field" nolabel="1" colspan="2" attrs="{'invisible': [('amount_tax', '=', 0)]}"/>
+                  <field name="amount_total" attrs="{'invisible': [('amount_tax', '!=', 0)]}"/>
+                  <field name="amount_total" class="oe_subtotal_footer_separator" attrs="{'invisible': [('amount_tax', '=', 0)]}"/>
+                  <field name="invoice_payments_widget" colspan="2" nolabel="1" widget="payment"/>
+                  <field name="amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', '=', 'draft')]}"/>
+              </group> -->
+              
+              <field name="project_invoice" invisible="1"/>
+
+            </page>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <!-- 
+    <record model="ir.ui.view" id="rlbooks_sale_order_ext_form">
+      <field name="name">rlbooks.project.sale_order_ext.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='order_line']/tree/field[@name='company_id']" position="after">
+
+          <field name="rlbooks_project_id" optional="show"/>
+          <field name="rlbooks_project_entry_ids" optional="show"/>
+
+        </xpath>
+
+      </field>
+    </record> 
+    -->
+
+  </data>
+
+</odoo>

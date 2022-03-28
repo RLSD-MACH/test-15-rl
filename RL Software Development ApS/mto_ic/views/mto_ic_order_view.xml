@@ -1,0 +1,306 @@
+<odoo>
+<data>
+
+<record id="view_order_tree" model="ir.ui.view">
+  <field name="name">mto.ic_order.view.tree</field>
+  <field name="model">mto.ic_order</field>
+  <field name="arch" type="xml">
+    <tree create="1" edit="1" string="MTO IC Orders" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="create_date" optional="show" />
+      <field name="name" optional="show" />
+      <field name="customer_order_ref" optional="hide" />
+      <field name="customer_id" optional="show" />
+      <field name="seller_id" optional="show" />
+      <field name="purchaser_id" optional="show"/>
+      <field name="state" optional="show"/>     
+      
+    </tree>
+  </field>
+</record>
+
+<record id="view_order_form" model="ir.ui.view">
+
+  <field name="name">mto.ic_order.view.form</field>
+
+  <field name="model">mto.ic_order</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="Order_header">
+              
+        <button name="action_confirm" string="Confirm order"
+                      type="object" class="oe_highlight"
+                      attrs="{'invisible': [('confirmed','!=',False)]}"/>
+        
+        <button name="action_create_sale_order" string="Create SO"
+                      type="object" class="oe_highlight"
+                      attrs="{'invisible': [('all_on_so','=',True)]}"/>
+
+        <button name="action_create_purchase_order" string="Create PO"
+                      type="object" class="oe_highlight"
+                      attrs="{'invisible': [('all_purchased','=',True)]}"/>
+
+         <field name="state" widget="statusbar" statusbar_visible="draft,sent,confirmed,cancel"/>
+      
+      </header>
+                      
+      <sheet string="IC MTO">
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            <button 
+              type="object" 
+              name="action_view_sale_orders" 
+              class="oe_stat_button" 
+              icon="fa-pencil-square-o" 
+              attrs="{'invisible':[('sale_order_count', '=', 0)]}"
+            >
+
+              <field string="SO" name="sale_order_count" widget="statinfo"/>
+
+            </button>
+
+            <button 
+              type="object" 
+              name="action_view_purchase_orders" 
+              class="oe_stat_button" 
+              icon="fa-pencil-square-o" 
+              attrs="{'invisible':[('purchase_order_count', '=', 0)]}"
+            >
+
+              <field string="PO" name="purchase_order_count" widget="statinfo"/>
+
+            </button>
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <div class="oe_title">
+          <h1>
+              <field name="name"/>
+          </h1>
+          <div name="options_active">
+            <div>
+                <!-- <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                <field name="label_tasks" class="oe_inline oe_input_align"/> -->
+            </div>
+          </div>
+        </div>
+
+        <notebook>
+
+          <page name="order_page" string="Order" attrs="{'invisible': [('name', '=', 'New')]}">
+
+            <group string="Details" modifiers="{}">
+
+              <field name="confirmed"  attrs="{'invisible': [('confirmed', '=', False)]}"/>          
+
+            </group>
+
+            <group string="Products" modifiers="{}">
+           
+              <field name="line_ids" context="{'default_order_id': id}" nolabel="1">
+
+                <tree editable="bottom" string="Products" default_order="id" decoration-success="state=='done'" decoration-danger="to_sale_order_qty&lt; 0">
+
+                  <field name="order_id" invisible="1"/>
+                  <field name="product_id" optional="show"/>
+                  <field name="requested_qty" optional="show"/>
+                  
+                  <field name="on_sale_order_qty" optional="hide"/>
+                  <field name="to_sale_order_qty" optional="hide"/>
+                  <field name="sale_price" optional="show"/>
+
+                  <field name="delivered_qty" optional="show"/>
+                  <field name="invoiced_qty" optional="show"/>                  
+                  <field name="to_invoice_qty" optional="show"/>
+                  <field name="on_stock_seller_qty" optional="show"/>
+                  <field name="in_transfer_ic_qty" optional="show"/>
+                  <field name="on_stock_purchaser_qty" optional="show"/>
+                  <field name="requested_from_supplier_qty" optional="show"/>
+                  <field name="state" optional="hide"/>
+                  <field name="active" optional="hide"/>
+                  
+                </tree>
+
+              </field>  
+           
+           </group>
+
+          </page>
+
+          <page name="so_page" string="SO" attrs="{'invisible': [('sale_order_ids', '=', False)]}">
+            
+            <group string="Sales orders" modifiers="{}">
+           
+              <field name="sale_order_ids" nolabel="1">
+
+                <tree string="Sales orders" default_order="date_order" decoration-success="finished==True">
+
+                  <field name="id" invisible="1"/>
+                  <field name="date_order" optional="show"/>
+                  <field name="name" optional="show"/>
+                  <field name="partner_id" optional="show"/>
+                  
+                  <field name="user_id" optional="show"/>
+                  <field name="company_id" optional="show"/>
+                  <field name="amount_total" optional="show"/>
+                  
+                  <field name="state" optional="show"/>
+                  <field name="finished" optional="hide"/>
+                  
+                </tree>
+
+              </field>  
+           
+           </group>
+
+          </page>
+
+          <page name="po_page" string="PO" attrs="{'invisible': [('purchase_order_ids', '=', False)]}">
+            
+            <group string="Purchase orders" modifiers="{}">
+           
+              <field name="purchase_order_ids" nolabel="1">
+
+                <tree string="Purchase orders" default_order="date_order" decoration-success="finished==True">
+
+                  <field name="id" invisible="1"/>
+                  <field name="date_order" optional="show"/>
+                  <field name="name" optional="show"/>
+                  <field name="partner_id" optional="show"/>
+                  
+                  <field name="user_id" optional="show"/>
+                  <field name="company_id" optional="show"/>
+                  <field name="amount_total" optional="show"/>
+                  
+                  <field name="state" optional="show"/>
+                  <field name="finished" optional="hide"/>
+                  
+                </tree>
+
+              </field>  
+           
+           </group>
+
+          </page>
+
+          <page name="settings" string="Settings">
+              
+            <group>
+
+              <group>
+
+                <field name="name"/>
+                <field name="customer_order_ref"/>
+                <field name="customer_id"/>
+                <field name="seller_id" />
+                <field name="purchaser_id"/>                  
+                
+              </group>
+
+              <group>
+                  
+                  <!-- <field name="deadline"/>
+                  <field name="user_id" string="Project Manager" widget="many2one_avatar_user" attrs="{'readonly':[('active','=',False)]}" domain="[('share', '=', False)]"/>
+                  <field name="default_code"/> -->
+
+              </group> 
+
+              <group>
+
+                  <!-- <field name="partner_id" string="Customer" widget="res_partner_many2one"/>
+                  <field name="partner_email" widget="email" attrs="{'invisible': [('partner_id', '=', False)]}"/>
+                  <field name="partner_phone" widget="phone" attrs="{'invisible': [('partner_id', '=', False)]}"/> -->
+
+              </group>  
+
+              <group>
+
+                  <!-- <field name="contact_id" string="Contact" widget="res_partner_many2one"/>
+                  <field name="contact_email" widget="email" attrs="{'invisible': [('partner_id', '=', False)]}"/>
+                  <field name="contact_phone" widget="phone" attrs="{'invisible': [('partner_id', '=', False)]}"/> -->
+
+              </group>
+              
+              <group>
+
+                  <field name="active" invisible="1"/>
+                  <field name="all_purchased" invisible="1"/>
+                  <field name="all_on_so" invisible="1"/>
+                  
+                  
+              </group>                  
+
+            </group>
+              
+          </page>
+
+        </notebook>
+
+      </sheet>
+      
+      <div class="oe_chatter">
+
+            <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this order to automatically track the events associated to tasks and issues of this order." groups="base.group_user"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+
+      </div>
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="view_order_search" model="ir.ui.view">
+  <field name="name">mto.ic_order.view.search</field>
+  <field name="model">mto.ic_order</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          <filter name="seller_id" string="Seller" context="{'group_by': 'seller_id'}"/>
+          <filter name="purchaser_id" string="Purchaser" context="{'group_by': 'purchaser_id'}"/>
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="action_order_window">
+    <field name="name">IC MTO Orders</field>
+    <field name="res_model">mto.ic_order</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <!-- Top menu item -->
+  
+  <menuitem 
+      name="IC MTO" 
+      id="mto_ic_order_menu_root" 
+      sequence="1"
+      web_icon="mto_ic,static/description/icon.png"
+  />
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Orders" id="mto_ic_order_menu" parent="mto_ic_order_menu_root" action="action_order_window" sequence="10"/>
+  <menuitem name="Settings" id="mto_ic_order_settings_menu" parent="mto_ic_order_menu_root" sequence="100"/>
+
+  
+</data>
+</odoo>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="view_statement_form">
+
+      <field name="name">partner_statement_portal.statement_ext.form</field>
+      <field name="model">rlbooks_statement.report.print</field>
+      <field name="inherit_id" ref="rlbooks_statement.report_print_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//header" position="inside">
+                  
+          <button 
+            name="preview_online"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-globe icon"            
+          >
+
+            <div class="o_field_widget o_stat_info">
+                <span class="o_stat_text">Customer</span>
+                <span class="o_stat_text">Preview</span>
+            </div>
+            
+          </button>
+
+        </xpath>
+
+      </field>
+
+    </record>
+
+  </data>
+</odoo>

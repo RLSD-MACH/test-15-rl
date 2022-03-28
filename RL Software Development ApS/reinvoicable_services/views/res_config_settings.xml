@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+   
+    <record model="ir.ui.view" id="res_config_settings_view_form">
+      <field name="name">res.config.settings.view.form.inherit.outlays</field>
+      <field name="model">res.config.settings</field>
+      <field name="priority" eval="100"/>
+      <field name="inherit_id" ref="base.res_config_settings_view_form" />
+      <field name="arch" type="xml">
+        
+        <xpath expr="//div[hasclass('settings')]/div[@data-key='sale_management']" position="inside">
+
+            <h2>Outlays</h2>
+
+            <div class="row mt16 o_settings_container">
+
+              <div class="o_setting_left_pane">
+
+                <label string="Outlays balance account'" for="outlay_balance_account_id"/>
+                <field name="outlay_balance_account_id"/>
+
+                <label string="Outlays expence account'" for="outlay_expence_account_id"/>
+                <field name="outlay_expence_account_id"/>
+                  
+                <label string="Outlays default journal" for="outlay_default_journal"/>
+                <field name="outlay_default_journal"/>
+
+              </div>
+
+            </div>
+
+
+        </xpath>
+
+      </field>
+    </record>
+
+
+</odoo>

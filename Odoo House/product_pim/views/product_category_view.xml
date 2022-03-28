@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_product_category_inherit_form" model="ir.ui.view">
+        <field name="name">product.category.form</field>
+        <field name="model">product.category</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button string="Confirm" class="oe_highlight" states="draft" type="object" name="action_confirm"/>
+                    <button string="Set to Draft" states="confirm" type="object" name="action_draft"/>
+                    <field name="state" widget="statusbar" readonly="1"/>
+                </header>
+            </xpath>
+            <xpath expr="//group[@name='first']" position="after">
+                <separator string="PIM" colspan="4"/>
+                <field name="attribute_line" context="{'default_model': 'product.category'}" attrs="{'readonly': [('state','=', 'confirm')]}">
+                    <tree string="Attributes" editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="dyn_attr_line_id"/>
+                        <field name="ttype" readonly="1"/>
+                        <field name="complete_name" readonly="1"/>
+                        <field name="field_description" readonly="1"/>
+                        <field name="res_id" invisible="1"/>
+                        <field name="model" invisible="1"/>
+                    </tree>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem
+        id="menu_base_dyn_attr_line"
+        action="dynamic_base_attributes.base_dyn_attr_line_view_action"
+        groups="base.group_no_one"
+        parent="sale.prod_config_main"
+        sequence="3"/>
+
+</odoo>

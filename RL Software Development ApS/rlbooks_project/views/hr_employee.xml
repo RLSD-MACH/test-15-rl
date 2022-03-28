@@ -1,0 +1,27 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_project_hr_employee_ext_form">
+
+      <field name="name">rlbooks.project.hr_employee_ext.form</field>
+      <field name="model">hr.employee</field>
+      <field name="inherit_id" ref="hr.view_employee_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//group[@name='managers']" position="inside">
+
+          <field name="timesheet_manager_id"/>
+          <field name="vehicle_ids"/>
+               
+        </xpath>
+
+      </field>
+
+    </record>
+
+  </data>
+
+</odoo>

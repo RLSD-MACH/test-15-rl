@@ -1,0 +1,269 @@
+<odoo>
+
+  <data>
+       
+    <record model="ir.ui.view" id="rlbooks_sale_order_ext_tree">
+      <field name="name">rlbooks.sale_order_ext.tree</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_tree"/>
+      <field name="mode">extension</field>
+      <field name="type">tree</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//tree" position="inside">
+          
+          <field name="finished" optional="show"/>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_sale_order_ext_form">
+      <field name="name">rlbooks.sale_order_ext.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      
+      <field name="arch" type="xml">      
+
+        <xpath expr="//div[@name='button_box']" position="after">
+          
+          <field name="finished" invisible="1"/>
+          <widget name="web_ribbon" title="Finished" bg_color="bg-success" attrs="{'invisible': [('finished', '=', False)]}"/>
+
+        </xpath>
+
+        <xpath expr="//field[@name='partner_id']" position="after">
+
+          <field name="contact_id" context="{'default_type':'contact'}" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id), ('parent_id', '=', partner_id), ('type', '=','contact')]"/>
+        
+        </xpath>
+
+        <xpath expr="//div[@name='invoice_lines']" position="after">
+             
+          <div name="move_ids">
+                                      
+            <label for="move_ids"/>
+            <field name="move_ids"/>
+            
+          </div>
+
+          <div name="purchase_line_ids">
+            
+            <label for="purchase_line_ids"/>
+            <field name="purchase_line_ids"/>
+            
+          </div>
+          
+          <div name="qty_delivered_method">
+            
+            <label for="qty_delivered_method"/>
+            <field name="qty_delivered_method"/>
+            
+          </div>
+
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_sale_order_ext_select">
+      <field name="name">rlbooks.sale_order_ext.select</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+      <field name="mode">extension</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//filter[@name='my_sale_orders_filter']" position="after">
+            <separator/>
+            <filter string="Show finished orders" name="finished_orders" domain="[('finished','=',True),'|',('state','=','sale'),('state','=','done')]"/>
+            <filter string="Show open orders" name="open_orders" domain="[('finished','=',False),'|',('state','=','sale'),('state','=','done')]"/>
+        </xpath>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_sale_order_line_ext_select">
+      <field name="name">rlbooks.sale_order_line_ext.select</field>
+      <field name="model">sale.order.line</field>
+      <field name="inherit_id" ref="sale.view_sales_order_line_filter"/>
+      <field name="mode">extension</field>
+      <field name="type">search</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//filter[@name='my_sales_order_lines']" position="after">
+            <separator/>
+            <filter string="Show confirmed orders" name="confirmed_orders" domain="['|',('state','=','sale'),('state','=','done')]"/>
+            <filter string="Show only RFQ" name="rfq_orders" domain="['|',('state','=','draft'),('state','=','sent')]"/>
+        </xpath>
+
+      </field>
+    </record>
+    
+    <!-- sale.order.line graph view -->
+    <record id="rlbooks_imp_sale_open_view_graph" model="ir.ui.view">
+      <!-- <field name="name">sale.order.line.view.graph</field> -->
+      <field name="model">sale.order.line</field>
+      <!-- <field name="type">graph</field> -->
+      <field name="arch" type="xml">
+      
+        <graph string="Open orders" type="bar" sample="1" disable_linking="0"> <!--  orientation="horizontal"  -->
+         
+          <field name="order_delivery_date" interval="month"/>
+          <field name="open_salesvalue_DKK" type="measure"/>
+
+        </graph>
+      </field>
+    </record>
+
+    <!-- sale.order.line graph view -->
+    <record id="rlbooks_imp_sale_open_view_pivot" model="ir.ui.view">
+      <field name="name">Open sales order value</field>
+      <field name="model">sale.order.line</field>
+      <field name="type">pivot</field>    
+      <field name="arch" type="xml">
+      
+        <pivot string="Open orders" sample="1" disable_linking="0">
+          <!-- Add your fields here -->
+          
+          <field name="order_delivery_date" type="col" interval="month"/>
+          <field name="salesman_id" type="row"/>
+          <field name="order_partner_id" type="row"/>
+          <field name="order_id" type="row"/>
+          <!-- <field name="open_salesvalue_base" type="measure"/>
+          <field name="open_salesvalue_DKK" type="measure"/> -->
+          <field name="customer_lead" invisible="1" />
+
+        </pivot>
+      </field>
+    </record>
+    
+    
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="rlbooks_imp_sale_open_base_action" model="ir.actions.act_window">
+      <field name="name">Open orders base</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">graph,pivot</field>
+      <field name="domain">[('open_salesvalue','!=',0)]</field>
+      <field name="context">{'pivot_measures': ['open_salesvalue_base'],'graph_measure': 'open_salesvalue_base'}</field>
+      <!-- <field name="search_view_id"> </field> -->
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          <!-- Add Text Here -->
+        </p><p>
+          <!-- More details about what a user can do with this object will be OK --> 
+        </p>
+      </field>
+      
+    </record>
+    
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="rlbooks_imp_sale_open_menu" name="Open salesorders base" parent="sale.menu_sale_report" action="rlbooks_imp_sale_open_base_action" sequence="20"/>
+
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="rlbooks_imp_sale_open_DKK_action" model="ir.actions.act_window">
+      <field name="name">Open orders DKK</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">graph,pivot</field>
+      <field name="domain">[('open_salesvalue','!=',0)]</field>
+      <field name="context">{'pivot_measures': ['open_salesvalue_DKK'],'graph_measure': 'open_salesvalue_DKK'}</field>
+      <!-- <field name="search_view_id"> </field> -->
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          <!-- Add Text Here -->
+        </p><p>
+          <!-- More details about what a user can do with this object will be OK --> 
+        </p>
+      </field>
+      
+    </record>
+    
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="rlbooks_imp_sale_open_DKK_menu" name="Open salesorders DKK" parent="sale.menu_sale_report" action="rlbooks_imp_sale_open_DKK_action" sequence="30"/>
+
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="rlbooks_imp_sale_base_action" model="ir.actions.act_window">
+      <field name="name">Orders base</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">graph,pivot</field>
+      <field name="domain">[('state','in',['sale','done'])]</field>
+      <field name="context">{'pivot_measures': ['salesvalue_base'],'graph_measure': 'salesvalue_base','groupby':'date_order:week'}</field>
+      
+      <!-- <field name="search_view_id"> </field> -->
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          <!-- Add Text Here -->
+        </p><p>
+          <!-- More details about what a user can do with this object will be OK --> 
+        </p>
+      </field>
+      
+    </record>
+    
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="rlbooks_imp_sale_base_menu" name="Salesorders base" parent="sale.menu_sale_report" action="rlbooks_imp_sale_base_action" sequence="40"/>
+
+    <!-- rlbooks_imp_sale_open action window -->
+    <record id="rlbooks_imp_sale_DKK_action" model="ir.actions.act_window">
+      <field name="name">Orders DKK</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">sale.order.line</field>
+      <field name="view_mode">graph,pivot</field>
+      <field name="domain">[('state','in',['sale','done'])]</field>
+      <field name="context">{'pivot_measures': ['salesvalue_DKK'],'graph_measure': 'salesvalue_DKK','groupby':'date_order:week'}</field>
+      
+      <!-- <field name="search_view_id"> </field> -->
+      <field name="help" type="html">
+        <p class="oe_view_nocontent_create">
+          <!-- Add Text Here -->
+        </p><p>
+          <!-- More details about what a user can do with this object will be OK --> 
+        </p>
+      </field>
+      
+    </record>
+    
+    <!-- This Menu Item must have a parent and an action -->
+    <menuitem id="rlbooks_imp_sale_DKK_menu" name="Salesorders DKK" parent="sale.menu_sale_report" action="rlbooks_imp_sale_DKK_action" sequence="50"/>
+
+    <!-- rlbooks_imp_sale graph view -->
+    <record id="rlbooks_imp_sale_sale_order_line_view_graph" model="ir.ui.view">
+      <field name="name">rlbooks_imp_sale.view.graph</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <graph string="Open Orders">
+         
+          <field name="order_partner_id" type="row"/>
+          <field name="salesman_id" type="row"/>
+          
+          <field name="date_order" interval="month" type="col"/>
+          <field name="open_salesvalue_DKK" type="measure"/>
+          
+        </graph>
+      </field>
+    </record>
+
+    <!-- rlbooks_imp_sale pivot view -->
+    <record id="rlbooks_imp_sale_sale_order_line_view_pivot" model="ir.ui.view">
+      <field name="name">rlbooks_imp_sale.view.pivot</field>
+      <field name="model">sale.order.line</field>
+      <field name="arch" type="xml">
+        <pivot string="Open Orders">
+
+          <field name="order_partner_id" type="row"/>
+          <field name="date_order" interval="month" type="col"/>
+          <field name="open_salesvalue_DKK" type="measure"/>
+          
+        </pivot>
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

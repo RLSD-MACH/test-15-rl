@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="action_outlay_window">
+      <field name="name">Outlay</field>
+      <field name="res_model">outlay</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+        
+    <menuitem name="Outlay" id="menu_outlay" parent="account.menu_finance_receivables" action="action_outlay_window" sequence="120"/>
+
+  </data>
+</odoo>

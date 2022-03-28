@@ -1,0 +1,41 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="rlbooks_email_mail_compose_ext_form">
+      <field name="name">rlbooks_email.mail_compose_ext.form</field>
+      <field name="model">mail.compose.message</field>
+      <field name="inherit_id" ref="mail.email_compose_message_wizard_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='subject']" position="before">
+          
+          <label for="partner_cc_ids" string="CC" attrs="{'invisible': [('is_log', '=', True)]}" groups="base.group_user"/>
+          <div groups="base.group_user" attrs="{'invisible': [('is_log', '=', True)]}">
+
+            <field name="partner_cc_ids" widget="many2many_tags_email" options="{'no_create':True, 'no_open': True}" placeholder="Add contacts to notify CC..." context="{'force_email':True, 'show_email':True}" attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"/>
+          
+          </div>
+
+          <label for="partner_bcc_ids" string="BCC" attrs="{'invisible': [('is_log', '=', True)]}" groups="base.group_user"/>
+          <div groups="base.group_user" attrs="{'invisible': [('is_log', '=', True)]}">
+
+            <field name="partner_bcc_ids" widget="many2many_tags_email" options="{'no_create':True, 'no_open': True}" placeholder="Add contacts to notify BCC..." context="{'force_email':True, 'show_email':True}" attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"/>
+          
+          </div>
+
+          <field name="email_cc" widget="email" attrs="{'invisible': [('is_log', '=', True)]}"/>
+          <field name="email_bcc" widget="email" attrs="{'invisible': [('is_log', '=', True)]}"/>
+                     
+        </xpath>
+        
+
+      </field>
+    </record>
+    
+
+  </data>
+
+</odoo>

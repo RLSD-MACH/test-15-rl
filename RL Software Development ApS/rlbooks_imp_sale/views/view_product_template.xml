@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="action_res_partner_open_sale_orders_count" model="ir.actions.act_window">
+
+        <field name="name">Sale Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">['&amp;','&amp;',('order_line.product_template_id', '=', active_id),('finished','=',False),('order_line.qty_to_deliver','&gt;',0)]</field>
+        <field name="context">{'order': 'name'}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            
+            </p>
+            <p>
+            
+            </p>
+
+        </field>
+
+    </record> 
+
+    <record id="view_product_template_only_form_view_inherit" model="ir.ui.view">
+
+        <field name="name">rlbooks_imp_sale.product_template_ext.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+            
+                <button type="action" name="%(action_res_partner_open_sale_orders_count)d" icon="fa-book" class="oe_stat_button" attrs="{'invisible': [('open_sale_orders_count', '=', 0)]}" groups="sales_team.group_sale_salesman">
+                    <field string="Open SO" name="open_sale_orders_count" widget="statinfo"/>
+                </button>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+</odoo>

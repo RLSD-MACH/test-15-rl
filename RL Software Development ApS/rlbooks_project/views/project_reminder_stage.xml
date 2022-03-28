@@ -1,0 +1,64 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="rlbooks_project_reminder_stage_tree">
+      <field name="name">rlbooks.project.reminder.stage.tree</field>
+      <field name="model">rlbooks.project.reminder.stage</field>
+      <field name="arch" type="xml">
+
+        <tree string="Reminder stage" sample="1">
+
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="sequence" optional="show" widget="handle"/>
+          <field name="name" optional="show" />
+          <field name="create_date" optional="show" />
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        
+        </tree>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_project_reminder_stage_form">
+      <field name="name">rlbooks.project.reminder.stage.form</field>
+      <field name="model">rlbooks.project.reminder.stage</field>
+      <field name="arch" type="xml">
+
+        <form string="Project reminder stage">
+  
+          <sheet>
+
+              <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '!=', False)]}"/>
+              
+              <group>
+                  <group>
+                    
+                    
+                    <field name="sequence" modifiers="{'required':true}" invisible="1"/>
+                    <field name="name" modifiers="{'required':true}"/>
+                    <field name="is_closed" modifiers="{'required':true}" widget="boolean_toggle"/>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="active" modifiers="{'readonly':true}" id="active" invisible="1"/>
+                      
+                  </group>
+              </group>
+              
+          </sheet>
+        </form>
+
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="rlbooks_project_reminder_stage_action_window">
+      <field name="name">Reminder stage</field>
+      <field name="res_model">rlbooks.project.reminder.stage</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+        
+    <menuitem name="Reminder stage" id="rlbooks_project_reminder_stage_menu" parent="rlbooks_project_settings_menu" action="rlbooks_project_reminder_stage_action_window"/>
+    
+  </data>
+</odoo>

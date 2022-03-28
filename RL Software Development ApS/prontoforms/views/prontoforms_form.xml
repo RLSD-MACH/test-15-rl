@@ -1,0 +1,112 @@
+<odoo>
+  <data>
+       
+    <record model="ir.ui.view" id="forms_tree">
+      <field name="name">prontoforms.form.tree</field>
+      <field name="model">prontoforms.form</field>
+      <field name="arch" type="xml">
+        <tree string="User" sample="1" create="0" edit="0">
+          <field name="id" optional="hide" readonly="1" modifiers="{'readonly':true}"/>         
+          <field name="identifier" widget="integer"/>
+          <field name="name"/>
+          <field name="submission_count"/>
+          
+          <field name="active" optional="hide" modifiers="{'required':true}"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}"/>
+        </tree>
+      </field>
+    </record>
+        
+    <record model="ir.ui.view" id="forms_select">
+      <field name="name">prontoforms.form.select</field>
+      <field name="model">prontoforms.form</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="forms_form">
+      <field name="name">prontoforms.form.form</field>
+      <field name="model">prontoforms.form</field>
+      <field name="arch" type="xml">
+        <form string="Form">
+            <header>
+              
+            </header>
+            <sheet>
+                <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+               
+                <group>
+                    <group>
+                        <field name="identifier" readonly="1" widget="integer"/>
+                        <field name="name" readonly="1"/>
+                        <field name="asyncStatus" readonly="1"/>
+                        <field name="description" readonly="1"/>
+                        <field name="state" readonly="1"/>
+                        <field name="locked" readonly="1"/>
+                        <field name="formspace_id" readonly="1"/>
+                        <field name="last_retrive_of_submissions" readonly="1"/>                        
+                        <field name="active" invisible="1"/>
+                        <field name="company_id" invisible="1"/>                        
+                    </group>
+                </group>    
+
+                <group>
+                
+                  <field name="submission_ids" readonly="1">
+
+                    <tree>
+
+                      <field name="name" />
+                      <field name="state" />
+                      <field name="user_id" />
+
+                    </tree>
+                
+
+                  </field>
+
+                  
+                </group>              
+                
+            </sheet>
+            </form>
+      </field>
+    </record>
+
+
+    <record id="action_get_form_submissions_from_server" model="ir.actions.server">
+
+      <field name="name">Get form submissions from Prontoforms</field>
+      <field name="model_id" ref="prontoforms.model_prontoforms_form"/>
+      <field name="state">code</field>
+      <field name="code">
+      
+        for record in records:
+  
+          action = record.action_get_submissions()
+      
+      </field>
+        
+      <field name="binding_model_id" ref="prontoforms.model_prontoforms_form"/>
+
+    </record>
+       
+    <record model="ir.actions.act_window" id="action_prontoforms_forms_window">
+      <field name="name">Forms</field>
+      <field name="res_model">prontoforms.form</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+
+</odoo>

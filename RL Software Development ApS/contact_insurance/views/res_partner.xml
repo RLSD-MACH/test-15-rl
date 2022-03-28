@@ -1,0 +1,44 @@
+<odoo>
+
+  <data>
+   
+    <record model="ir.ui.view" id="insurance_company_partner_ext_form">
+      <field name="name">insurance_company.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <group name="sale" position="inside">
+        
+          <field name="insurance_company_id" options="{'no_create': True, 'no_open': False}" widget="many2one"/>
+          <field name="insurance_partner_ID" attrs="{'invisible': [('insurance_company_id','=',False)]}"/>
+          <field name="insurance_credit_limit" attrs="{'invisible': [('insurance_company_id','=',False)]}"/>
+          <field name="insurance_credit_limit_currency_id" attrs="{'invisible': [('insurance_company_id','=',False)]}"/>          
+
+        </group>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="insurance_company_view_res_partner_filter_ext_form">
+      <field name="name">insurance_company.view_res_partner_filter_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_res_partner_filter"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//filter[@name='group_company']" position="after">
+
+          <filter name="insurance_company_id" context="{'group_by': 'insurance_company_id'}"/>
+
+        </xpath>
+
+      </field>
+    </record>
+
+  </data>
+
+</odoo>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_stock_picking_ext" model="ir.ui.view">
+    
+        <field name="name">excel import stock picking</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='move_ids_without_package']" position="before">
+
+                <group>
+
+                    <!-- <button 
+
+                      name="costume_btn_import_line" 
+                      type="object" 
+                      string="Import" 
+                      context="{
+                          'one2many_field': 'move_ids_without_package',
+                          'picking_type_code': picking_type_code, 
+                          'default_picking_id': id, 
+                          'form_view_ref':'stock.view_move_form', 
+                          'address_in_id': partner_id, 
+                          'default_picking_type_id': picking_type_id, 
+                          'default_location_id': location_id, 
+                          'default_location_dest_id': location_dest_id
+                          }"
+                      attrs="{'invisible': [('state', 'in', ['done','cancel'])]}" 
+                      class="oe_highlight"
+                      
+                    /> -->
+
+                    <button 
+
+                      name="action_picking_move_tree" 
+                      type="object" 
+                      string="Import" 
+                      context="{                          
+                          'picking_type_code': picking_type_code, 
+                          'default_picking_id': id, 
+                          'form_view_ref':'stock.view_move_form', 
+                          'address_in_id': partner_id, 
+                          'default_picking_type_id': picking_type_id, 
+                          'default_location_id': location_id, 
+                          'default_location_dest_id': location_dest_id
+                          }"
+                      attrs="{'invisible': [('state', 'in', ['done','cancel'])]}" 
+                      class="oe_highlight"
+                      data-hotkey="e"
+                      
+                    />
+                    
+                </group>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+  </data>
+</odoo>

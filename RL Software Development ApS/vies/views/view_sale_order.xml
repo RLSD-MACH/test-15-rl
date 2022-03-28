@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+     
+    <record model="ir.ui.view" id="view_vies_sale_order_ext_form">
+      <field name="name">vies.sale_order_ext.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//group[@name='partner_details']" position="inside">
+
+          <field 
+            name="partner_last_vies_message_id" 
+            attrs="{'invisible': [('partner_last_vies_message_id','=',False)]}" 
+            groups="account.group_account_readonly"
+            decoration-warning ="partner_last_vies_message_id == False" 
+            decoration-danger = "partner_last_vies_message_valid==False and partner_last_vies_message_id != False"
+            decoration-success = "partner_last_vies_message_valid==True"
+            widget="badge"
+          />
+
+          <field name="partner_last_vies_message_valid" invisible="1" groups="account.group_account_readonly"/>
+
+        </xpath>
+
+        <xpath expr="//div[@name='button_box']" position="after">
+
+          <widget name="web_ribbon" title="Partner VAT-number is invalid!" bg_color="bg-danger" attrs="{'invisible': ['|','|',('partner_last_vies_message_valid', '=', True),('partner_last_vies_message_id','=',False),('state','in',['sale','done','cancel'])]}" groups="account.group_account_readonly"/>
+          
+        </xpath>
+        
+      </field>
+      
+    </record>
+    
+
+  </data>
+
+</odoo>

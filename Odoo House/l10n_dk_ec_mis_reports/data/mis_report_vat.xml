@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  © 2019 Odoo House (https://www.odoohouse.dk)
+  License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+
+<odoo>  
+    <record model="mis.report" id="mis_report_vat">
+      <field name="name">Momsindberetning</field>
+      <field name="style_id" ref="l10n_dk"/>
+    </record>
+    <record model="mis.report.instance" id="mis_report_instance_vat">
+      <field name="name">Momsindberetning</field>
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="comparison_mode" eval="False"/>
+    </record>    
+    <record model="mis.report.kpi" id="mis_report_vat_mom01">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01</field>
+      <field name="description">Momsindberetning</field>
+      <field name="expression">AccountingNone</field>
+      <field name="accumulation_method">none</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_01">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_01</field>
+      <field name="description">Salgsmoms (Udgående moms)</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6902').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_02">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_02</field>
+      <field name="description">Moms af varekøb i udlandet (både EU og tredjelande)</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6906').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_03">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_03</field>
+      <field name="description">Moms af ydelseskøb i udlandet med omvendt betalingspligt</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6908').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_fra">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">FRA</field>
+      <field name="description">Fradrag</field>
+      <field name="expression">AccountingNone</field>
+      <field name="accumulation_method">none</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_04">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_04</field>
+      <field name="description">Købsmoms (indgående moms)</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6903').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_05">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_05</field>
+      <field name="description">Olie- og flaskegasafgift</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6916').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_06">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_06</field>
+      <field name="description">Elafgift</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6917').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>       
+    <record model="mis.report.kpi" id="mis_report_vat_mom01_09">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM01_07</field>
+      <field name="description">CO2-afgift</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6918').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>    
+    <record model="mis.report.kpi" id="mis_report_vat_momsialt">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOMSIALT</field>
+      <field name="description">Moms i alt (Positivt beløb = betale, negativ beløb = penge til gode)</field>
+      <field name="expression">+MOM01_01 +MOM01_02 +MOM01_03 -MOM01_04 -MOM01_05 -MOM01_06 -MOM01_07 </field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02</field>
+      <field name="description">Supplerende oplysninger. Rubrik A, B og C</field>
+      <field name="expression">AccountingNone</field>
+      <field name="accumulation_method">none</field>
+      <field name="type">num</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_total"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_01">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_01</field>
+      <field name="description">Rubrik A - varer. Værdien uden moms af varekøb i andre EU-lande (EU erhvervelser)</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6910').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_02">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_02</field>
+      <field name="description">Rubrik A - ydelser. Værdien uden moms af ydelseskøb i andre EU-lande</field>
+      <field name="expression">balp[('id', '=', ref('l10n_dk_ec.a6911').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_03">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_03</field>
+      <field name="description">Rubrik B - vare - indberettes til 'EU-salg uden moms'. Værdien af varesalg uden moms til andre EU-lande.</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6912').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_04">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_04</field>
+      <field name="description">Rubrik B - vare - indberettes ikke til 'EU-salg uden moms'. Værdien til ikke momsregistrerede kunder uden moms til andre EU-lande.</field>
+      <field name="expression">AccountingNone</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_05">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_05</field>
+      <field name="description">Rubrik B - ydelser. Værdien af visse ydelsessalg uden moms til andre EU-lande. Indberettes til 'EU-salg uden moms'.</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6913').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    <record model="mis.report.kpi" id="mis_report_vat_mom02_07">
+      <field name="report_id" ref="mis_report_vat"/>
+      <field name="name">MOM02_07</field>
+      <field name="description">Rubrik C - ydelser. Værdien af andre vare og ydelser, der leveres uden afgift her i landet, i andre EU-lande og i lande uden for EU.</field>
+      <field name="expression">-balp[('id', '=', ref('l10n_dk_ec.a6914').id)][]</field>
+      <field name="compare_method">pct</field>
+      <field name="style_id" ref="l10n_dk_detail"/>
+      <field name="sequence">10</field>
+    </record>
+    
+    
+    
+    
+    
+</odoo>

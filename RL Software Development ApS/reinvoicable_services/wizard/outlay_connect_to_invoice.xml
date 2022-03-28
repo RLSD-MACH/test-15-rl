@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="view_outlay_select_account_move_form" model="ir.ui.view">
+        <field name="name">outlay.select.account.move.wizard.form</field>
+        <field name="model">outlay.select.account.move.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Select Outlays">
+
+                <group>
+
+                    <group>
+                    
+                        <field name="outlay_id" readonly="1"/>
+
+                    </group>
+                    <group>
+
+                        <field name="open_balance" readonly="1"/>
+
+                    </group>
+
+                </group>
+                
+                <field name="line_ids" 
+                    context="{'default_wizard_id': id}" 
+                    nolabel="1" 
+                >
+
+                    <tree editable="bottom">
+
+                        <control>
+
+                            <create name="add_invoice_control" string="Add an invoice"/>
+                            
+                        </control>
+
+                        <field name="wizard_id" optional="hide"/>
+                        <field name="company_id" optional="hide"/>
+                        
+                        <field name="account_move_line_id" options="{'no_open':False,'no_create':1,'no_create_edit':1}" domain="[('move_id.move_type','in',['out_refund','out_invoice']),('company_id','=',company_id),('exclude_from_invoice_tab','=',False),('parent_state','=','posted')]"/>    
+                        <field name="account_move_id" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/>                         
+                        <field name="description"/>
+                        <field name="selected_percentage"/>
+                        <field name="selected_balance"/>
+                        
+                    </tree>
+
+                </field>
+
+                <footer>
+                    <button name="action_confirm_disbursment" string="Make disbursment" type="object" class="oe_highlight" />
+                    <button string="Cancel" special="cancel" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="act_open_outlay_select_account_move_view">
+        <field name="name">Select Outlays</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">outlay.select.account.move.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.actions.act_window.view" id="act_open_outlay_select_account_move_view_form">
+        <field name="act_window_id" ref="act_open_outlay_select_account_move_view" />
+        <field name="sequence" eval="10" />
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_outlay_select_account_move_form" />
+    </record>
+
+</odoo>

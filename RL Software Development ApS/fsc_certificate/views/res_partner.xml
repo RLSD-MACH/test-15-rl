@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+      
+    <record model="ir.ui.view" id="view_fsc_res_partner_ext_form">
+      <field name="name">vies.res_partner_ext.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <group name="purchase" position="inside">
+          
+          <field name="fsc_certificate_ids" widget="one2many_tags"/>
+
+        </group>
+        
+      </field>
+
+    </record>
+    
+  </data>
+
+</odoo>

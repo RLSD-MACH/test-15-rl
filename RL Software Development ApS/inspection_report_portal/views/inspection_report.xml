@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="view_inspection_report_form">
+
+      <field name="name">inspection_report_portal.inspection_report_ext.form</field>
+      <field name="model">inspection.report</field>
+      <field name="inherit_id" ref="inspection_report.view_inspection_report_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//header" position="inside">
+        
+          <button 
+            name="action_publish" 
+            type="object"
+            string="Publish" 
+            class="oe_highlight"
+            attrs="{'invisible': [('is_published', '=', True)]}"
+          />
+
+          <button 
+            name="action_unpublish" 
+            type="object"
+            string="Unpublish" 
+            class="oe_highlight"
+            attrs="{'invisible': [('is_published', '=', False)]}"
+          />
+
+          <button 
+            name="preview_online"
+            type="object"
+            class="oe_stat_button"
+            icon="fa-globe icon"
+            attrs="{'invisible': [('is_published', '=', False)]}"
+          >
+
+            <div class="o_field_widget o_stat_info">
+                <span class="o_stat_text">Customer</span>
+                <span class="o_stat_text">Preview</span>
+            </div>
+            
+          </button>
+
+        </xpath>
+
+        <xpath expr="//field[@name='active']" position="after">
+        
+          <field name="is_published" invisible="1"/>
+
+        </xpath>
+
+      </field>
+
+    </record>
+
+  </data>
+</odoo>

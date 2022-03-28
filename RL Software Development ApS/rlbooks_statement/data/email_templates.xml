@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+
+<odoo>
+	
+	<data noupdate="1"> 
+	
+		<record id="rlbooks_statement_customer_statement" model="mail.template">
+
+			<field name="name">Customer Statement</field>
+			<field name="email_from">${(user.company_id.partner_id.email or '')|safe}</field>
+			<field name="subject">Statement</field>
+			<field name="email_to">${object.email|safe}</field>
+			<field name="lang">${object.lang}</field>
+			<field name="model_id" ref="base.model_res_partner"/>
+			<field name="auto_delete" eval="True"/>
+			<field name="body_html">
+			
+				<![CDATA[
+
+					<div style="margin:0px;padding: 0px;">
+						<p style="padding: 0px; font-size: 13px;">
+
+							<span>To</span>
+							% if object.parent_id:
+								${object.name} (${object.parent_id.name}),
+							% else:
+								${object.name},
+							% endif
+							<br><br>
+
+						</p>
+
+						<p style="padding: 0px; font-size: 13px;">
+							<span>We have attached your statement.</span>
+						</p>
+
+						<p style="padding: 0px; font-size: 13px;">
+							<span>Please let us know if you have any questions.</span>
+						</p>
+
+						<br><br>
+
+						<p style="padding: 0px; font-size: 13px;">
+											
+							Best Regards <br><br> ${object.company_id.name}
+							% if user.signature:
+								<br><br>
+								${user.signature | safe}
+							% endif
+						</p>
+						
+					</div>
+				]]>
+
+			</field>
+
+		</record>
+
+	</data>
+
+</odoo>

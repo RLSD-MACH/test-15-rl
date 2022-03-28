@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Momsindberetning -->
+    <record id="account_financial_report_l10n_dk_moms_indberetning" model="account.financial.html.report">
+        <field name="name">Momsindberetning PV</field>
+        <field name="date_range" eval="1"/>
+        <field name="parent_id" ref="account.account_reports_legal_statements_menu"/>
+        <field name="tax_report" eval="1"/>
+    </record>
+
+    <record id="account_financial_report_l10n_dk_momsialt_ovs" model="account.financial.html.report.line">
+        <field name="name">Momsindberetning</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="1"/>
+        <field name="formulas"></field>
+        <field name="special_date_changer"></field>
+    </record>
+    <record id="account_financial_report_l10n_dk_salgsmoms" model="account.financial.html.report.line">
+        <field name="name">Salgsmoms (Udgående moms)</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_01</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="2"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6902')])]"/>
+        <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_moms_af_varekob_i_udlandet" model="account.financial.html.report.line">
+        <field name="name">Moms af varekøb i udlandet (både EU og tredjelande)</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_02</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="3"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6906')])]"/>
+        <field name="formulas">balance = - sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_moms_af_ydelseskob_i_udlandet" model="account.financial.html.report.line">
+        <field name="name">Moms af ydelseskøb i udlandet med omvendt betalingspligt</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_03</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="4"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6908')])]"/>
+        <field name="formulas">balance = -sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_fradrag_ovs" model="account.financial.html.report.line">
+        <field name="name">Fradrag</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="5"/>
+        <field name="formulas"></field>
+        <field name="special_date_changer"></field>
+    </record>
+    <record id="account_financial_report_l10n_dk_kobsmoms" model="account.financial.html.report.line">
+        <field name="name">Købsmoms (indgående moms)</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_04</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="6"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6903')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_Olie" model="account.financial.html.report.line">
+        <field name="name">Olie- og flaskegasafgift</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_05</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="7"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6916')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_el" model="account.financial.html.report.line">
+        <field name="name">Elafgift</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_06</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="8"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6917')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_co2" model="account.financial.html.report.line">
+        <field name="name">CO2-afgift</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_01_07</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="9"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6918')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+
+    <record id="account_financial_report_l10n_dk_momsialt" model="account.financial.html.report.line">
+        <field name="name">Moms i alt (Positivt beløb = betale, negativ beløb = penge til gode)</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="level" eval="1"/>
+        <field name="sequence" eval="10"/>
+        <field name="formulas">balance = DM_MOM_01_01.balance + DM_MOM_01_02.balance + DM_MOM_01_03.balance - DM_MOM_01_04.balance</field>
+        <field name="special_date_changer"></field>
+    </record>
+    <record id="account_financial_report_l10n_dk_supplerende_oplysninger" model="account.financial.html.report.line">
+        <field name="name">Supplerende oplysninger. Rubrik A, B og C</field>
+        <field name="financial_report_id" ref="account_financial_report_l10n_dk_moms_indberetning"/>
+        <field name="code">DM_MOM_02</field>
+        <field name="level" eval="0"/>
+        <field name="sequence" eval="20"/>
+        <field name="formulas"></field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_a_varer" model="account.financial.html.report.line">
+        <field name="name">Rubrik A - varer. Værdien uden moms af varekøb i andre EU-lande (EU erhvervelser)</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_01</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="21"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6910')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_a_ydelser" model="account.financial.html.report.line">
+        <field name="name">Rubrik A - ydelser. Værdien uden moms af ydelseskøb i andre EU-lande</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_02</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="22"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6911')])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_b_vare_til_EUmoms" model="account.financial.html.report.line">
+        <field name="name">Rubrik B - vare - indberettes til 'EU-salg uden moms'. Værdien af varesalg uden moms til andre EU-lande.</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_03</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="23"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6912')])]"/>
+        <field name="formulas">balance = -sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_b_vareikke_til_EU_moms" model="account.financial.html.report.line">
+        <field name="name">Rubrik B - vare - indberettes ikke til  'EU-salg uden moms'. Værdien til ikke momsregistrerede kunder uden moms til andre EU-lande.</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_04</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="24"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [])]"/>
+        <field name="formulas">balance = sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_b_ydelser" model="account.financial.html.report.line">
+        <field name="name">Rubrik B - ydelser. Værdien af visse ydelsessalg uden moms til andre EU-lande. Indberettes til 'EU-salg uden moms'.</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_05</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="25"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6913')])]"/>
+        <field name="formulas">balance = -sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+    <record id="account_financial_report_l10n_dk_rubrik_c_ydelser" model="account.financial.html.report.line">
+        <field name="name">Rubrik C - ydelser. Værdien af andre vare og ydelser, der leveres uden afgift her i landet, i andre EU-lande og i lande uden for EU.</field>
+        <field name="parent_id" ref="account_financial_report_l10n_dk_supplerende_oplysninger"/>
+        <field name="code">DM_MOM_02_06</field>
+        <field name="level" eval="2"/>
+        <field name="sequence" eval="26"/>
+        <field name="show_domain">never</field>
+        <field name="domain" eval="[('account_id.id', 'in', [ref('l10n_dk_ec.a6914')])]"/>
+        <field name="formulas">balance = -sum.balance</field>
+        <field name="special_date_changer">strict_range</field>
+    </record>
+
+</odoo>

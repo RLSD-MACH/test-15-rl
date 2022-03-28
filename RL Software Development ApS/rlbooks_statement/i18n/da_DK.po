@@ -1,0 +1,1880 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* rlbooks_statement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-28 14:07+0000\n"
+"PO-Revision-Date: 2022-02-28 14:07+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: rlbooks_statement
+#: model:mail.template,body_html:rlbooks_statement.rlbooks_statement_customer_statement
+msgid ""
+"\n"
+"\t\t\t\n"
+"\t\t\t\t\n"
+"\n"
+"\t\t\t\t\t<div style=\"margin:0px;padding: 0px;\">\n"
+"\t\t\t\t\t\t<p style=\"padding: 0px; font-size: 13px;\">\n"
+"\n"
+"\t\t\t\t\t\t\t<span>To</span>\n"
+"\t\t\t\t\t\t\t% if object.parent_id:\n"
+"\t\t\t\t\t\t\t\t${object.name} (${object.parent_id.name}),\n"
+"\t\t\t\t\t\t\t% else:\n"
+"\t\t\t\t\t\t\t\t${object.name},\n"
+"\t\t\t\t\t\t\t% endif\n"
+"\t\t\t\t\t\t\t<br><br>\n"
+"\n"
+"\t\t\t\t\t\t</p>\n"
+"\n"
+"\t\t\t\t\t\t<p style=\"padding: 0px; font-size: 13px;\">\n"
+"\t\t\t\t\t\t\t<span>We have attached your statement.</span>\n"
+"\t\t\t\t\t\t</p>\n"
+"\n"
+"\t\t\t\t\t\t<p style=\"padding: 0px; font-size: 13px;\">\n"
+"\t\t\t\t\t\t\t<span>Please let us know if you have any questions.</span>\n"
+"\t\t\t\t\t\t</p>\n"
+"\n"
+"\t\t\t\t\t\t<br><br>\n"
+"\n"
+"\t\t\t\t\t\t<p style=\"padding: 0px; font-size: 13px;\">\n"
+"\t\t\t\t\t\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t\tBest Regards <br><br> ${object.company_id.name}\n"
+"\t\t\t\t\t\t\t% if user.signature:\n"
+"\t\t\t\t\t\t\t\t<br><br>\n"
+"\t\t\t\t\t\t\t\t${user.signature | safe}\n"
+"\t\t\t\t\t\t\t% endif\n"
+"\t\t\t\t\t\t</p>\n"
+"\t\t\t\t\t\t\n"
+"\t\t\t\t\t</div>\n"
+"\t\t\t\t\n"
+"\n"
+"\t\t\t"
+msgstr ""
+"\t\t\t\n"
+"\t\t\t\t\n"
+"\n"
+"\t\t\t\t\t<div style=\"margin:0px;padding: 0px;\">\n"
+"\t\t\t\t\t\t<p style=\"padding: 0px; font-size: 13px;\">\n"
+"\t\t\t\t\t\t\t<span>Til</span>\n"
+"\t\t\t\t\t\t\t% if object.parent_id:\n"
+"\t\t\t\t\t\t\t\t${object.name} (${object.parent_id.name}),\n"
+"\t\t\t\t\t\t\t% else:\n"
+"\t\t\t\t\t\t\t\t${object.name},\n"
+"\t\t\t\t\t\t\t% endif\n"
+"\t\t\t\t\t\t\t<br><br>\n"
+"\n"
+"\t\t\t\t\t\t\t<span>Vi har vedhæftet jeres kontoudtog.</span>\n"
+"\t\t\t\t\t\t\t<span>Venligst tag kontakt til os, hvis I har spørgsmål til tilsendte.</span>\n"
+"\t\t\t\t\t\t</p>\n"
+"\t\t\t\t\t<br><br>\n"
+"\t\t\t\t\t\t\tMed venlig hilsen / Best Regards <br><br> ${object.company_id.name}\n"
+"\t\t\t\t\t\t\t% if user.signature:\n"
+"\t\t\t\t\t\t\t\t<br><br>\n"
+"\t\t\t\t\t\t\t\t${user.signature | safe}\n"
+"\t\t\t\t\t\t\t% endif\n"
+"\t\t\t\t\t\t</p>\n"
+"\t\t\t\t\t</div>\n"
+"\t\t\t\t\n"
+"\n"
+"\t\t\t"
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,print_report_name:rlbooks_statement.bonus_report_print
+msgid ""
+"'Bonus Statement from %s to %s.pdf' % "
+"(object.date_start.strftime('%d-%m-%Y'), "
+"object.date_end.strftime('%d-%m-%Y'))"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,print_report_name:rlbooks_statement.sales_report_print
+msgid ""
+"'Sales Statement from %s to %s.pdf' % "
+"(object.date_start.strftime('%d-%m-%Y'), "
+"object.date_end.strftime('%d-%m-%Y'))"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,print_report_name:rlbooks_statement.report_print
+msgid ""
+"'Statement from %s to %s.pdf' % (object.date_start.strftime('%d-%m-%Y'), "
+"object.date_end.strftime('%d-%m-%Y'))"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_specifications
+msgid "<br/><br/><span>Product contains:</span><br/><br/>"
+msgstr "<br/><br/><span>Produktet indholder:</span><br/><br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_res_partner_ext_form
+msgid "<span class=\"o_stat_text\">Bonus Statements</span>"
+msgstr "<span class=\"o_stat_text\">Bonusopgørelser</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_res_partner_ext_form
+msgid "<span class=\"o_stat_text\">Statements</span>"
+msgstr "<span class=\"o_stat_text\">Kontoudtog</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid ""
+"<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Bonus Statement</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+msgstr ""
+"\t<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Bonusopgørelse</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid ""
+"<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Sales report</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+msgstr ""
+"\t<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Salgsrapport</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid ""
+"<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Statement</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+msgstr ""
+"\t<span class=\"standard_document_header_text\">\n"
+"\n"
+"\t\t\t\t\t\t\t\t<b><span>Kontoudtog</span></b>\n"
+"\n"
+"\t\t\t\t\t\t\t</span>\n"
+"\n"
+"\t\t\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_features
+msgid "<span class=\"text_productspecifikation_quality\">HS Code: </span>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_features
+msgid "<span class=\"text_productspecifikation_quality\">Volume: </span>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_features
+msgid "<span class=\"text_productspecifikation_quality\">Weight: </span>"
+msgstr "\t<span class=\"text_productspecifikation_quality\">Vægt: </span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Amount</span>\n"
+"\t\t\t\t\t\t\t\t<span groups=\"account.group_show_line_subtotals_tax_included\">Total Price</span>"
+msgstr ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Beløb</span>\n"
+"\t\t\t\t\t\t\t\t\t<span groups=\"account.group_show_line_subtotals_tax_included\">Total beløb</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+msgid ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Amount</span>\n"
+"\t\t\t\t\t\t<span groups=\"account.group_show_line_subtotals_tax_included\">Total Price</span>"
+msgstr ""
+"<span groups=\"account.group_show_line_subtotals_tax_excluded\">Beløb</span>\n"
+"\t\t\t\t\t\t\t\t\t<span groups=\"account.group_show_line_subtotals_tax_included\">Total beløb</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_purchase_order
+msgid "<span style=\"font-weight:bold;\">Total</span>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.parent_details
+msgid ""
+"<span style=\"font_weight:bold;\">Customer</span>\n"
+"\t\t\t\t\t<br/>"
+msgstr ""
+"\t<span style=\"font_weight:bold;\">Kunde</span>\n"
+"\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_specifications
+msgid "<span> - </span>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span> Homepage </span>"
+msgstr "Hjemmeside"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.parent_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.shipping_address
+msgid "<span>/</span>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bank_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Account no.</span>"
+msgstr "Kontonr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+msgid ""
+"<span>All items couldn't be shipped, the following items will be shipped as "
+"soon as they become available.</span>"
+msgstr ""
+"<span>Ikke alle varer kunne leveres. De resterende vil blive leveret så "
+"snart de er til rådighed. </span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Balance in </span>"
+msgstr "Beløb i "
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Balance in LCY</span>"
+msgstr "Beløb i LV"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Balance</span>"
+msgstr "Saldo"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bank_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Bank</span>"
+msgstr "Bank"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Bonus:</span>"
+msgstr "Bonus:"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Bonus</span>"
+msgstr "Bonus"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Consumable</span>"
+msgstr "Forbrugsvarer"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Currency rate</span>"
+msgstr "Valutakurs"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Currency</span>"
+msgstr "Valuta"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Customer VAT-no.</span>"
+msgstr "SE/CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Customer no.</span>"
+msgstr "Debitornr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Customer ref.</span>"
+msgstr "<span>Kunde reference</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+msgid "<span>Delivery date</span>"
+msgstr "Leveringsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_delivery_slip
+msgid "<span>Delivery note</span>"
+msgstr "Følgeseddel"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Delivery terms</span>"
+msgstr "Leveringsbetingelser"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Description</span>"
+msgstr "Beskrivelse"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Disc.%</span>"
+msgstr "Rabat%"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Document No.</span>"
+msgstr "Bilagsnr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+msgid "<span>Document date</span>"
+msgstr "Bogføringsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Due Date</span>"
+msgstr "Forfaldsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "<span>Due date</span>"
+msgstr "Forfaldsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Due entries - </span>"
+msgstr "Forfaldne poster - "
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>E-Mail</span>"
+msgstr "Mail"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Ending Date</span>"
+msgstr "Slutdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Excluded partners</span>"
+msgstr "Ekskluderede kontakter"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Expected date</span>"
+msgstr "Leveringsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Goods</span>"
+msgstr "Varer"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.company_details2
+msgid "<span>Homepage</span>"
+msgstr "Hjemmeside"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bank_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>IBAN</span>"
+msgstr "IBAN"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "<span>Invoice date</span>"
+msgstr "Fakturadato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>No</span>"
+msgstr "Nej"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Open orders</span>"
+msgstr "Åbne ordre"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Options</span>"
+msgstr "Muligheder"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Order date</span>"
+msgstr "Bilagsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Original Amount</span>"
+msgstr "Oprindeligt beløb"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Our art no.</span>"
+msgstr "Vores art nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.footer
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid ""
+"<span>Page</span> <span class=\"page\"/> <span>of</span> <span "
+"class=\"topage\"/>"
+msgstr ""
+"\t<span>Side</span> <span class=\"page\"/> <span>af</span> <span "
+"class=\"topage\"/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+msgid "<span>Pay-to vendor no.</span>"
+msgstr "Leverandør nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Payment terms</span>"
+msgstr "Betalingsbetingelser"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Periode</span>"
+msgstr "Periode"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Phone no.</span>"
+msgstr "Telefon"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Posting Date</span>"
+msgstr "Bilagsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "<span>Price includes VAT</span>"
+msgstr "Priser inkl. moms"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Prior</span>"
+msgstr "Åbningsbalance"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_sale_order
+msgid "<span>Pro-Forma Invoice</span>"
+msgstr "<span>Pro-Forma Faktura</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.product_specifications
+msgid ""
+"<span>Product specifications</span>\n"
+"\t\t\t\t\t<br/>"
+msgstr ""
+"<span>Produktspecifikationer</span>\n"
+"\t\t\t\t\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Purchaser</span>"
+msgstr "Indkøber"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Quantity</span>"
+msgstr "Antal"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_delivery_slip
+msgid "<span>Quotation no.</span>"
+msgstr "Tilbudsnr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Ref</span>"
+msgstr "Ref"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Remaining Amount</span>"
+msgstr "Restbeløb"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+msgid "<span>Responsible</span>"
+msgstr "Ansvarlig"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Revenue</span>"
+msgstr "Omsætning"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bank_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>SWIFT</span>"
+msgstr "SWIFT"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+msgid "<span>Salesorder no.</span>"
+msgstr "Salgsordre nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.intern_contact_details
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Salesperson</span>"
+msgstr "Sælger"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "<span>Services</span>"
+msgstr "Ydelser"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Starting Date</span>"
+msgstr "Startdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Statement date</span>"
+msgstr "Udskriftsdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Supplier VAT-no.</span>"
+msgstr "SE/CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>Supplier no.</span>"
+msgstr "Leverandør nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Total</span>"
+msgstr "I alt"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "<span>Transactions in </span>"
+msgstr "Transaktioner i "
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>UOM</span>"
+msgstr "<span>Enhed</span>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Unit Price</span>"
+msgstr "Enheds pris"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.company_details2
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_partner_statement_document
+msgid "<span>VAT-reg.</span>"
+msgstr "CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+msgid "<span>VAT</span>"
+msgstr "Moms"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+msgid "<span>Vendor VAT-no.</span>"
+msgstr "SE/CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sale_order_options
+msgid "<span>Your art no.</span>"
+msgstr "Kunde art nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_purchase_order
+msgid "<span>Your ref.</span>"
+msgstr "Deres reference"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_purchase_order
+msgid "<span>on</span>"
+msgstr "af"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_invoice
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_sale_order
+msgid ""
+"<strong class=\"title-avenirfont-bold\"><span>Comment:</span></strong><br/>"
+msgstr ""
+"<strong class=\"title-avenirfont-"
+"bold\"><span>Kommentar:</span></strong><br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_sale_order
+msgid ""
+"<strong class=\"title-avenirfont-"
+"bold\"><span>Warehouse:</span></strong><br/>"
+msgstr "<strong class=\"title-avenirfont-bold\"><span>Lager:</span></strong><br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.shipping_address
+msgid "<strong class=\"title-avenirfont-bold\">Shipping Address</strong>"
+msgstr "<strong class=\"title-avenirfont-bold\">Leverings adresse:</strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_details
+msgid ""
+"<strong class=\"title-avenirfont-bold\">Shipping Address</strong>\n"
+"\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t<br/>"
+msgstr ""
+"\t<strong class=\"title-avenirfont-bold\">Leveringsadresse</strong>\n"
+"\t\t\t\t\t\t\n"
+"\t\t\t\t\t\t<br/>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.fiscal_position_remark
+msgid "<strong><span>Fiscal Position Remark:</span></strong>"
+msgstr "<strong>Bemærkning baseret på bogføringsgruppe:</strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.signature
+msgid "<strong><span>Signature</span></strong>"
+msgstr "\t<strong><span>Underskrift</span></strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_purchase_order
+msgid "<strong><span>Subtotal</span></strong>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_tax_and_total
+msgid "<strong>Amount Due</strong>"
+msgstr "\t<strong>Forfalden beløb</strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_lines
+msgid "<strong>Barcode</strong>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+msgid "<strong>Description</strong>"
+msgstr "<strong>Beskrivelse</strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+msgid "<strong>Quantity</strong>"
+msgstr "<strong>Antal</strong>"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_tax_and_total
+msgid "<strong>Subtotal</strong>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_tax_and_total
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+msgid "<strong>UOM</strong>"
+msgstr "<strong>Enheder</strong>"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_account_account
+msgid "Account"
+msgstr "Konto"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_account_move_type
+msgid "Account move type"
+msgstr "Bilagstype"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__account_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__account_ids
+msgid "Accounts"
+msgstr "Bogførings konti"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_needaction
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__active
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__active
+msgid "Active"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_exception_decoration
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_state
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_type_icon
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "All"
+msgstr "Alle"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__attachment
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__attachment
+msgid "Attachment"
+msgstr "Vedhæftet fil"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_attachment_count
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_attachment_count
+msgid "Attachment Count"
+msgstr "Antal vedhæftet filer"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_res_partner_bank
+msgid "Bank Accounts"
+msgstr "Bankkonti"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_ext_form
+msgid "Bonus"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__bonus_consus
+msgid "Bonus % consumables"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__property_bonus_consus
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__property_bonus_consus
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_consus
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_consus_pct
+msgid "Bonus % consus"
+msgstr "Bonus % forbrugsvarer"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__property_bonus_goods
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__property_bonus_goods
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_goods
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_goods_pct
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__bonus_goods
+msgid "Bonus % goods"
+msgstr "Bonus % varer"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__property_bonus_services
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__property_bonus_services
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_services
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__bonus_services_pct
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__bonus_services
+msgid "Bonus % services"
+msgstr "Bonus % ydelser"
+
+#. module: rlbooks_statement
+#: model:ir.actions.act_window,name:rlbooks_statement.bonus_report_wizard_action
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_ext_form
+msgid "Bonus Statement"
+msgstr "Bonusopgørelse"
+
+#. module: rlbooks_statement
+#: model:ir.actions.act_window,name:rlbooks_statement.open_partner_bonus_statements_domain
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_print_form
+msgid "Bonus Statements"
+msgstr "Bonusopgørelser"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__bonus_statements_count
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__bonus_statements_count
+msgid "Bonus Statements Count"
+msgstr "Antal bonusopgørelser"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_rlbooks_statement_bonus_report_print
+#: model:ir.model,name:rlbooks_statement.model_rlbooks_statement_bonus_report_wizard
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_tree
+msgid "Bonus report"
+msgstr "Bonusopgørelse"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__stock_warehouse__text_placement__bottom
+msgid "Bottom"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_company__statement_consus_product_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_config_settings__statement_consus_product_ids
+msgid "Calc products as consumables"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_company__statement_goods_product_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_config_settings__statement_goods_product_ids
+msgid "Calc products as goods"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_company__statement_services_product_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_config_settings__statement_services_product_ids
+msgid "Calc products as services"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_wizard_view
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_wizard_view
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_wizard_view
+msgid "Cancel"
+msgstr "Annuller"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Cancelled Invoice"
+msgstr "Annulleret faktura"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_purchase_order
+msgid "Cancelled Purchase Order"
+msgstr "Annulleret indkøbsordre "
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__col_class
+msgid "Coloumn class"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__col_style
+msgid "Coloumn style"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_res_company
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_statement_document
+msgid "Companies"
+msgstr "Virksomheder"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__company_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__company_id
+msgid "Company"
+msgstr "Virksomhed"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurer opsætning"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.account_ext_form
+msgid "Config for document lines"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__rlbooks_consums
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__rlbooks_consums
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__rlbooks_consums
+msgid "Consus"
+msgstr "Forbrugsvarer"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_wizard_view
+msgid "Create bonus statement"
+msgstr "Opret bonusopgørelse"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_wizard_view
+msgid "Create sales statement"
+msgstr "Lav en salgsoversigt"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_wizard_view
+msgid "Create statement"
+msgstr "Opret kontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__create_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__create_uid
+msgid "Created by"
+msgstr "Oprettet af"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_select
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_select
+msgid "Created date"
+msgstr "Oprettet dato"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__create_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Credit Note"
+msgstr "Kreditnota"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__currency_id
+msgid "Currency"
+msgstr "Valuta"
+
+#. module: rlbooks_statement
+#: model:mail.template,name:rlbooks_statement.rlbooks_statement_customer_statement
+msgid "Customer Statement"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Customer VAT-no."
+msgstr "SE/CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Customer no."
+msgstr "Kunde nr."
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_company__customer_statement_account_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_config_settings__customer_statement_account_ids
+msgid "Customer statement accounts"
+msgstr "Debitorkontoudtog bogføringskonti"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__document_setup__document__delivery_slip
+msgid "Delivery Slip"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_print_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_print_form
+msgid "Description"
+msgstr "Beskrivelse"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__document_lines_display_HS_code
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__document_lines_display_HS_code
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__document_lines_display_HS_code
+msgid "Display HS-Code in document lines"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__display_name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__display_name
+msgid "Display Name"
+msgstr "Vis navn"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_stock_picking__display_backorder
+msgid "Display backorder"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_bomspecifications_ps
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_bomspecifications_sales_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_bomspecifications_ps
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_bomspecifications_sales_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_bomspecifications_ps
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_bomspecifications_sales_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_bomspecifications_ps
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_bomspecifications_sales_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_bomspecifications_ps
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_bomspecifications_sales_line
+msgid "Display bomspecifications"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_images
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_images
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_images
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_images
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_images
+msgid "Display images"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_prices
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_prices
+msgid "Display prices"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_producttext_in_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_producttext_in_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_producttext_in_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_producttext_in_line
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_producttext_in_line
+msgid "Display product text in order line"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_productspecifications
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_productspecifications
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_productspecifications
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_productspecifications
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_productspecifications
+msgid "Display productspecifications"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_partner_shipping_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_partner_shipping_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_partner_shipping_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_partner_shipping_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_partner_shipping_id
+msgid "Display shipping address"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__display_warehouse_message
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__display_warehouse_message
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__display_warehouse_message
+#: model:ir.model.fields,field_description:rlbooks_statement.field_purchase_order__display_warehouse_message
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order__display_warehouse_message
+msgid "Display warehouse message"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__document_setup_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__document
+msgid "Document"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__field_ids
+msgid "Document Line Fields"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__model_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__model_id
+msgid "Document Lines Model"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_document_setup
+msgid "Document Setup"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_document_field
+msgid "Document field"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Draft Invoice"
+msgstr "Udkast til faktura"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__property_bonus_schema
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__property_bonus_schema
+msgid "Earns bonus"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__exclude_partner_ids
+msgid "Exclude Partners"
+msgstr "Udeholdte kontakter"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_sale_order
+msgid "Expiration date"
+msgstr "Udløbsdato"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__field_id
+msgid "Field"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__field_type
+msgid "Field Type"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__field_options
+msgid "Field options"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_follower_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_follower_ids
+msgid "Followers"
+msgstr "Følgere"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_partner_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_type_icon
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__rlbooks_goods
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__rlbooks_goods
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__rlbooks_goods
+msgid "Goods"
+msgstr "Varer"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_select
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_select
+msgid "Group By"
+msgstr "Grupper efter"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__has_message
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_setup_bank_manual_config__iban
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner_bank__iban
+msgid "IBAN"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__id
+msgid "ID"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_exception_icon
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_exception_icon
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_needaction
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_unread
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_needaction
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_unread
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_error
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_sms_error
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_has_error
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__include_only_partner_ids
+msgid "Include only Partners"
+msgstr "Medtag kun disse kontakter"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Invoice"
+msgstr "Faktura"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_is_follower
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_account_move
+msgid "Journal Entry"
+msgstr "Postering"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_account_move_line
+msgid "Journal Item"
+msgstr "Journalpost"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__languages_id
+msgid "Language"
+msgstr "Sprog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard____last_update
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state____last_update
+msgid "Last Modified on"
+msgstr "Sidst ændret den"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__write_uid
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__write_date
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.account_ext_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.purchase_order_ext_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_sale_order_ext_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.view_stock_picking_form_inherit
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.view_stock_warehouse_form_inherit
+msgid "Layout"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_delivery_slip
+msgid "Lot/Serial Number"
+msgstr "Lot/serie nummer"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_main_attachment_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_main_attachment_id
+msgid "Main Attachment"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_error
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__my_activity_date_deadline
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_setup__name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__name
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__name
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_print_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_print_form
+msgid "Name"
+msgstr "Navn"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_calendar_event_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_calendar_event_id
+msgid "Next Activity Calendar Event"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_date_deadline
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_summary
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_type_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_partner_statement_document
+msgid "No entries exists in the periode"
+msgstr "Der er ingen posteringer i perioden"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_needaction_counter
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_error_counter
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_needaction_counter
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_needaction_counter
+msgid "Number of messages which requires an action"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_error_counter
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_unread_counter
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__message_unread_counter
+msgid "Number of unread messages"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__open_order_state_ids
+msgid "Open orders - included states"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_sale_order
+msgid "Order confirmation"
+msgstr "Ordrebekræftelse"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_tax_and_total
+msgid "Paid on"
+msgstr "Betalt"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__partner_id
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_select
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_select
+msgid "Partner"
+msgstr "Kontakt"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_report_rlbooks_statement_bonus_report_partner_statement
+msgid "Partner Statement Bonus Report"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_report_rlbooks_statement_report_partner_statement
+msgid "Partner Statement Report"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,name:rlbooks_statement.bonus_report_print
+msgid "Partner bonus statement"
+msgstr "Bonusopgørelse"
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,name:rlbooks_statement.report_print
+msgid "Partner statement"
+msgstr "Kontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__partner_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__partner_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__partner_ids
+msgid "Partners"
+msgstr "Kontakter"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__date_end
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__date_end
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__date_end
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__date_end
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__date_end
+msgid "Periode end"
+msgstr "Slutdato"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__date_start
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__date_start
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__date_start
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__date_start
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__date_start
+msgid "Periode start"
+msgstr "Startdato"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.sales_report_wizard_view
+msgid "Print"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_bonus_report_print__type__customer
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_bonus_report_wizard__type__customer
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_report_print__type__customer
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_report_wizard__type__customer
+msgid "Print customer statement"
+msgstr "Print debitorkontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_sales_report_wizard__type__detailed
+msgid "Print detailed"
+msgstr "Print detaljeret"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_sales_report_wizard__type__normal
+msgid "Print normal"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_bonus_report_print__type__supplier
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_bonus_report_wizard__type__supplier
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_report_print__type__supplier
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__rlbooks_statement_report_wizard__type__supplier
+msgid "Print supplier statement"
+msgstr "Print kreditorkontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_line__product_type
+msgid "Product Type"
+msgstr "Produkttype"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_tree
+msgid "Projects"
+msgstr "Projekter"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_purchase_order
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_purchase_order
+msgid "Purchase Order"
+msgstr "Indkøbsordre"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Purchaseorder no."
+msgstr "Indkøbsordre nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_sale_order
+msgid "Quotation"
+msgstr "Tilbud"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_purchase_order
+msgid "Request for Quotation"
+msgstr "Anmodning om tilbud"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_user_id
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_has_sms_error
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_sale_order_state
+msgid "Sale order state"
+msgstr "Salgsordre stadie"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_sale_order
+msgid "Sales Order"
+msgstr "Salgsordre"
+
+#. module: rlbooks_statement
+#: model:ir.actions.act_window,name:rlbooks_statement.sales_report_wizard_action
+#: model:ir.ui.menu,name:rlbooks_statement.rlbooks_sales_statement_menu
+msgid "Sales Statement"
+msgstr "Salgsoversigt"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_report_rlbooks_statement_sales_report_statement
+msgid "Sales Statement Report"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_rlbooks_statement_sales_report_wizard
+msgid "Sales report"
+msgstr "Salgsoversigt"
+
+#. module: rlbooks_statement
+#: model:ir.actions.report,name:rlbooks_statement.sales_report_print
+msgid "Sales statement"
+msgstr "Salgsoversigt"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Salesorder no."
+msgstr "Salgsordre nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_wizard_view
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_wizard_view
+msgid "Save and print"
+msgstr "Gem og print"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_select
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_select
+msgid "Search"
+msgstr "Søg"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__send
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__send
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_bonus_report_print_select
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_report_print_select
+msgid "Send"
+msgstr "Sendt"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.bonus_report_wizard_view
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_wizard_view
+msgid "Send by mail"
+msgstr "Send på email"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_document_field__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_bank_statement_line__rlbooks_services
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move__rlbooks_services
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_payment__rlbooks_services
+msgid "Services"
+msgstr "Ydelser"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_ext_form
+msgid "Settings"
+msgstr "Indstillinger"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_sale_order_state__state
+msgid "State"
+msgstr "Stadie"
+
+#. module: rlbooks_statement
+#: model:ir.actions.act_window,name:rlbooks_statement.report_wizard_action
+#: model:mail.template,subject:rlbooks_statement.rlbooks_statement_customer_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.partner_ext_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_res_config_settings_view_form
+msgid "Statement"
+msgstr "Kontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_rlbooks_statement_report_print
+#: model:ir.model,name:rlbooks_statement.model_rlbooks_statement_report_wizard
+msgid "Statement report"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.actions.act_window,name:rlbooks_statement.open_partner_statements_domain
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.report_print_form
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.rlbooks_statement_res_config_settings_view_form
+msgid "Statements"
+msgstr "Kontoudtog"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_partner__statements_count
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_users__statements_count
+msgid "Statements Count"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_state
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_company__supplier_statement_account_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_res_config_settings__supplier_statement_account_ids
+msgid "Supplier statement accounts"
+msgstr "Kreditorkontoudtog bogføringskonti"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_stock_warehouse__text_on_invoices
+msgid "Text on invoices"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_stock_warehouse__text_on_purchase_orders
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.view_stock_warehouse_form_inherit
+msgid "Text on purchase orders"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_stock_warehouse__text_placement
+msgid "Text placement"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields.selection,name:rlbooks_statement.selection__stock_warehouse__text_placement__top
+msgid "Top"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_stock_picking
+msgid "Transfer"
+msgstr "Overfør"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_account_move_type__type
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__type
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__type
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__type
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_wizard__type
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_sales_report_wizard__type
+msgid "Type"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__activity_exception_decoration
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__type_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_wizard__type_ids
+msgid "Types"
+msgstr "Typer"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_unread
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_unread
+msgid "Unread Messages"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__message_unread_counter
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__message_unread_counter
+msgid "Unread Messages Counter"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Vendor Bill"
+msgstr "Leverandørfaktura"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.doc_number_invoice
+msgid "Vendor Credit Note"
+msgstr "Leverandørkreditnota"
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Vendor VAT-no."
+msgstr "SE/CVR-nr."
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.details_invoice
+msgid "Vendor no."
+msgstr "Leverandør nr."
+
+#. module: rlbooks_statement
+#: model:ir.model,name:rlbooks_statement.model_stock_warehouse
+msgid "Warehouse"
+msgstr "Lagerstyring"
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_bonus_report_print__website_message_ids
+#: model:ir.model.fields,field_description:rlbooks_statement.field_rlbooks_statement_report_print__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_bonus_report_print__website_message_ids
+#: model:ir.model.fields,help:rlbooks_statement.field_rlbooks_statement_report_print__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_invoice
+msgid "When paying by bank transfer, please state invoice no."
+msgstr "Anfør venligst følgende fakturanr. på bankoverførsel:  "
+
+#. module: rlbooks_statement
+#: model_terms:ir.ui.view,arch_db:rlbooks_statement.document_tax_and_total
+msgid "on"
+msgstr "af"

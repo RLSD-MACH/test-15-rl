@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    
+    <menuitem 
+        name="Inspection Reports" 
+        id="menu_inspection_reports" 
+        sequence="120"
+        web_icon="inspection_report,static/description/icon.png"
+    >
+
+      <menuitem name="Inspection reports" id="menu_inspection_reports2" action="action_inspection_reports_window" groups="purchase.group_purchase_user" sequence="10"/>
+      
+      <menuitem name="Configuration" id="menu_settings" sequence="100" groups="purchase.group_purchase_manager">
+      
+        <!-- <menuitem name="Settings" id="menu_res_config_settings" action="action_vies_res_config_settings_window" groups="base.group_system" sequence="1"/> -->
+      
+      </menuitem>
+
+    </menuitem>
+
+  </data>
+</odoo>

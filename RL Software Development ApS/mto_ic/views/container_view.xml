@@ -1,0 +1,316 @@
+<odoo>
+<data>
+
+<record id="container_view_tree" model="ir.ui.view">
+  <field name="name">container.tree</field>
+  <field name="model">container</field>
+  <field name="arch" type="xml">
+    <tree create="1" edit="1" string="Containers" sample="1">
+
+      <field name="id" optional="hide" readonly="1"/>
+      <field name="name" optional="show" />     
+      <field name="container" optional="show"/>  
+      <field name="container_size_id" optional="show"/>  
+      <field name="remaining_capacity_cubic_meter" optional="show"/> 
+      <field name="state" optional="show"/> 
+      <field name="active" optional="hide"/>     
+      
+    </tree>
+  </field>
+</record>
+
+<record id="container_view_form" model="ir.ui.view">
+
+  <field name="name">container.form</field>
+
+  <field name="model">container</field>
+
+  <field name="arch" type="xml">
+
+    <form string="" edit="1" create="1">
+
+      <header name="container_header">
+              
+        <field name="state" widget="statusbar"/>
+
+        <button name="%(act_open_select_products_container_view)d" type="action" string="Pack"
+                    context="{'default_container_id': id}" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    class="oe_highlight" />
+
+        <button name="%(act_open_unselect_products_container_view)d" type="action" string="Un-Pack"
+                    context="{'default_container_id': id}" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    class="oe_highlight" />
+      
+      </header>
+                      
+      <sheet string="Container">
+      
+        <div class="oe_button_box" name="button_box" groups="base.group_user">
+                            
+            
+            
+        </div>
+
+        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+        <div class="oe_title">
+
+          <h1>
+              <field name="name"/>
+          </h1>
+
+          <div name="options_active">
+            <div>
+            
+            </div>
+          </div>
+
+        </div>
+
+        <notebook>
+
+          <page name="order_page" string="Order" attrs="{'invisible': [('name', '=', 'New')]}">
+
+          </page>
+
+          <page name="planning_page" string="Planning" attrs="{'invisible': [('name', '=', 'New')]}">
+
+            <group string="Stock moves" modifiers="{}">
+          
+              <field name="move_ids" context="{'default_container_id': id}" nolabel="1" mode="tree,kanban" >
+                
+                <!-- attrs="{'readonly': ['&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" -->
+                <!-- <field name="move_ids_without_package"  context="{'default_company_id': company_id, 'default_date': scheduled_date, 'default_date_deadline': date_deadline, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}" add-label="Add a Product"> -->
+                                  
+                <tree string="Stock Moves" editable="bottom">
+                <!-- decoration-danger="state != 'done' and quantity_done &gt; reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)"  -->
+                    <field name="company_id" optional="hide"/>
+                    <field name="name" optional="hide"/>
+                    <field name="state" optional="hide" readonly="0"/>
+                    <field name="picking_type_id" optional="hide"/>
+                    <field name="location_id" optional="hide"/>
+                    <field name="location_dest_id" optional="hide"/>
+                    <field name="scrapped" optional="hide"/>
+                    <field name="picking_code" optional="hide"/>
+                    <field name="product_type" optional="hide"/>
+                    <field name="show_details_visible" optional="hide"/>
+                    <field name="show_reserved_availability" optional="hide"/>
+                    <field name="show_operations" optional="hide" readonly="1"/>
+                    <field name="additional" optional="hide"/>
+                    <field name="move_lines_count" optional="hide"/>
+                    <field name="is_locked" optional="hide"/>
+                    <field name="product_uom_category_id" optional="hide"/>
+                    <field name="has_tracking" optional="hide"/>
+                    <field name="display_assign_serial" optional="hide"/>
+                    <field name="product_id" required="1" context="{'default_detailed_type': 'product'}" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('move_lines_count', '&gt;', 0)]}"/>
+                    <field name="description_picking" string="Description" optional="hide"/>
+                    <field name="date" optional="hide"/>
+                    <field name="date_deadline" optional="hide"/>
+                    <field name="is_initial_demand_editable" optional="hide"/>
+                    <field name="is_quantity_done_editable" optional="hide"/>
+                    <field name="product_packaging_id" groups="product.group_stock_packaging"/>
+                    <!-- <field name="product_uom_qty" string="Demand" attrs="{'column_invisible': [('parent.immediate_transfer', '=', True)], 'readonly': ['|', ('is_initial_demand_editable', '=', False), '&amp;', '&amp;', ('show_operations', '=', True), ('is_locked', '=', True), ('is_initial_demand_editable', '=', False)]}"/> -->
+                    <field name="product_uom_qty" string="Demand" />
+                    
+                    <!-- <button type="object" name="action_product_forecast_report" icon="fa-area-chart" attrs="{'invisible': ['|', ('forecast_availability', '&lt;', 0), '&amp;', ('parent.picking_type_code', '=', 'outgoing'), ('state', '!=', 'draft')]}"/> -->
+                    <!-- <button type="object" name="action_product_forecast_report" icon="fa-area-chart text-danger" attrs="{'invisible': ['|', ('forecast_availability', '&gt;=', 0), '&amp;', ('parent.picking_type_code', '=', 'outgoing'), ('state', '!=', 'draft')]}"/> -->
+                    <field name="forecast_expected_date" optional="hide"/>
+                    <!-- <field name="forecast_availability" string="Reserved" attrs="{'column_invisible': ['|', '|', ('parent.state', 'in', ['draft', 'done']), ('parent.picking_type_code', '!=', 'outgoing')]}" widget="forecast_widget"/> -->
+                    <!-- <field name="reserved_availability" string="Reserved" attrs="{'column_invisible': ['|', '|', ('parent.state', 'in', ['draft', 'done']), ('parent.picking_type_code', 'in', ['incoming', 'outgoing'])]}"/> -->
+                    <field name="product_qty" optional="hide" readonly="1"/>
+                    <!-- <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)], 'column_invisible':[('parent.state', '=', 'draft')]}"/> -->
+                    <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('additional', '=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                    <!-- <field name="lot_ids" widget="many2many_tags" groups="stock.group_production_lot" attrs="{'invisible': ['|', ('show_details_visible', '=', False), ('has_tracking', '!=', 'serial')]}" optional="hide" options="{'create': [('parent.use_create_lots', '=', True)]}" context="{'default_company_id': company_id, 'default_product_id': product_id, 'active_picking_id': parent.id}" domain="[('product_id','=',product_id)]"/> -->
+                    <button name="action_show_details" type="object" icon="fa-list" width="0.1" attrs="{'invisible': [('show_details_visible', '=', False)]}" options="{&quot;warn&quot;: true}"/>
+                    <button name="action_assign_serial" type="object" icon="fa-plus-square" width="0.1" role="img" title="Assign Serial Numbers" attrs="{'invisible': ['|', ('display_assign_serial', '=', False), ('show_operations', '=', False)]}"/>
+                  </tree>
+                  <form string="Stock Moves">
+                    <header>
+                      <field name="state" widget="statusbar"/>
+                    </header>
+                    <group>
+                      <field name="product_uom_category_id" optional="hide"/>
+                      <field name="additional" optional="hide"/>
+                      <field name="move_lines_count" optional="hide"/>
+                      <field name="company_id" optional="hide"/>
+                      <field name="product_id" required="1" attrs="{'readonly': ['|', '&amp;', ('state', '!=', 'draft'), ('additional', '=', False), ('move_lines_count', '&gt;', 0)]}"/>
+                      <field name="is_initial_demand_editable" optional="hide"/>
+                      <field name="is_quantity_done_editable" optional="hide"/>
+                      <field name="product_uom_qty" attrs="{'readonly': [('is_initial_demand_editable', '=', False)]}"/>
+                      <!-- <field name="reserved_availability" string="Reserved" attrs="{'invisible': (['|','|', ('parent.state','=', 'done'), ('parent.picking_type_code', 'in', ['outgoing', 'incoming']), ('parent.immediate_transfer', '=', True)])}"/> -->
+                      <field name="product_qty" optional="hide" readonly="1"/>
+                      <field name="forecast_expected_date" optional="hide"/>
+                      <!-- <field name="forecast_availability" string="Reserved" attrs="{'invisible': ['|', ('parent.picking_type_code', '!=', 'outgoing'), ('parent.state','=', 'done')]}" widget="forecast_widget"/> -->
+                      <field name="quantity_done" string="Done" attrs="{'readonly': [('is_quantity_done_editable', '=', False)]}"/>
+                      <field name="product_uom" attrs="{'readonly': [('state', '!=', 'draft'), ('id', '!=', False)]}" options="{'no_open': True, 'no_create': True}" string="Unit of Measure" groups="uom.group_uom"/>
+                      <field name="description_picking" string="Description"/>
+                    </group>
+                </form>
+              </field>
+              
+            </group>
+
+            <group name="note_group" col="5" class="mt-2 mt-md-0">
+                
+              <group colspan="3">
+                
+                <field name="note" nolabel="1" placeholder="Delivery note..."/>
+                
+              </group>
+                
+              <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                  
+                  <field name="capacity_cubic_meter" widget="float"/>
+                  <field name="volume_cubic_meter_total" widget="float"/>
+                  
+                  <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                      <label for="remaining_capacity_cubic_meter"/>
+                  </div>
+                  <field name="remaining_capacity_cubic_meter" widget="float" nolabel="1" class="oe_subtotal_footer_separator"/>
+                
+              </group>
+            </group>
+            
+          </page>
+
+          <page name="stock_page" string="Current stock" attrs="{'invisible': [('name', '=', 'New')]}">
+
+            <group>
+                <button name="%(act_open_select_products_container_view)d" type="action" string="Add Products"
+                    context="{'default_container_id': id}" attrs="{'invisible': [('state', '!=', 'draft')]}"
+                    class="oe_highlight" />
+            </group>
+
+            <group string="Current Container Stock" modifiers="{}">
+              
+              <field name="line_ids" context="{'default_container_id': id}" nolabel="1" edit="0" create="0">
+
+                <tree editable="bottom" string="Contains" default_order="id">
+
+                  <field name="tracking" optional="hide"/>
+                  <field name="product_id" attrs="{'readonly': [('id', '!=', False)]}" readonly="context.get('single_product', False)" force_save="1" options="{'no_create': True}"/>
+                  <field name="product_categ_id" optional="hide"/>
+                  <field name="location_id" attrs="{'readonly': [('id', '!=', False)]}" invisible="context.get('hide_location', False)" options="{'no_create': True}"/>
+                  <field name="lot_id" groups="stock.group_production_lot" attrs="{                             'readonly': ['|', ('id', '!=', False), ('tracking', 'not in', ['serial', 'lot'])],                             'required': [('tracking', '!=', 'none')]                        }" invisible="context.get('hide_lot', False)" context="{'default_product_id': product_id, 'default_company_id': company_id}"/>
+                  <field name="package_id" groups="stock.group_tracking_lot" attrs="{'readonly': [('id', '!=', False)]}"/>
+                  <field name="owner_id" groups="stock.group_tracking_owner" attrs="{'readonly': [('id', '!=', False)]}" options="{'no_create': True}"/>
+                  <field name="container_id" optional="hide"/>
+                  <field name="sale_order_id" optional="show"/>
+                  <field name="shipping_order_id" optional="show"/>
+                  <field name="inventory_quantity_auto_apply" string="On Hand Quantity" readonly="0"/>
+                  <field name="available_quantity" optional="show"/>
+                  <field name="product_uom_id" groups="uom.group_uom"/>
+                  <field name="company_id" groups="base.group_multi_company" optional="show"/>                    
+                  
+                </tree>
+
+              </field>  
+
+            </group>
+
+            <group name="note_group" col="5" class="mt-2 mt-md-0">
+                
+              <group colspan="3">
+                
+                <field name="note" nolabel="1" placeholder="Delivery note..."/>
+                
+              </group>
+                
+              <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                  
+                  <field name="capacity_cubic_meter" widget="float"/>
+                  <field name="volume_cubic_meter_total" widget="float"/>
+                  
+                  <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                      <label for="remaining_capacity_cubic_meter"/>
+                  </div>
+                  <field name="remaining_capacity_cubic_meter" widget="float" nolabel="1" class="oe_subtotal_footer_separator"/>
+                
+              </group>
+            </group>
+            
+          </page>
+
+          <page name="settings_page" string="Settings">
+
+            <group>
+
+              <group>
+                    
+                <field name="container"/>
+                <field name="container_size_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+
+                <label for="capacity_cubic_meter_total"/>
+                <div class="o_row">
+                    <span><field name="volume_cubic_meter_total" nolabel="1"/></span>
+                    <span> / </span>
+                    <span><field name="capacity_cubic_meter_total" nolabel="1"/></span>
+                </div>
+
+                <label for="capacity_kg_total"/>
+                <div class="o_row">
+                    <span><field name="weight_kg_total" nolabel="1"/></span>
+                    <span> / </span>
+                    <span><field name="capacity_kg_total" nolabel="1"/></span>
+                </div>
+
+                
+                <field name="shipping_order_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+                <field name="current_location_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+                <field name="current_stock_location_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+                <field name="current_port_id" widget="many2one" options="{'no_create':True, 'no_open': True}"/>
+              
+                <field name="active" invisible="1"/>
+                                
+              </group>
+
+            </group>
+
+          </page>
+
+        </notebook>
+
+      </sheet>
+
+    </form>
+
+  </field>
+  
+</record>
+
+<record id="container_view_search" model="ir.ui.view">
+  <field name="name">container.search</field>
+  <field name="model">container</field>
+  <field name="arch" type="xml">
+    <search string="Search">
+
+      <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+      <field name="container" filter_domain="[('container', 'ilike', self)]"/>
+      
+      <separator/>
+
+      <group expand="0" name="group_by" string="Group By">
+
+          <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          <filter name="container_size_id" context="{'group_by': 'container_size_id'}"/>
+         
+      </group>
+
+    </search>
+  </field>
+</record>
+
+<!-- actions opening views on models -->
+    
+  <record model="ir.actions.act_window" id="container_action_window">
+    <field name="name">Container</field>
+    <field name="res_model">container</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+  
+  <!-- menu categories -->
+  
+  <menuitem name="Containers" id="container_menu" parent="mto_ic_order_menu_root" action="container_action_window" sequence="20"/>
+  
+</data>
+</odoo>

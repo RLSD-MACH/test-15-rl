@@ -1,0 +1,283 @@
+<odoo>
+  <data>
+
+    <record id="rlbooks_timesheet_timesheet_view_search" model="ir.ui.view">
+      <field name="name">rlbooks.timesheet.timesheet.view.search</field>
+      <field name="model">rlbooks.timesheet.timesheet</field>
+      <field name="arch" type="xml">
+        <search string="Search Timesheet">
+
+          <field name="user_id" filter_domain="[('user_id', 'ilike', self)]"/>
+          
+          <separator/>
+
+          <filter string="My timesheets" name="my_timesheets" domain="[('user_id', '=', uid)]"/>
+          <filter string="To approve" name="to_approve" domain="[('approver_id', '=', uid),('approved', '=', False)]"/>
+          
+          <separator/>
+
+          <filter name="start" date="start"/>
+
+          <separator/>
+
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+              <filter name="user_id" string="Employee" context="{'group_by': 'user_id'}"/>
+              
+          </group>
+
+        </search>
+      </field>
+    </record>
+    
+    <record model="ir.ui.view" id="rlbooks_timesheet_timesheet_tree">
+      <field name="name">rlbooks.timesheet.timesheet.tree</field>
+      <field name="model">rlbooks.timesheet.timesheet</field>
+      <field name="arch" type="xml">
+
+        <tree string="Timesheet" sample="1">
+
+          <header>
+
+
+          </header>
+
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="name" optional="show" />
+          <field name="week" optional="hide" />
+          <field name="year" optional="hide" />
+          <field name="start" optional="show" />
+          <field name="end" optional="show" />
+          <field name="approver_id" optional="hide" />
+          <field name="approved" optional="hide" />
+          <field name="day_1" optional="hide" />
+          <field name="day_2" optional="hide" />
+          <field name="day_3" optional="hide" />
+          <field name="day_4" optional="hide" />
+          <field name="day_5" optional="hide" />
+          <field name="day_6" optional="hide" />
+          <field name="day_7" optional="hide" />
+          <field name="hours_planned" optional="show" sum="Total planned"/>
+          <field name="hours_registred" optional="show" sum="Total registred"/>
+          <field name="hours_difference" optional="show" sum="Total difference"/>
+          <field name="hours_overtime" optional="show" sum="Total overtime"/>
+          <field name="state" optional="show" decoration-success="state == 'approved'" decoration-danger="state == 'rejected' or state == 'ammentmentrejected' or state == 'ammented'" decoration-primary="state == 'approval' or state == 're-approval'" decoration-info="state == 'new'" widget="badge" />
+          <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+          <field name="company_id" optional="hide" modifiers="{'required':true}" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+
+        </tree>
+
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_timesheet_timesheet_form">
+      <field name="name">rlbooks.timesheet.timesheet.form</field>
+      <field name="model">rlbooks.timesheet.timesheet</field>
+      <field name="arch" type="xml">
+        
+        <form string="Timesheet">
+  
+          <header name="Timesheet_header">
+              
+              <button name="action_submit_for_approval" string="Submit"
+                            type="object" class="oe_highlight" help="Submit for approval"
+                            attrs="{'invisible': [('state','!=','new'),('state','!=','rejected'),('state','!=','ammented'),('state','!=','ammentmentrejected')]}"/>
+
+              <button name="action_approve" string="Approve"
+              type="object" class="oe_highlight" help="Appprove timesheet"
+              attrs="{'invisible': [('state','!=','approval'),('state','!=','re-approval')]}" groups="rlbooks_project.timesheet_manager"/>          
+
+              <button name="action_reject" string="Reject"
+              type="object" class="btn-danger" help="Reject timesheet"
+              attrs="{'invisible': [('state','!=','approval'),('state','!=','re-approval')]}" groups="rlbooks_project.timesheet_manager"/>    
+              
+              <button name="action_cancel_approval" string="Back to draft"
+                            type="object"
+                            attrs="{'invisible': [('state','!=','approval'),('state','!=','rejected')]}"/>
+
+              <widget name="attach_document" string="Attach Document" action="message_post" />
+
+              <field name="state" widget="statusbar" clickable="False" readonly="1"/>
+
+          </header>
+                            
+          <sheet string="Timesheet">
+            
+            <div class="oe_button_box" name="button_box" groups="base.group_user" attrs="{'invisible':[('create_date','=',False)]}">
+                            
+                <button class="oe_stat_button" type="object" name="action_show_week_entries" icon="fa-book">
+                  
+                  <div class="o_form_field o_stat_info">
+
+                    <field string="Hours" name="hours_registred" widget="statinfo"/>
+                    <span class="o_stat_text">Hours</span>
+
+                  </div>
+                    
+                </button>
+                               
+            </div>
+            
+            <widget name="web_ribbon" title="Rejected" bg_color="bg-danger" attrs="{'invisible': [('state', '!=', 'rejected'),('state', '!=', 'ammentmentrejected')]}"/>
+
+            <div class="oe_title">
+
+                <div name="options_active">
+
+                  <div>
+
+                      <!-- <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                      <field name="label_tasks" class="oe_inline oe_input_align"/> -->
+
+                  </div>
+
+                </div>
+
+            </div>
+            <notebook>
+
+              <page name="summary_page" string="Summary" attrs="{'invisible':[('create_date','=',False)]}">
+
+                <group>
+                    
+                  <group>
+
+                    <field name="hours_planned" />
+                    <field name="hours_registred" />
+                    <field name="hours_difference" />
+                   
+
+                  </group>
+
+                  <group>
+
+                    <field name="hours_overtime"/>  
+
+                  </group>
+
+                </group>                
+
+              </page>
+
+              <page name="settings" string="Settings">
+
+                <group>
+                    
+                  <group>
+
+                    <field name="start" attrs="{'readonly':[('state','!=','new')]}" />   
+                    <field name="end" readonly="1" />       
+                    <field name="user_id" widget="many2one_avatar_user" attrs="{'readonly':[('state','!=','new')]}" options="{'limit': 20, 'create': false, 'create_edit': false}" groups="rlbooks_project.timesheet_manager"/>
+                    <field name="approver_id" attrs="{'invisible':[('approver_id','=',False)]}" readonly="1"/>
+                    <field name="approved" attrs="{'invisible':[('approved','=',False)]}" readonly="1"/>
+                    <field name="company_id" widget="many2one" modifiers="{'required':true}" options="{'limit': 20, 'create': false, 'create_edit': false}" groups="base.group_multi_company" attrs="{'readonly':[('state','!=','new')]}"/>
+                    <field name="create_date" invisible="1" readonly="1"/>
+
+                  </group>
+
+                </group>
+
+                <group attrs="{'invisible':[('create_date','=',False)]}">
+                    
+                  <group>
+
+                  <field name="day_1" />
+                  <field name="day_2" />
+                  <field name="day_3" />
+                  <field name="day_4" />
+                  <field name="day_5" />
+                  <field name="day_6" />
+                  <field name="day_7" />
+
+                  </group>
+
+                </group>
+
+              </page>
+
+            </notebook>            
+            
+            <div class="oe_chatter">
+              
+              <field name="message_follower_ids" options="{'post_refresh':True}" help="Follow this project to automatically track the events associated to tasks and issues of this project." groups="base.group_user"/>
+             
+            </div>
+          
+          </sheet>
+
+          <div class="o_attachment_preview"/>
+         
+          <div class="oe_chatter">
+
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+              
+          </div>
+        
+        </form>
+
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="rlbooks_timesheet_timesheet_action_window">
+      <field name="name">Timesheet</field>
+      <field name="res_model">rlbooks.timesheet.timesheet</field>
+      <field name="view_mode">tree,form</field>
+      <field name="context">{'search_default_my_timesheets': 1}</field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_timesheet_today_tree">
+
+      <field name="name">rlbooks.project.entry.tree</field>
+      <field name="model">rlbooks.project.entry</field>
+      <field name="arch" type="xml">
+
+        <tree string="Today" sample="1">
+
+          <header>
+
+          </header>
+            
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="project_id" optional="show" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+          <field name="type" optional="hide"/>
+          <field name="product_id" optional="hide" options="{'limit': 20, 'create': false, 'create_edit': false}"/>          
+          
+          <field name="date" optional="hide" />
+          <field name="description" optional="show" />
+          <field name="user_id" optional="hide" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+          <field name="qty_spent" optional="show" sum="Total qty spent" widget="float_time"/>
+          <field name="qty_invoiceable" optional="show" sum="Total qty invoiceable" widget="float_time"/>
+          <field name="salesprice" optional="show"/>
+          <field name="discount" optional="show"/>
+          <field name="s_salesprice" optional="show"/>
+          <field name="s_salesprice_t" optional="show" string="Total salesprice" sum="Total salesprice"/>
+          <field name="s_costprice_t" optional="show" string="Costprice" sum="Total costprice"/>          
+
+          <field name="create_date" optional="hide" />
+          <field name="company_id" optional="hide" options="{'limit': 20, 'create': false, 'create_edit': false}"/>
+        
+        </tree>
+
+      </field>
+
+    </record>
+
+    <record model="ir.actions.act_window" id="rlbooks_timesheet_today_action_window">
+      <field name="name">Today</field>
+      <field name="res_model">rlbooks.project.entry</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="rlbooks_timesheet_today_tree" />
+      <field name="domain">[('date','=',(context_today().strftime('%Y-%m-%d'))),('type','=','hours'),('user_id','=',uid)]</field>
+      <field name="context">{'default_date': context_today().strftime('%Y-%m-%d'),'default_type': 'hours', 'default_user_id': uid}</field>
+    </record>
+        
+    <menuitem name="Timesheet" id="rlbooks_timesheet_timesheet_menu" parent="rlbooks_project_project_menu_root"/>
+    <menuitem name="Today" id="rlbooks_timesheet_today_menu" parent="rlbooks_timesheet_timesheet_menu" action="rlbooks_timesheet_today_action_window"/>
+    <menuitem name="Timesheets" id="rlbooks_timesheet_timesheets_menu" parent="rlbooks_timesheet_timesheet_menu" action="rlbooks_timesheet_timesheet_action_window"/>
+    
+  </data>
+</odoo>

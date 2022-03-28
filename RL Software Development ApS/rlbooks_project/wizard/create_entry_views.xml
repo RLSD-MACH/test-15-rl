@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="rlbooks_project.time_entry_create_wizard_form" model="ir.ui.view">
+        <field name="name">rlbooks.project.time_entry.create.wizard.form</field>
+        <field name="model">rlbooks.project.entry.create.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reminder">
+
+                <group>
+
+                    <field name="project_id" options="{'no_create_edit': True}" invisible="0"/>
+                    <field name="amount" invisible="0" widget="float_time"/>
+                    <field name="date" invisible="0"/>
+
+                </group>
+                
+                
+                <field name="description" placeholder="Describe how you spent the time..." invisible="0"/>
+                
+                <field name="company_id" invisible="1"/>
+                
+                <footer>
+                    <button name="action_create_time_entry" string="Submit" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="rlbooks_project.time_entry_create_wizard_action" model="ir.actions.act_window">
+        <field name="name">Time entry</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">rlbooks.project.entry.create.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="rlbooks_project.time_entry_create_wizard_form"/>
+        <field name="target">new</field>
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_project.project_ext_form">
+
+        <field name="name">rlbooks.project.project_ext.form</field>
+        <field name="model">rlbooks.project.project</field>
+        <field name="inherit_id" ref="rlbooks_project.project_form"/>
+        <field name="mode">extension</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header[@name='Project_header']" position="inside">
+
+                <button name="%(rlbooks_project.time_entry_create_wizard_action)d" string="" type="action" class="fa fa-clock-o oe_highlight" context="{'default_project_id':id}" attrs="{'invisible': [('active', '=', False)]}" help="Add timeentry"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+
+    <record model="ir.ui.view" id="rlbooks_timesheet_today_ext_tree">
+
+        <field name="name">rlbooks.timesheet.timesheet_today_ext.tree</field>
+        <field name="model">rlbooks.project.entry</field>
+        <field name="inherit_id" ref="rlbooks_timesheet_today_tree"/>
+        <field name="mode">extension</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+
+                <button name="%(rlbooks_project.time_entry_create_wizard_action)d" string="" type="action" class="fa fa-clock-o oe_highlight" context="{'default_user_id':uid}" attrs="{}" help="Add timeentry"/>
+
+            </xpath>
+
+        </field>
+
+    </record>
+</odoo>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="open_partner_distributors_statement_domain" model="ir.actions.act_window">
+
+      <field name="name">Distributors statements</field>
+      <field name="res_model">rlbooks_dw.distributors_statement.print</field>
+      <field name="view_mode">tree,form</field>
+      <field name="domain">[('partner_id','=', active_id)]</field>
+      <field name="context">{}</field>
+      <!-- <field name="view_id" ref="task_type_tree"/> -->
+      <field name="help" type="html">
+		<p class="o_view_nocontent_smiling_face">
+		
+		</p>
+      </field>
+
+    </record>
+
+	<record model="ir.ui.view" id="statement_res_partner_ext_form">
+      <field name="name">distributors_statement.form</field>
+      <field name="model">res.partner</field>
+      <field name="inherit_id" ref="base.view_partner_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//div[@name='button_box']" position="inside">
+    
+          <button class="oe_stat_button" icon="fa-file-text" type="action" name="%(open_partner_distributors_statement_domain)d" attrs="{'invisible': [('distributors_statements_count', '=', 0)]}" groups="account.group_account_readonly">
+              
+            <div class="o_form_field o_stat_info">
+              
+              <span class="o_stat_value">
+                  <field name="distributors_statements_count" widget="integer"/>
+              </span>
+              
+              <span class="o_stat_text">Distributors Statements</span>
+              
+            </div>
+              
+          </button>
+          
+        </xpath>     
+
+      </field>
+    </record>
+
+</odoo>

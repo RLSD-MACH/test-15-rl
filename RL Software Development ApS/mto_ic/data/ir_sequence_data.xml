@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for mto.ic_order -->
+        <record id="seq_mto_ic_order" model="ir.sequence">
+            <field name="name">MTO IC Order</field>
+            <field name="code">mto.ic_order.sequence</field>
+            <field name="prefix">IC</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_mto_ic_shiping_order" model="ir.sequence">
+            <field name="name">Shipping Order</field>
+            <field name="code">shipping.order.sequence</field>
+            <field name="prefix">SD</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_mto_ic_container" model="ir.sequence">
+            <field name="name">Container no.</field>
+            <field name="code">container.sequence</field>
+            <field name="prefix">C</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>
+        

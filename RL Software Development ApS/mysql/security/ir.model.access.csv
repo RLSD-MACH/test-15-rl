@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_mysql_login,MySQL Login,model_mysql_login,,1,1,1,1
+access_mysql_table,MySQL Table,model_mysql_table,,1,1,1,1
+access_mysql_table_column,MySQL Table Column,model_mysql_table_column,,1,1,1,1
+access_mysql_table_row,MySQL Table Row,model_mysql_table_row,,1,1,1,1

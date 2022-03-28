@@ -1,0 +1,50 @@
+<odoo>
+  <data>
+
+    <record model="ir.ui.view" id="account_move_ext_form">
+        <field name="name">Approvals</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="mode">extension</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+
+
+          <xpath expr="//field[@name='state']" position="after">
+            <field name="approval_state" widget="statusbar" invisible="1"/>
+          </xpath>
+
+          <xpath expr="//header" position="inside">
+      
+            <button name="action_submit_for_approval" string="Request approval"
+                            type="object" class="oe_highlight" help="Submit for approval"
+                            attrs="{'invisible': ['|',('approval_state','not in',['new','rejected','ammented','ammentmentrejected']),('payment_state','!=','not_paid')]}"/>
+
+            <button name="action_approve" string="Approve bill"
+              type="object" class="oe_highlight" help="Appprove bill"
+              attrs="{'invisible': [('approval_state','!=','approval'),('approval_state','!=','re-approval')]}" groups="accounting_approvals.bill_approver"/>          
+
+            <button name="action_reject" string="Reject bill"
+              type="object" class="btn-danger" help="Reject bill"
+              attrs="{'invisible': [('approval_state','!=','approval'),('approval_state','!=','re-approval')]}" groups="accounting_approvals.bill_approver"/>    
+              
+            <button 
+              name="action_cancel_approval" 
+              string="Cancel approval"
+              type="object"
+              hint="Cancel request for approval"
+              attrs="{'invisible': [('approval_state','!=','approval'),('approval_state','!=','rejected')]}"/>
+            
+            <button name="action_release_for_payment" string="Release for payment"
+              type="object" class="oe_highlight" help="Indicate that this bill should be paid now"
+              attrs="{'invisible': [('approval_state','!=','approved')]}" groups="accounting_approvals.payment_approver"/>    
+
+          </xpath>
+
+
+
+        </field>
+      </record>
+
+  </data>
+</odoo>

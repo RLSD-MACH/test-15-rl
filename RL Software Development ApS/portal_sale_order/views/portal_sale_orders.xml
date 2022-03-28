@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+   <template id="website_portal_sale_layout_ext" inherit_id="sale_management.sale_order_portal_content_inherit_sale_management">
+		
+        <xpath expr="//t/section/table/thead/tr/th[1]" position="replace">
+              
+              <th class="text-left">
+                <span>Your art no.</span>
+              </th>
+              <th class="text-left">
+                 <span>Our art no.</span>
+              </th>
+              <th class="text-left">
+                 <span>Description</span>
+              </th>
+              <th class="text-right">
+                 <span>Quantity</span>
+              </th>
+
+        </xpath>
+
+        <xpath expr="//t/section/table/tbody/tr/t/td[1]" position="replace">
+
+              <td class="title-avenirfont text-left">
+                <t t-if="'customer_art_no' in option.product_id.product_tmpl_id.fields_get()">
+                  <span t-field="option.product_id.product_tmpl_id.customer_art_no"/>
+                </t>
+              </td>
+
+              <td class="title-avenirfont text-left">
+                  <span t-field="option.product_id.default_code"/>
+              </td>
+
+              <t t-if="option.product_id.type == 'service'">
+
+                <td name="td_name" class="title-avenirfont text-left">
+                    <span t-field="option.name"/>
+                </td>
+
+              </t>
+
+              <t t-if="option.product_id.type != 'service'">
+
+                <td name="td_name" class="title-avenirfont text-left">                                                
+                    <span t-field="option.product_id.name"/>
+                </td>
+
+              </t>
+
+              <td name="td_quantity" class="title-avenirfont text-right">
+                  <span t-field="option.quantity" t-options="{'widget':'float', 'precision':0}"/>
+              </td>
+
+        </xpath>
+
+	</template>
+
+  <template 
+      id="template_ext" 
+      inherit_id="sale.sale_order_portal_content"
+  >
+
+      <xpath expr="//span[@class='oe_order_line_price_subtotal']" position="replace">
+          
+          <span class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded" t-options="{'widget':'float', 'precision':2}"/>
+
+      </xpath>
+
+      <xpath expr="//span[@class='oe_order_line_price_total']" position="replace">
+          
+          <span class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included" t-options="{'widget':'float', 'precision':2}"/>
+
+      </xpath>
+
+      <xpath expr="//t/div[2]" position="inside">
+        
+        <t t-set="current_doc" t-value="sale_order"/>
+        <t t-set="IndividualProduct" t-value="[]"/>
+
+        <t t-foreach="sale_order.order_line" t-as="l">
+					
+          <t t-if="l.product_type == 'product' and l.product_id not in IndividualProduct">
+
+            <t t-set="IndividualProduct" t-value="IndividualProduct+[l.product_id]"/>
+
+          </t>	
+
+        </t>
+        
+        <t t-foreach="sale_order.sale_order_option_ids" t-as="l">
+        
+          <t t-if="l.product_id.type == 'product' and l.product_id not in IndividualProduct">
+
+            <t t-set="IndividualProduct" t-value="IndividualProduct+[l.product_id]"/>
+
+          </t>	
+
+        </t>
+
+        <section class="mt-5" t-if="len(IndividualProduct) > 0" id="product_specifications" name="Product specifications">
+          
+          <h3 class="">Product specifications</h3>
+          <hr class="mt-0 mb-1"/>
+          
+          <t t-call="portal_sale_order.product_specification"/>
+          
+        </section>
+
+      </xpath>
+
+  </template>
+ 
+ </odoo>
+
+
