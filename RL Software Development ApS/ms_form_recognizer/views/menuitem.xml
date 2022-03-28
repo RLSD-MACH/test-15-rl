@@ -15,6 +15,11 @@
         <menuitem name="Bogføringsbilag Medarbejder" id="menu_danloen_bookkeeping_employee" action="action_danloen_bookkeeping_employee_window" sequence="10"/>
         <menuitem name="Bogføringsbilag Linjer" id="menu_danloen_bookkeeping_employee_line" action="action_danloen_bookkeeping_employee_line_window" sequence="20"/>
       </menuitem>
+
+      <menuitem name="Form Key Settings" id="menu_key_settings" sequence="20">
+        <menuitem name="Collections" id="menu_collections" action="action_collections_window" sequence="10"/>
+        <menuitem name="Keys" id="menu_keys" action="action_keys_window" sequence="20"/>
+      </menuitem>
       <!-- <menuitem name="Firms" id="menu_uniconta_firm" action="action_uniconta_firm_window" sequence="20"/> -->
       <!-- <menuitem name="API Calls" id="menu_uniconta_api_call" action="action_uniconta_api_call_window" sequence="30"/> -->
       <!-- <menuitem name="Data" id="menu_uniconta_data_api" sequence="40"> -->

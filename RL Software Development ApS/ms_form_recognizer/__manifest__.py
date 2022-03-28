@@ -17,7 +17,7 @@
     # Check https://github.com/odoo/odoo/blob/master/odoo/addons/base/module/module_data.xml
     # for the full list
     'category': 'Accounting/Accounting',
-    'version': '15.0.1.0.13',
+    'version': '15.0.1.0.14',
 
     # any module necessary for this one to work correctly
     'depends': [
@@ -34,6 +34,7 @@
         'views/res_config_settings_views.xml',
         'views/form_recognizer.xml',
         'views/danloen.xml',
+        'views/collections.xml',
         'views/account_move.xml',
         'views/menuitem.xml',
         

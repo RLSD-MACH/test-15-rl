@@ -1,0 +1,183 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    
+    <record model="ir.ui.view" id="form_collection_tree">
+      <field name="name">form.collection.tree</field>
+      <field name="model">form.collection</field>
+      <field name="arch" type="xml">
+        <tree string="Collections" create="1" edit="1" sample="1">
+
+            <field name="id" optional="hide" readonly="1"/>
+            <field name="name" optional="show" />
+            <field name="convertion_model_id" optional="show" />
+            
+            <field name="company_id" optional="hide" />
+          
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_collection_select">
+      <field name="name">form.collection.select</field>
+      <field name="model">form.collection</field>
+      <field name="arch" type="xml">
+        <search string="Search">        
+          <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                    
+          <separator/>
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+          <separator/>
+          <group expand="0" name="group_by" string="Group By">
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+          </group>
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_collection_form">
+      <field name="name">form.collection.form</field>
+      <field name="model">form.collection</field>
+      <field name="arch" type="xml">
+
+        <form string="Collection">
+  
+          <header>
+              
+               
+          </header>
+                            
+          <sheet>
+            
+            <div class="oe_button_box" name="button_box" groups="base.group_user">
+                  
+                
+            </div>
+            
+            <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+
+            <div class="oe_title">
+                <h1>
+                    <field name="name" placeholder="Name"/>
+                </h1>
+                <div name="options_active">
+                    <div>
+                        <!-- <label for="label_tasks" class="oe_inline" string="Name of the tasks:"/>
+                        <field name="label_tasks" class="oe_inline oe_input_align"/> -->
+                    </div>
+                </div>
+            </div>
+            <notebook>
+               
+              <group>
+              
+                <field name="convertion_model_id"/>
+                <field name="company_id" options="{'no_create': True, 'no_open': True}" widget="many2one" groups="base.group_multi_company"/>
+                <field name="active" invisible="1"/>
+
+              </group>                    
+              
+              <field name="key_ids">
+
+                <tree>
+
+                  <field name="id" optional="hide"/>
+                  <field name="sequence" optional="show" />
+                  <field name="collection_id" optional="hide" />
+                  <field name="convertion_model_id" optional="hide" />
+                  <field name="convertion_field_id" optional="show" />
+                  <field name="sequence" optional="show" />
+                  <field name="type" optional="show" />
+                  <field name="split_in_words" optional="show"/>
+                  <field name="use_word_number" optional="show"/>
+                  <field name="search_for" optional="show"/>
+                  <field name="allow_partial" optional="show"/>
+                  <field name="regex" optional="show"/>
+                  <field name="Language_id" optional="show"/>
+                  <field name="company_id" optional="hide"/>
+                  <field name="active" optional="hide"/>    
+
+                </tree>
+
+              </field>
+              <div class="oe_clear"/>
+                
+          </sheet>
+        
+        </form>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="action_collections_window">
+      <field name="name">Collections</field>
+      <field name="res_model">form.collection</field>
+      <field name="view_mode">tree,form</field>
+    </record>  
+
+    <record model="ir.ui.view" id="form_key_tree">
+      <field name="name">form.key.tree</field>
+      <field name="model">form.key</field>
+      <field name="arch" type="xml">
+        <tree string="Keys" create="1" edit="1" sample="1">
+
+          <field name="id" optional="hide"/>
+          <field name="sequence" optional="show" />
+          <field name="collection_id" optional="hide" />
+          <field name="convertion_model_id" optional="hide" />
+          <field name="convertion_field_id" optional="show" />
+          <field name="sequence" optional="show" />
+          <field name="type" optional="show" />
+          <field name="split_in_words" optional="show"/>
+          <field name="use_word_number" optional="show"/>
+          <field name="search_for" optional="show"/>
+          <field name="allow_partial" optional="show"/>
+          <field name="regex" optional="show"/>
+          <field name="Language_id" optional="show"/>
+          <field name="company_id" optional="hide"/>
+          <field name="active" optional="hide"/>    
+          
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="form_key_select">
+      <field name="name">form.key.select</field>
+      <field name="model">form.key</field>
+      <field name="arch" type="xml">
+
+        <search string="Search">  
+
+          <field name="collection_id" filter_domain="[('collection_id', 'ilike', self)]"/>
+                    
+          <separator/>
+
+            <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+
+          <separator/>
+
+          <group expand="0" name="group_by" string="Group By">
+
+            <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+            <filter name="collection_id" string="Collection" domain="[]" context="{'group_by' : 'collection_id'}"/>
+            <filter name="convertion_field_id" string="Convertion field" domain="[]" context="{'group_by' : 'convertion_field_id'}"/>
+
+          </group>
+
+        </search>
+
+      </field>
+    </record>
+    
+
+    <!-- actions opening views on models -->
+    
+    <record model="ir.actions.act_window" id="action_keys_window">
+      <field name="name">Keys</field>
+      <field name="res_model">form.key</field>
+      <field name="view_mode">tree,form</field>
+    </record>   
+
+  </data>
+</odoo>
