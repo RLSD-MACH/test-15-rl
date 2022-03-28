@@ -78,7 +78,13 @@
               
               <field name="key_ids" context="{'default_collection_id': id}">
 
-                <tree>
+                <tree editable="bottom">
+
+                  <control>
+
+                      <create name="add_key_control" string="Add a key"/>
+                      
+                  </control>
 
                   <field name="id" optional="hide"/>
                   <field name="sequence" optional="show" />
@@ -87,12 +93,13 @@
                   <field name="convertion_field_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/>
                   <field name="sequence" optional="show" />
                   <field name="type" optional="show" />
-                  <field name="split_in_words" optional="show"/>
+                  <field name="split" optional="show"/>
+                  <field name="split_type" optional="show"/>
                   <field name="use_word_number" optional="show"/>
                   <field name="search_for" optional="show"/>
                   <field name="allow_partial" optional="show"/>
                   <field name="regex" optional="show"/>
-                  <!-- <field name="Language_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/> -->
+                  <field name="language" optional="show" />
                   <field name="company_id" optional="hide"/>
                   <field name="active" optional="hide"/>    
 
@@ -125,12 +132,13 @@
           <field name="convertion_field_id" optional="show" />
           <field name="sequence" optional="show" />
           <field name="type" optional="show" />
-          <field name="split_in_words" optional="show"/>
+          <field name="split" optional="show"/>
+          <field name="split_type" optional="show"/>
           <field name="use_word_number" optional="show"/>
           <field name="search_for" optional="show"/>
           <field name="allow_partial" optional="show"/>
           <field name="regex" optional="show"/>
-          <!-- <field name="Language_id" optional="show"/> -->
+          <field name="language" optional="show"/>
           <field name="company_id" optional="hide"/>
           <field name="active" optional="hide"/>    
           

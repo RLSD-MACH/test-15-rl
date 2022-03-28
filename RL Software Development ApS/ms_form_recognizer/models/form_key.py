@@ -43,13 +43,22 @@ class FormKey(models.Model):
         ('email', 'Email'),
 
     ],string='Type',  required=True)
-    split_in_words = fields.Binary('Split in words', default=False)
+    split = fields.Boolean('Split', default=False)
+    split_type = fields.Selection(selection=[
+        ('word', 'Words'),
+        ('char', 'Characters'),
+
+    ],string='Split Type',  required=False)
     use_word_number = fields.Integer(string='Use word number', default=0)
     
     search_for = fields.Char(string='Search for', required=True)
-    allow_partial = fields.Binary('Allow partial', default=False)
+    allow_partial = fields.Boolean('Allow partial', default=False)
     regex = fields.Char(string='Regex', required=False)
-    # Language_id = fields.Many2one('	res.lang', string='Language',  required=True)
+    language = fields.Selection(selection=[
+        ('DA', 'Danish'),
+        ('EN', 'English'),
+        ('DE', 'German'),
+        ],string='Language',  required=True)
     
     ('Date', 'date', 'date', 'EN'),
     ('Date of issue:', 'date', 'date', 'EN'),   

@@ -41,16 +41,15 @@ class IrAttachmentInherit(models.Model):
     def extract_text_pdf (self, docs):
 
         doc = []
+        collections =  []
 
-        for pdf_doc in docs:
+        order_details_re = re.compile(r'(\d{6}.*) ([A-Z].*) ([A-Z].*) (\d{2}\-\d{2}\-\d{2}) ([\d.].*) ([A-Z].*) ([\d.]+\,\d{2}) ([\d.]+\,\d{2})' )
+        EC_STANDARD_INVOICE_DETAILS_re = re.compile(r'([A-Z].*) ([A-Z].*) ([\d.]+\,\d) ([A-Z].*) ([\d.]+\,\d) ([\d.]+\,\d)' )
+        float_in_string = re.compile(r'(\d{6}.*) ([A-Z].*) ([A-Z].*) (\d{2}\-\d{2}\-\d{2}) ([\d.].*) ([A-Z].*) ([\d.]+\,\d{2}) ([\d.]+\,\d{2})' )
+        date_in_string = re.compile(r'(\d{2}\-\d{2}\-\d{2})' )
+        payment_code_71 = re.compile(r'(\+\d{2}\<\d{15}\+\d{8}\<.*)' )
 
-            bytes = b64decode(pdf_doc.datas, validate=True)
-
-            reserve_pdf_on_memory = io.BytesIO(bytes)
-
-            with pdfplumber.load(reserve_pdf_on_memory) as pdf:
-                
-                search_keys = [
+        search_keys = [
 
                     ('Date', 'date', 'date', 'EN'),
                     ('Date of issue:', 'date', 'date', 'EN'),                     
@@ -145,23 +144,37 @@ class IrAttachmentInherit(models.Model):
                     ('This invoice covers the following period:', 'billing_periode', 'char', 'EN'),
                     ('Summary for ', 'billing_periode', 'char', 'EN'),
                     
-                   
+                
                     ('Payment Method', 'payment_method', 'char', 'EN'),
                     ('Payment Instructions', 'payment_instructions', 'char', 'EN'),
                     ('Betalings-ID', 'payment_instructions', '+71 code', 'DA'),
                     ('Subscription ID', 'subscription_id', 'char', 1, 'word', 'EN'),
-                                                  
+                                                
                 
                 ]
+                                    
                 
 
-                order_details_re = re.compile(r'(\d{6}.*) ([A-Z].*) ([A-Z].*) (\d{2}\-\d{2}\-\d{2}) ([\d.].*) ([A-Z].*) ([\d.]+\,\d{2}) ([\d.]+\,\d{2})' )
-                EC_STANDARD_INVOICE_DETAILS_re = re.compile(r'([A-Z].*) ([A-Z].*) ([\d.]+\,\d) ([A-Z].*) ([\d.]+\,\d) ([\d.]+\,\d)' )
-                float_in_string = re.compile(r'(\d{6}.*) ([A-Z].*) ([A-Z].*) (\d{2}\-\d{2}\-\d{2}) ([\d.].*) ([A-Z].*) ([\d.]+\,\d{2}) ([\d.]+\,\d{2})' )
-                date_in_string = re.compile(r'(\d{2}\-\d{2}\-\d{2})' )
-                payment_code_71 = re.compile(r'(\+\d{2}\<\d{15}\+\d{8}\<.*)' )
-                # ([\d.]+\,\d{2})  ([A-Z].*)
-                
+        model = self.env['ir.model'].search([('name','=','account.move')])
+        use_collection = False
+
+        if len(model) == 1:
+
+            collections = self.env['form.collection'].search([('convertion_model_id','=', model[0].id)])
+
+        if len(collections) > 0:
+
+            use_collection = True
+            search_keys = collections[0].key_ids
+
+        for pdf_doc in docs:
+
+            bytes = b64decode(pdf_doc.datas, validate=True)
+
+            reserve_pdf_on_memory = io.BytesIO(bytes)
+
+            with pdfplumber.load(reserve_pdf_on_memory) as pdf:
+                                
                 for page in pdf.pages:
 
                     obj = {}
@@ -169,6 +182,7 @@ class IrAttachmentInherit(models.Model):
                     text = page.extract_text()
                     table_rows = []
                     found_values = []
+                    found = []
 
                     if text:
 
@@ -211,106 +225,350 @@ class IrAttachmentInherit(models.Model):
                             elif payment_code_71.match(row):
 
                                 obj['payment_instructions'] = row
-                                found_values.append([('+71 kode', 'payment_instructions', obj[key[1].lower()] )])
+                                found_values.append([('+71 kode', 'payment_instructions', obj[key.convertion_field_id.name] )])
+                                found += [key.convertion_field_id.id]
 
                             else:
                                 
-                                for key in search_keys:
+                                if use_collection:
 
-                                    # if key[2] == '+71 code':
+                                    for key in search_keys:
 
-                                    #     if row.lower().startswith(key[0].lower()):
-                                            
-                                    #         obj[key[1].lower()] = re.findall("\d+\.\d+", " ".join(row.split()[len(key[0].split()):])) if re.findall("[\d,]+\.\d+", " ".join(row.split()[len(key[0].split()):])) else re.findall("[\d.]+\,\d+", " ".join(row.split()[len(key[0].split()):]))
-                                    #         found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+                                        if key.convertion_field_id.id not in found:
 
-                                            # break
+                                            if key.type == 'date':
 
-                                    if key[2] == 'date':
+                                                if key.search_for.lower() + " " in row.lower():
+                                                
+                                                    date_string = row[row.lower().index(key.search_for.lower()) + len(key.search_for):]
 
-                                        if key[0].lower() + " " in row.lower():
-                                            
-                                            date_string = row[row.lower().index(key[0].lower()) + len(key[0]):]
+                                                    if date_string.startswith('...'):
 
-                                            if date_string.startswith('...'):
+                                                        for char in date_in_string:
 
-                                                for char in date_in_string:
+                                                            if char == ".":
 
-                                                    if char == ".":
+                                                                date_in_string = date_in_string[1:]
+                                                            
+                                                            else:
+                                                                break
+                                                                                                                                            
+                                                    failed = False
 
-                                                        date_in_string = date_in_string[1:]
+                                                    try:
+
+                                                        for char in date_in_string:
+
+                                                            if char == " ":
+
+                                                                date_in_string = date_in_string[1:]
+                                                            
+                                                            else:
+                                                                break
                                                     
-                                                    else:
-                                                        break
-                                                                                                                                    
-                                            failed = False
+                                                    except:
 
-                                            try:
-
-                                                for char in date_in_string:
-
-                                                    if char == " ":
-
-                                                        date_in_string = date_in_string[1:]
+                                                        pass
                                                     
-                                                    else:
-                                                        break
-                                            
-                                            except:
+                                                    if key.language == 'DA':
 
-                                                pass
-                                            
-                                            if key[3] == 'DA':
+                                                        try:
+                                                            obj[key.convertion_field_id.name] = datetime.strptime(date_string, '%d-%m-%Y') 
+                                                            found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                            found += [key.convertion_field_id.id]
+
+                                                        except:
+                                                            failed = True
+
+                                                    if failed:                                                
+                                                        try:                                                    
+                                                            obj[key.convertion_field_id.name] = parse(date_string, fuzzy_with_tokens=True)[0]
+                                                            found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                            found += [key.convertion_field_id.id]
+
+                                                        except:
+                                                            failed = True
+                                                    
+                                                    if failed:
+
+                                                        if "," in date_string:
+
+                                                                # raise UserError(str(date_string))
+
+                                                            if len(date_string.split()[0]) > 3:
+
+                                                                obj[key.convertion_field_id.name] = datetime.strptime(date_string, '%B %d, %Y')
+                                                                found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                                found += [key.convertion_field_id.id]
+
+                                                            elif len(date_string.split()[0]) == 3:
+
+                                                                obj[key.convertion_field_id.name] = datetime.strptime(date_string, '%b %d, %Y')
+                                                                found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                                found += [key.convertion_field_id.id]
+
+                                            elif key.type == 'char':
+
+                                                if key.search_for.lower() + " " in row.lower():
+
+                                                    if key.split:
+
+                                                        if key.split_type == 'word':
+
+                                                            value = " ".join(" ".join(row[row.lower().index(key.search_for.lower()) + len(key.search_for):].split()).split()[:key.use_word_number])
+
+                                                            if value.startswith('...'):
+
+                                                                for char in value:
+
+                                                                    if char == ".":
+
+                                                                        value = value[1:]
+                                                                    
+                                                                    else:
+                                                                        break
+                                                            
+                                                            obj[key.convertion_field_id.name] = value
+                                                            found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                            found += [key.convertion_field_id.id]
+                                                        
+                                                        elif key.split_type == 'char':
+
+                                                            value = "".join(row[row.lower().index(key.search_for.lower()) + len(key.search_for):].split())
+
+                                                            if value.startswith('...'):
+
+                                                                for char in value:
+
+                                                                    if char == ".":
+
+                                                                        value = value[1:]
+                                                                    
+                                                                    else:
+                                                                        break
+                                                            
+                                                            obj[key.convertion_field_id.name] = value[:key.use_word_number]
+                                                            found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                            found += [key.convertion_field_id.id]
+                                                        
+                                                    else:
+
+                                                        value = " ".join(row[row.lower().index(key.search_for.lower()) + len(key.search_for):].split())
+
+                                                        if value.startswith('...'):
+
+                                                            for char in value:
+
+                                                                if char == ".":
+
+                                                                    value = value[1:]
+                                                                
+                                                                else:
+                                                                    break
+                                                        
+                                                        obj[key.convertion_field_id.name] = value
+                                                        
+                                                        found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                        found += [key.convertion_field_id.id]
+
+                                            elif key.type == 'float':
+
+                                                if row.lower().startswith(key.search_for.lower()):
+                                                
+                                                    obj[key.convertion_field_id.name] = re.findall("\d+\.\d+", " ".join(row.split()[len(key.search_for.split()):])) if re.findall("[\d,]+\.\d+", " ".join(row.split()[len(key.search_for.split()):])) else re.findall("[\d.]+\,\d+", " ".join(row.split()[len(key.search_for.split()):]))
+                                                    found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                    found += [key.convertion_field_id.id]
+
+
+                                            elif key.type == 'regex':
+
+                                                None
+
+                                            elif key.type == 'vat-number':
+
+                                                if key.search_for.lower() + " " in row.lower():
+                                                    
+                                                    if not obj.get(key.convertion_field_id.name, False):
+                                                        
+                                                        found_number = " ".join(row[row.lower().index(key.search_for.lower()) + len(key.search_for):].split())
+                                                        our_vat = self.env.company.vat.lower() if self.env.company.vat else ""
+                                                        our_registry = self.env.company.company_registry.lower() if self.env.company.company_registry else ""
+                                                        skip = False
+
+                                                        if our_vat != "":
+
+                                                            if found_number.lower() in our_vat or our_vat in found_number.lower():
+
+                                                                skip = True
+
+                                                        if our_registry != "":
+                                                            
+                                                            if found_number.lower() in our_registry or our_registry in found_number.lower():
+
+                                                                skip = True
+                                                        
+                                                        if skip == False:
+
+                                                            if len(found_number.split()[0]) >= 8:
+
+                                                                obj[key.convertion_field_id.name] = found_number.split()[0]
+                                                                found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                                found += [key.convertion_field_id.id]
+                                                            
+                                                            else:
+
+                                                                obj[key.convertion_field_id.name] = found_number
+                                                                found_values.append([(key.search_for.lower(), key.convertion_field_id.name, obj[key.convertion_field_id.name] )])
+                                                                found += [key.convertion_field_id.id]
+
+                                                    # break
+
+                                            elif key.type == 'web':
+
+                                                None
+
+                                            elif key.type == 'phone':
+
+                                                None
+
+                                            elif key.type == 'email':
+
+                                                None
+
+                                else:
+
+                                    for key in search_keys:
+
+                                        # if key[2] == '+71 code':
+
+                                        #     if row.lower().startswith(key[0].lower()):
+                                                
+                                        #         obj[key[1].lower()] = re.findall("\d+\.\d+", " ".join(row.split()[len(key[0].split()):])) if re.findall("[\d,]+\.\d+", " ".join(row.split()[len(key[0].split()):])) else re.findall("[\d.]+\,\d+", " ".join(row.split()[len(key[0].split()):]))
+                                        #         found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+
+                                                # break
+
+                                        if key[2] == 'date':
+
+                                            if key[0].lower() + " " in row.lower():
+                                                
+                                                date_string = row[row.lower().index(key[0].lower()) + len(key[0]):]
+
+                                                if date_string.startswith('...'):
+
+                                                    for char in date_in_string:
+
+                                                        if char == ".":
+
+                                                            date_in_string = date_in_string[1:]
+                                                        
+                                                        else:
+                                                            break
+                                                                                                                                        
+                                                failed = False
 
                                                 try:
-                                                    obj[key[1].lower()] = datetime.strptime(date_string, '%d-%m-%Y') 
-                                                    found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-                                                    
+
+                                                    for char in date_in_string:
+
+                                                        if char == " ":
+
+                                                            date_in_string = date_in_string[1:]
+                                                        
+                                                        else:
+                                                            break
+                                                
                                                 except:
-                                                    failed = True
 
-                                            if failed:                                                
-                                                try:                                                    
-                                                    obj[key[1].lower()] = parse(date_string, fuzzy_with_tokens=True)[0]
-                                                    found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-                                                    
-                                                except:
-                                                    failed = True
-                                            
-                                            if failed:
+                                                    pass
+                                                
+                                                if key[3] == 'DA':
 
-                                                 if "," in date_string:
+                                                    try:
+                                                        obj[key[1].lower()] = datetime.strptime(date_string, '%d-%m-%Y') 
+                                                        found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+                                                        
+                                                    except:
+                                                        failed = True
 
-                                                        # raise UserError(str(date_string))
+                                                if failed:                                                
+                                                    try:                                                    
+                                                        obj[key[1].lower()] = parse(date_string, fuzzy_with_tokens=True)[0]
+                                                        found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+                                                        
+                                                    except:
+                                                        failed = True
+                                                
+                                                if failed:
 
-                                                    if len(date_string.split()[0]) > 3:
+                                                    if "," in date_string:
 
-                                                        obj[key[1].lower()] = datetime.strptime(date_string, '%B %d, %Y')
+                                                            # raise UserError(str(date_string))
+
+                                                        if len(date_string.split()[0]) > 3:
+
+                                                            obj[key[1].lower()] = datetime.strptime(date_string, '%B %d, %Y')
+                                                            found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+                                                        
+                                                        elif len(date_string.split()[0]) == 3:
+
+                                                            obj[key[1].lower()] = datetime.strptime(date_string, '%b %d, %Y')
+                                                            found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+
+                                        elif key[2] == 'float':
+
+                                            if row.lower().startswith(key[0].lower()):
+                                                
+                                                obj[key[1].lower()] = re.findall("\d+\.\d+", " ".join(row.split()[len(key[0].split()):])) if re.findall("[\d,]+\.\d+", " ".join(row.split()[len(key[0].split()):])) else re.findall("[\d.]+\,\d+", " ".join(row.split()[len(key[0].split()):]))
+                                                found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+
+                                                # break
+
+                                        elif key[2] == 'char':
+
+                                            if key[0].lower() + " " in row.lower():
+
+                                                if len(key) == 5:
+
+                                                    if key[4] == 'word':
+
+                                                        value = " ".join(" ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split()).split()[:key[3]])
+
+                                                        if value.startswith('...'):
+
+                                                            for char in value:
+
+                                                                if char == ".":
+
+                                                                    value = value[1:]
+                                                                
+                                                                else:
+                                                                    break
+                                                        
+                                                        obj[key[1].lower()] = value
                                                         found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
                                                     
-                                                    elif len(date_string.split()[0]) == 3:
+                                                    elif key[4] == 'char':
 
-                                                        obj[key[1].lower()] = datetime.strptime(date_string, '%b %d, %Y')
+                                                        value = "".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
+
+                                                        if value.startswith('...'):
+
+                                                            for char in value:
+
+                                                                if char == ".":
+
+                                                                    value = value[1:]
+                                                                
+                                                                else:
+                                                                    break
+                                                        
+                                                        obj[key[1].lower()] = value[:key[3]]
                                                         found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
+                                                    
+                                                else:
 
-                                    elif key[2] == 'float':
-
-                                        if row.lower().startswith(key[0].lower()):
-                                            
-                                            obj[key[1].lower()] = re.findall("\d+\.\d+", " ".join(row.split()[len(key[0].split()):])) if re.findall("[\d,]+\.\d+", " ".join(row.split()[len(key[0].split()):])) else re.findall("[\d.]+\,\d+", " ".join(row.split()[len(key[0].split()):]))
-                                            found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-
-                                            # break
-
-                                    elif key[2] == 'char':
-
-                                        if key[0].lower() + " " in row.lower():
-
-                                            if len(key) == 5:
-
-                                                if key[4] == 'word':
-
-                                                    value = " ".join(" ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split()).split()[:key[3]])
+                                                    value = " ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
 
                                                     if value.startswith('...'):
 
@@ -324,83 +582,47 @@ class IrAttachmentInherit(models.Model):
                                                                 break
                                                     
                                                     obj[key[1].lower()] = value
-                                                    found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-                                                
-                                                elif key[4] == 'char':
-
-                                                    value = "".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
-
-                                                    if value.startswith('...'):
-
-                                                        for char in value:
-
-                                                            if char == ".":
-
-                                                                value = value[1:]
-                                                            
-                                                            else:
-                                                                break
                                                     
-                                                    obj[key[1].lower()] = value[:key[3]]
                                                     found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-                                                
-                                            else:
 
-                                                value = " ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
+                                                # break
+                                        
+                                        elif key[2] == 'vat-number':
 
-                                                if value.startswith('...'):
+                                            if key[0].lower() + " " in row.lower():
+                                                    
+                                                if not obj.get(key[1].lower(), False):
+                                                    
+                                                    found_number = " ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
+                                                    our_vat = self.env.company.vat.lower() if self.env.company.vat else ""
+                                                    our_registry = self.env.company.company_registry.lower() if self.env.company.company_registry else ""
+                                                    skip = False
 
-                                                    for char in value:
+                                                    if our_vat != "":
 
-                                                        if char == ".":
+                                                        if found_number.lower() in our_vat or our_vat in found_number.lower():
 
-                                                            value = value[1:]
+                                                            skip = True
+
+                                                    if our_registry != "":
+                                                        
+                                                        if found_number.lower() in our_registry or our_registry in found_number.lower():
+
+                                                            skip = True
+                                                    
+                                                    if skip == False:
+
+                                                        if len(found_number.split()[0]) >= 8:
+
+                                                            obj[key[1].lower()] = found_number.split()[0]
+                                                            found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
                                                         
                                                         else:
-                                                            break
-                                                
-                                                obj[key[1].lower()] = value
-                                                
-                                                found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
 
-                                            # break
-                                    
-                                    elif key[2] == 'vat-number':
+                                                            obj[key[1].lower()] = found_number
+                                                            found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
 
-                                       if key[0].lower() + " " in row.lower():
-                                            
-                                            if not obj.get(key[1].lower(), False):
-                                                
-                                                found_number = " ".join(row[row.lower().index(key[0].lower()) + len(key[0]):].split())
-                                                our_vat = self.env.company.vat.lower() if self.env.company.vat else ""
-                                                our_registry = self.env.company.company_registry.lower() if self.env.company.company_registry else ""
-                                                skip = False
-
-                                                if our_vat != "":
-
-                                                    if found_number.lower() in our_vat or our_vat in found_number.lower():
-
-                                                        skip = True
-
-                                                if our_registry != "":
-                                                    
-                                                    if found_number.lower() in our_registry or our_registry in found_number.lower():
-
-                                                        skip = True
-                                                
-                                                if skip == False:
-
-                                                    if len(found_number.split()[0]) >= 8:
-
-                                                        obj[key[1].lower()] = found_number.split()[0]
-                                                        found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-                                                    
-                                                    else:
-
-                                                        obj[key[1].lower()] = found_number
-                                                        found_values.append([(key[0].lower(), key[1].lower(), obj[key[1].lower()] )])
-
-                                            # break
+                                                # break
 
 
                         obj['found_values'] = found_values           
@@ -428,7 +650,7 @@ class IrAttachmentInherit(models.Model):
 
         return doc
 
-    
+
 
     def extract_text_pdf_danloen_bookkeeping_employee (self):
 
