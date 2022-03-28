@@ -12,6 +12,12 @@
             <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
         </record>
 
+        <record model="ir.rule" id="form_collection_comp_rule">
+            <field name="name">Form collection multi-company</field>
+            <field name="model_id" ref="model_form_collection"/>
+            <field name="domain_force">['|', ('company_id', '=', False), ('company_id', 'in', company_ids)]</field>
+        </record>
+
     </data>
 
 </odoo>

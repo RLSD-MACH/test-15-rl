@@ -3,3 +3,6 @@ access_form_recognizer,Form Recognizer,model_form_recognizer,,1,1,1,1
 
 access_danloen_bookkeeping_employee,Danloen bookkeeping employee,model_danloen_bookkeeping_employee,,1,1,1,1
 access_danloen_bookkeeping_employee_line,Danloen bookkeeping employee line,model_danloen_bookkeeping_employee_line,,1,1,1,1
+
+access_form_key,Form Key,model_form_key,,1,1,1,1
+access_form_collection,Form collection,model_form_collection,,1,1,1,1
