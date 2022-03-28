@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+
+    <record id="action_form_recognizers_count" model="ir.actions.act_window">
+
+        <field name="name">Form recognizers</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">form.recognizer</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('ir_attachment_id', '=', active_id)]</field>
+        <field name="context">{'order': 'id'}</field>
+
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+            
+            </p>
+            <p>
+            
+            </p>
+        </field>
+        
+    </record> 
+     
+    <record model="ir.ui.view" id="view_attachment_ext_form">
+      <field name="name">form_recognizer.view_attachment.form</field>
+      <field name="model">ir.attachment</field>
+      <field name="inherit_id" ref="base.view_attachment_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//form/sheet" position="before">
+
+          <header>
+
+            <button 
+                
+              name="action_analyse_ms_form" 
+              type="object" icon="fa-eye" 
+              class="oe_read_only" 
+              help="Extract info using MS Form" 
+              
+            />
+
+            <button 
+                
+              name="action_extract_text_pdf" 
+              type="object" icon="fa-gear" 
+              class="oe_read_only" 
+              help="Extract text from our own script" 
+              
+            />
+
+          </header>
+          
+        </xpath>
+
+        <xpath expr="//form/sheet/label" position="before">
+           
+           <div class="oe_button_box" name="button_box">
+                <button type="action" name="%(action_form_recognizers_count)d" icon="fa-eye" class="oe_stat_button" attrs="{'invisible': [('form_recognizers_count', '=', 0)]}">
+                  <field string="FR" name="form_recognizers_count" widget="statinfo"/>
+              </button>
+            </div>
+            
+        </xpath>
+
+        <xpath expr="//field[@name='datas']" position="after">
+           
+           <field name="ms_doc_type"/>
+            
+        </xpath>
+        
+      </field>
+      
+    </record>
+
+
+  </data>
+
+</odoo>

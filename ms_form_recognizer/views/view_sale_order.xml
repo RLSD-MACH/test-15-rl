@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+  <data>
+     
+    <record model="ir.ui.view" id="view_sale_order_ext_form">
+      <field name="name">form_recognizer.sale_order_ext.form</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="mode">extension</field>
+      <field name="type">form</field>
+      <field name="arch" type="xml">
+
+        <xpath expr="//field[@name='currency_id']" position="after">
+
+          <field name="message_main_attachment_id" invisible="1"/>
+
+        </xpath>
+
+        <xpath expr="//header" position="inside">
+
+          <button 
+                
+            name="action_extract_text_pdf" 
+            type="object" icon="fa-eye" 
+            class="oe_read_only"
+            attrs="{'invisible': ['|',('message_main_attachment_id', '=', False),('state','not in',['draft','sent'])]}"
+            groups="ms_form_recognizer.user"
+            
+          />
+
+        </xpath>
+        
+      </field>
+      
+    </record>
+    
+
+  </data>
+
+</odoo>

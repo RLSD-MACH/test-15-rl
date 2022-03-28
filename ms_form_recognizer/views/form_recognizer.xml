@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+  <data>
+
+    <record id="view_form_recognizer_tree" model="ir.ui.view">
+      <field name="name">form.recognizer.view.tree</field>
+      <field name="model">form.recognizer</field>
+      <field name="arch" type="xml">
+        <tree create="0" edit="0" string="Form Recognizer" sample="1" decoration-success="fetched==True" decoration-danger="fetched==False">
+
+          <!-- Add your fields here -->
+          <field name="id" optional="hide" readonly="1"/>
+          <field name="create_date" optional="show" />
+          <field name="ir_attachment_id" optional="show" />
+          <field name="status_code" optional="show" />      
+          <field name="fetched" optional="show" />
+          <field name="company_id" optional="show" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_form_recognizer_form" model="ir.ui.view">
+      <field name="name">form.recognizer.view.form</field>
+      <field name="model">form.recognizer</field>
+      <field name="arch" type="xml">
+        <form string="" edit="0" create="0">
+
+          <header>
+
+            <button 
+                
+              name="action_analyze_get_analyze_reciept_result" 
+              type="object" icon="fa-eye" 
+              class="oe_read_only"
+              attrs="{'invisible': [('fetched', '=', True)]}"
+
+            />
+          
+          </header>
+          <sheet>
+            <notebook>
+
+              <page string="Form Recognizer">
+                
+                  <group>
+
+                    <group>
+
+                      <widget name="web_ribbon" title="Not Fetched!" bg_color="bg-danger" attrs="{'invisible': [('fetched', '=', True)]}"/>
+                      <widget name="web_ribbon" title="Fetched!" bg_color="bg-success" attrs="{'invisible': [('fetched', '=', False)]}"/>
+
+                      <!-- Add your fields here -->
+                      <field name="create_date" />
+
+                      <field name="result_id" />
+                      <field name="operation_location" />
+                      <field name="status_code" />
+                      <field name="ir_attachment_id" />
+                      <field name="type" />
+                                            
+                      <field name="company_id" groups="base.group_multi_company"/>
+                      <field name="active" invisible="1"/>
+                      <field name="fetched" invisible="1"/>
+                    
+                    </group>
+                    
+                  </group>
+
+
+              </page>
+
+              <page string="Response headers">
+              
+                  <group>
+
+                      <field name="response_headers"/>
+                                    
+                  </group>
+                
+              </page>
+
+              <page string="Response data">
+              
+                  <group>
+
+                      <field name="response_data"/>
+                                    
+                  </group>
+                
+              </page>
+
+
+            </notebook>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="view_form_recognizer_search" model="ir.ui.view">
+      <field name="name">form.recognizer.view.search</field>
+      <field name="model">form.recognizer</field>
+      <field name="arch" type="xml">
+        <search string="Search Login">
+
+          <field name="ir_attachment_id" filter_domain="[('ir_attachment_id', 'ilike', self)]"/>
+          
+          <separator/>
+
+          <group expand="0" name="group_by" string="Group By">
+              <filter name="create_date" string="Created date" domain="[]" context="{'group_by' : 'create_date'}"/>
+              <filter name="ir_attachment_id" string="Attachment" context="{'group_by': 'ir_attachment_id'}"/>
+          </group>
+
+        </search>
+      </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_form_recognizer_window">
+      <field name="name">Form Recognizer</field>
+      <field name="res_model">form.recognizer</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+  </data>
+</odoo>
