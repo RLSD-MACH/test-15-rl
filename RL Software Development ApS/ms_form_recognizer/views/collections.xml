@@ -10,7 +10,7 @@
 
             <field name="id" optional="hide" readonly="1"/>
             <field name="name" optional="show" />
-            <field name="convertion_model_id" optional="show" />
+            <field name="convertion_model_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/>
             
             <field name="company_id" optional="hide" />
           
@@ -46,8 +46,7 @@
               
                
           </header>
-                            
-          <sheet>
+                     
             
             <div class="oe_button_box" name="button_box" groups="base.group_user">
                   
@@ -67,17 +66,17 @@
                     </div>
                 </div>
             </div>
-            <notebook>
                
               <group>
               
                 <field name="convertion_model_id"/>
                 <field name="company_id" options="{'no_create': True, 'no_open': True}" widget="many2one" groups="base.group_multi_company"/>
                 <field name="active" invisible="1"/>
+                <field name="id" invisible="1"/>
 
               </group>                    
               
-              <field name="key_ids">
+              <field name="key_ids" context="{'default_collection_id': id}">
 
                 <tree>
 
@@ -85,7 +84,7 @@
                   <field name="sequence" optional="show" />
                   <field name="collection_id" optional="hide" />
                   <field name="convertion_model_id" optional="hide" />
-                  <field name="convertion_field_id" optional="show" />
+                  <field name="convertion_field_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/>
                   <field name="sequence" optional="show" />
                   <field name="type" optional="show" />
                   <field name="split_in_words" optional="show"/>
@@ -93,16 +92,13 @@
                   <field name="search_for" optional="show"/>
                   <field name="allow_partial" optional="show"/>
                   <field name="regex" optional="show"/>
-                  <field name="Language_id" optional="show"/>
+                  <!-- <field name="Language_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/> -->
                   <field name="company_id" optional="hide"/>
                   <field name="active" optional="hide"/>    
 
                 </tree>
 
               </field>
-              <div class="oe_clear"/>
-            </notebook> 
-          </sheet>
         
         </form>
       </field>

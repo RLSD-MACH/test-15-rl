@@ -23,9 +23,12 @@ class FormKey(models.Model):
     _order = 'sequence desc'
     _check_company_auto = True
 
+    def _get_default_collection_id(self):
+        default_collection_id = self.env.context.get('default_collection_id')
+        return [default_collection_id] if default_collection_id else None
 
     sequence = fields.Integer(string='Sequence')
-    collection_id = fields.Many2one('form.collection', string='Collection', required=True)
+    collection_id = fields.Many2one('form.collection', string='Collection', required=True, default=_get_default_collection_id)
     convertion_model_id = fields.Many2one('ir.model', related="collection_id.convertion_model_id") 
     convertion_field_id = fields.Many2one('ir.model.fields', string='Converts to Field', required=True, ondelete="cascade", domain="[('model_id', '=', convertion_model_id)]")
     
@@ -46,7 +49,7 @@ class FormKey(models.Model):
     search_for = fields.Char(string='Search for', required=True)
     allow_partial = fields.Binary('Allow partial', default=False)
     regex = fields.Char(string='Regex', required=False)
-    Language_id = fields.Many2one('	res.lang', string='Language',  required=True)
+    # Language_id = fields.Many2one('	res.lang', string='Language',  required=True)
     
     ('Date', 'date', 'date', 'EN'),
     ('Date of issue:', 'date', 'date', 'EN'),   

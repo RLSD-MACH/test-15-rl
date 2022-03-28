@@ -428,6 +428,8 @@ class IrAttachmentInherit(models.Model):
 
         return doc
 
+    
+
     def extract_text_pdf_danloen_bookkeeping_employee (self):
 
         doc = []
