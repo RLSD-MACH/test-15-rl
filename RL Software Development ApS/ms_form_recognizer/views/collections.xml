@@ -87,11 +87,10 @@
                   </control>
 
                   <field name="id" optional="hide"/>
-                  <field name="sequence" optional="show" />
+                  <field name="sequence" optional="show" widget="handle"/>
                   <field name="collection_id" optional="hide" />
                   <field name="convertion_model_id" optional="hide" />
                   <field name="convertion_field_id" optional="show" options="{'no_open':False,'no_create':1,'no_create_edit':1}"/>
-                  <field name="sequence" optional="show" />
                   <field name="type" optional="show" />
                   <field name="split" optional="show"/>
                   <field name="split_type" optional="show"/>
@@ -126,11 +125,10 @@
         <tree string="Keys" create="1" edit="1" sample="1">
 
           <field name="id" optional="hide"/>
-          <field name="sequence" optional="show" />
+          <field name="sequence" optional="show" widget="handle"/>
           <field name="collection_id" optional="hide" />
           <field name="convertion_model_id" optional="hide" />
           <field name="convertion_field_id" optional="show" />
-          <field name="sequence" optional="show" />
           <field name="type" optional="show" />
           <field name="split" optional="show"/>
           <field name="split_type" optional="show"/>
