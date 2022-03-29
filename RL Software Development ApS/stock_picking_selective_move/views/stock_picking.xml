@@ -41,6 +41,10 @@
 
             </xpath>
             
+            <xpath expr="//field[@name='owner_id']" position="after">
+              <field name="allow_diff_owner" widget="boolean_toggle"/>
+            </xpath>
+
         </field>
 
     </record>
